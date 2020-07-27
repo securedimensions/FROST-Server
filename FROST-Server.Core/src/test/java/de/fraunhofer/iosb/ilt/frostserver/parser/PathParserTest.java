@@ -84,7 +84,7 @@ public class PathParserTest {
                 if (property instanceof EntityProperty) {
                     EntityProperty entityProperty = (EntityProperty) property;
 
-                    String path = "/" + entityType.plural + "(1)/" + property.getName();
+                    String path = "/" + entityType.plural + "(1)/" + property.getName();                    
                     ResourcePath result = PathParser.parsePath("", path);
                     ResourcePath expResult = new ResourcePath("", path);
                     PathElementEntitySet espe = new PathElementEntitySet(entityType, null);

@@ -100,6 +100,7 @@ public class EntityBuilderTest {
         propertyValues.put(NavigationPropertyMain.MULTIDATASTREAM, new MultiDatastream(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.OBSERVEDPROPERTY, new ObservedProperty(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.SENSOR, new Sensor(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.PARTY, new Party(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASK, new Task(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASKINGCAPABILITY, new TaskingCapability(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.THING, new Thing(new IdLong(nextId++)));

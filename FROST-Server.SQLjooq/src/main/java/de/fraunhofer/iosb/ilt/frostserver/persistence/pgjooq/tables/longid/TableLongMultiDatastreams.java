@@ -27,6 +27,11 @@ public class TableLongMultiDatastreams extends AbstractTableMultiDatastreams<Lon
     public final TableField<Record, Long> colSensorId = createField(DSL.name("SENSOR_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
+     * The column <code>public.MULTI_DATASTREAMS.PARTY_ID</code>.
+     */
+    public final TableField<Record, Long> colPartyId = createField(DSL.name("PARTY_ID"), SQLDataType.BIGINT.nullable(false), this, "");
+
+    /**
      * The column <code>public.MULTI_DATASTREAMS.THING_ID</code>.
      */
     public final TableField<Record, Long> colThingId = createField(DSL.name("THING_ID"), SQLDataType.BIGINT.nullable(false), this, "");
@@ -64,6 +69,11 @@ public class TableLongMultiDatastreams extends AbstractTableMultiDatastreams<Lon
     @Override
     public TableField<Record, Long> getSensorId() {
         return colSensorId;
+    }
+
+    @Override
+    public TableField<Record, Long> getPartyId() {
+        return colPartyId;
     }
 
     @Override

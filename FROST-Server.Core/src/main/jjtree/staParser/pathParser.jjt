@@ -53,6 +53,7 @@ TOKEN:
 | <C_HISTORICALLOCATIONS: "HistoricalLocations" >
 | <C_LOCATIONS:           "Locations" >
 | <C_SENSORS:             "Sensors" >
+| <C_PARTIES:             "Parties" >
 | <C_THINGS:              "Things" >
 | <C_OBSERVATIONS:        "Observations" >
 | <C_OBSERVEDPROPERTIES:  "ObservedProperties" >
@@ -66,6 +67,8 @@ TOKEN:
 | <E_HISTORICALLOCATION: "HistoricalLocation" >
 | <E_LOCATION:           "Location" >
 | <E_SENSOR:             "Sensor" >
+| <E_PARTY:              "Party" >
+| <E_LICENSE:            "License" >
 | <E_THING:              "Thing" >
 | <E_OBSERVATION:        "Observation" >
 | <E_OBSERVEDPROPERTY:   "ObservedProperty" >
@@ -132,6 +135,7 @@ void IdentifiedPath(): {}
   cHistLocations() |
   cLocations() |
   cSensors() |
+  cParties() |
   cThings() |
   cObservations() |
   cObservedProps() |
@@ -206,6 +210,7 @@ void childOfDatastream() #void: {}
   ( cObservations()
   | eThing()
   | eSensor()
+  | eParty()
   | eObservedProp()
   | pId()
   | pSelfLink()
@@ -250,6 +255,7 @@ void childOfMultiDatastream() #void: {}
   ( cObservations()
   | eThing()
   | eSensor()
+  | eParty()
   | cObservedProps()
   | pId()
   | pSelfLink()
@@ -402,6 +408,44 @@ void eSensorId()#eSensor: {String i;}
       (childOfSensor())?
 }
 void childOfSensor() #void: {}
+{
+  <PATH_SEPARATOR>
+  ( cDatastreams()
+  | cMultiDatastreams()
+  | pId()
+  | pSelfLink()
+  | pMetadata()
+  | pEncodingType()
+  | pName()
+  | pDescription()
+  | pProperties()
+  | cpRef()
+  )
+}
+
+/** Entity and collection Party(ies) */
+void eParty(): {}
+{
+  <E_PARTY>
+  (childOfParty())?
+}
+void cParties(): {}
+{
+  <C_PARTIES>
+  (
+    ePartyId()
+  | <PATH_SEPARATOR> cpRef()
+  )?
+}
+void ePartyId()#eParty: {String i;}
+{
+  <LB> ( i=Long(){jjtThis.jjtSetValue(i);}
+       | i=QuotedString(){jjtThis.jjtSetValue(i);}
+       )
+  <RB>
+      (childOfParty())?
+}
+void childOfParty() #void: {}
 {
   <PATH_SEPARATOR>
   ( cDatastreams()

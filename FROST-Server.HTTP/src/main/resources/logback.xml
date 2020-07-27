@@ -6,11 +6,11 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/SensorThingsService.log</file>
+        <file>${catalina.base}/logs/STA.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover. Make sure the path matches the one in the file element or else
             the rollover logs are placed in the working directory. -->
-            <fileNamePattern>${catalina.base}/logs/SensorThingsService_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${catalina.base}/logs/STA_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>50MB</maxFileSize>
@@ -25,15 +25,15 @@
         </encoder>
     </appender>
 
-    <logger name="de.fraunhofer.iosb.ilt.frostserver.parser.path" level="INFO"/>
-    <logger name="de.fraunhofer.iosb.ilt.frostserver.parser.query" level="INFO"/>
-    <logger name="de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.QueryBuilder" level="INFO"/>
-    <logger name="org.jooq" level="INFO"/>
+    <logger name="de.fraunhofer.iosb.ilt.frostserver.parser.path" level="DEBUG"/>
+    <logger name="de.fraunhofer.iosb.ilt.frostserver.parser.query" level="DEBUG"/>
+    <logger name="de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.QueryBuilder" level="DEBUG"/>
+    <logger name="org.jooq" level="DEBUG"/>
     <logger name="io.moquette.server.netty.NettyMQTTHandler" level="WARN"/>
     <logger name="io.moquette.spi" level="WARN"/>
-    <logger name="messageLogger" level="WARN"/>
+    <logger name="messageLogger" level="DEBUG"/>
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>

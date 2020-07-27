@@ -40,6 +40,9 @@
             <column name="SENSOR_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="PARTY_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBS_PROPERTY_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
@@ -172,6 +175,21 @@
             <column name="METADATA" type="TEXT"/>
         </createTable>
     </changeSet>
+    <changeSet author="scf" id="20160616-parties" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="PATIES" />
+            </not>
+        </preConditions>
+        <createTable tableName="PARTIES">
+            <column autoIncrement="true" name="ID" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="PARTIES_PKEY"/>
+            </column>
+            <column name="DESCRIPTION" type="TEXT"/>
+            <column name="ENCODING_TYPE" type="TEXT"/>
+            <column name="METADATA" type="TEXT"/>
+        </createTable>
+    </changeSet>
     <changeSet author="scf" id="20160616-things" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -219,6 +237,12 @@
             constraintName="DATASTREAMS_SENSOR_ID_FKEY"
             baseTableName="DATASTREAMS" baseColumnNames="SENSOR_ID"
             referencedTableName="SENSORS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="DATASTREAMS_PARTY_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="PARTY_ID"
+            referencedTableName="PARTIES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE"/>
         <addForeignKeyConstraint
@@ -276,6 +300,9 @@
             <column name="NAME" type="TEXT" defaultValue="no name" />
         </addColumn>
         <addColumn tableName="SENSORS">
+            <column name="NAME" type="TEXT" defaultValue="no name" />
+        </addColumn>
+        <addColumn tableName="PARTIES">
             <column name="NAME" type="TEXT" defaultValue="no name" />
         </addColumn>
         <addColumn tableName="LOCATIONS">
@@ -364,6 +391,9 @@
             <column name="SENSOR_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="PARTY_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="THING_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
@@ -375,6 +405,12 @@
             constraintName="MULTI_DATASTREAMS_SENSOR_ID_FKEY"
             baseTableName="MULTI_DATASTREAMS" baseColumnNames="SENSOR_ID"
             referencedTableName="SENSORS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="MULTI_DATASTREAMS_PARTY_ID_FKEY"
+            baseTableName="MULTI_DATASTREAMS" baseColumnNames="PARTY_ID"
+            referencedTableName="PARTIES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE"/>
         <addForeignKeyConstraint
@@ -432,6 +468,9 @@
         <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_SENSOR_ID">
             <column name="SENSOR_ID" />
         </createIndex>
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_PARTY_ID">
+            <column name="PARTY_ID" />
+        </createIndex>
         <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_THING_ID">
             <column name="THING_ID" />
         </createIndex>
@@ -461,6 +500,9 @@
         </createIndex>
         <createIndex tableName="MULTI_DATASTREAMS" indexName="MULTI_DATASTREAMS_SENSOR_ID">
             <column name="SENSOR_ID" />
+        </createIndex>
+        <createIndex tableName="MULTI_DATASTREAMS" indexName="MULTI_DATASTREAMS_PARTY_ID">
+            <column name="PARTY_ID" />
         </createIndex>
         <createIndex tableName="MULTI_DATASTREAMS" indexName="MULTI_DATASTREAMS_THING_ID">
             <column name="THING_ID" />
@@ -496,6 +538,9 @@
             <column name="PROPERTIES" type="TEXT"/>
         </addColumn>
         <addColumn tableName="SENSORS">
+            <column name="PROPERTIES" type="TEXT"/>
+        </addColumn>
+        <addColumn tableName="PARTIES">
             <column name="PROPERTIES" type="TEXT"/>
         </addColumn>
         <addColumn tableName="MULTI_DATASTREAMS">

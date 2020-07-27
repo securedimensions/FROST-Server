@@ -29,6 +29,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
+import de.fraunhofer.iosb.ilt.frostserver.model.Party;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Entity;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySet;
@@ -432,6 +433,7 @@ public class EntityFormatterTest {
                 + "	\"@iot.selfLink\": \"http://example.org/v1.0/Datastreams(1)\",\n"
                 + "	\"Thing@iot.navigationLink\": \"HistoricalLocations(1)/Thing\",\n"
                 + "	\"Sensor@iot.navigationLink\": \"Datastreams(1)/Sensor\",\n"
+                + "	\"Party@iot.navigationLink\": \"Datastreams(1)/Party\",\n"
                 + "	\"ObservedProperty@iot.navigationLink\": \"Datastreams(1)/ObservedProperty\",\n"
                 + "	\"Observations@iot.navigationLink\": \"Datastreams(1)/Observations\",\n"
                 + "	\"name\": \"This is a datastream measuring the temperature in an oven.\",\n"
@@ -451,6 +453,7 @@ public class EntityFormatterTest {
                 .setSelfLink("http://example.org/v1.0/Datastreams(1)")
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setSensor(new Sensor().setNavigationLink("Datastreams(1)/Sensor").setExportObject(false))
+                .setParty(new Party().setNavigationLink("Datastreams(1)/Party").setExportObject(false))
                 .setObservedProperty(
                         new ObservedProperty().setNavigationLink("Datastreams(1)/ObservedProperty").setExportObject(false))
                 .setObservations(
@@ -476,6 +479,7 @@ public class EntityFormatterTest {
                 + "	\"@iot.selfLink\": \"http://example.org/v1.0/Datastreams(1)\",\n"
                 + "	\"Thing@iot.navigationLink\": \"HistoricalLocations(1)/Thing\",\n"
                 + "	\"Sensor@iot.navigationLink\": \"Datastreams(1)/Sensor\",\n"
+                + "	\"Party@iot.navigationLink\": \"Datastreams(1)/Party\",\n"
                 + "	\"ObservedProperty@iot.navigationLink\": \"Datastreams(1)/ObservedProperty\",\n"
                 + "	\"Observations@iot.navigationLink\": \"Datastreams(1)/Observations\",\n"
                 + "	\"name\": \"This is a datastream measuring the temperature in an oven.\",\n"
@@ -495,6 +499,7 @@ public class EntityFormatterTest {
                 .setSelfLink("http://example.org/v1.0/Datastreams(1)")
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setSensor(new Sensor().setNavigationLink("Datastreams(1)/Sensor").setExportObject(false))
+                .setParty(new Party().setNavigationLink("Datastreams(1)/Party").setExportObject(false))
                 .setObservedProperty(new ObservedProperty().setNavigationLink("Datastreams(1)/ObservedProperty").setExportObject(false))
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "Datastreams(1)/Observations").setExportObject(false))
                 .setUnitOfMeasurement(new UnitOfMeasurement())
@@ -514,6 +519,7 @@ public class EntityFormatterTest {
                 + "	\"@iot.selfLink\": \"http://example.org/v1.0/Datastreams(1)\",\n"
                 + "	\"Thing@iot.navigationLink\": \"HistoricalLocations(1)/Thing\",\n"
                 + "	\"Sensor@iot.navigationLink\": \"Datastreams(1)/Sensor\",\n"
+                + "	\"Party@iot.navigationLink\": \"Datastreams(1)/Party\",\n"
                 + "	\"ObservedProperty@iot.navigationLink\": \"Datastreams(1)/ObservedProperty\",\n"
                 + "	\"Observations@iot.navigationLink\": \"Datastreams(1)/Observations\",\n"
                 + "	\"name\": \"This is a datastream measuring the temperature in an oven.\",\n"
@@ -538,6 +544,7 @@ public class EntityFormatterTest {
                 .setSelfLink("http://example.org/v1.0/Datastreams(1)")
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setSensor(new Sensor().setNavigationLink("Datastreams(1)/Sensor").setExportObject(false))
+                .setParty(new Party().setNavigationLink("Datastreams(1)/Party").setExportObject(false))
                 .setObservedProperty(new ObservedProperty().setNavigationLink("Datastreams(1)/ObservedProperty").setExportObject(false))
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "Datastreams(1)/Observations"))
                 .setName("This is a datastream measuring the temperature in an oven.")
@@ -562,6 +569,7 @@ public class EntityFormatterTest {
                 + "	\"@iot.selfLink\": \"http://example.org/v1.0/MultiDatastreams(1)\",\n"
                 + "	\"Thing@iot.navigationLink\": \"HistoricalLocations(1)/Thing\",\n"
                 + "	\"Sensor@iot.navigationLink\": \"MultiDatastreams(1)/Sensor\",\n"
+                + "	\"Party@iot.navigationLink\": \"MultiDatastreams(1)/Party\",\n"
                 + "	\"ObservedProperties@iot.navigationLink\": \"MultiDatastreams(1)/ObservedProperties\",\n"
                 + "	\"Observations@iot.navigationLink\": \"MultiDatastreams(1)/Observations\",\n"
                 + "	\"name\": \"This is a datastream measuring the wind.\",\n"
@@ -591,6 +599,7 @@ public class EntityFormatterTest {
                 .setSelfLink("http://example.org/v1.0/MultiDatastreams(1)")
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setSensor(new Sensor().setNavigationLink("MultiDatastreams(1)/Sensor").setExportObject(false))
+                .setParty(new Party().setNavigationLink("MultiDatastreams(1)/Party").setExportObject(false))
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "MultiDatastreams(1)/Observations"))
                 .setObservedProperties(new EntitySetImpl(EntityType.OBSERVEDPROPERTY, "MultiDatastreams(1)/ObservedProperties"))
                 .setName("This is a datastream measuring the wind.")
@@ -632,7 +641,8 @@ public class EntityFormatterTest {
                 .setDescription("TMP36 - Analog Temperature sensor")
                 .setEncodingType("application/pdf")
                 .setMetadata("http://example.org/TMP35_36_37.pdf");
-        Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
+        String x = EntityFormatter.writeEntity(entity);
+        Assert.assertTrue(jsonEqual(expResult, x));
     }
 
     @Test
@@ -657,6 +667,53 @@ public class EntityFormatterTest {
         Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
     }
 
+    @Test
+    public void writePartyBasic() throws IOException {
+        String expResult
+                = "{\n"
+                + "	\"@iot.id\": 1,\n"
+                + "	\"@iot.selfLink\": \"http://example.org/v1.0/Parties(1)\",\n"
+                + "	\"Datastreams@iot.navigationLink\": \"Parties(1)/Datastreams\",\n"
+                + "	\"name\": \"Long John Silver\",\n"
+                + "	\"description\": \"The opportunistic pirate by Robert Louis Stevenson\",\n"
+                + "	\"encodingType\": \"text/html\",\n"
+                + "	\"metadata\": \"https://en.wikipedia.org/wiki/Long_John_Silver\"\n"
+                + "}";
+        Entity entity = new Party()
+                .setId(new IdLong(1))
+                .setSelfLink("http://example.org/v1.0/Parties(1)")
+                .setDatastreams(new EntitySetImpl(EntityType.DATASTREAM, "Parties(1)/Datastreams"))
+                .setName("Long John Silver")
+                .setDescription("The opportunistic pirate by Robert Louis Stevenson")
+                .setEncodingType("text/html")
+                .setMetadata("https://en.wikipedia.org/wiki/Long_John_Silver");
+        String x = EntityFormatter.writeEntity(entity);
+        Assert.assertTrue(jsonEqual(expResult, x));
+    }
+  
+    
+    @Test
+    public void writePartyEmptyDatastreamsCollection() throws IOException {
+        String expResult
+                = "{\n"
+                + "	\"@iot.id\": 1,\n"
+                + "	\"@iot.selfLink\": \"http://example.org/v1.0/Party(1)\",\n"
+                + "	\"name\": \"Long John Silver\",\n"
+                + "	\"description\": \"The opportunistic pirate by Robert Louis Stevenson\",\n"
+                + "	\"encodingType\": \"text/html\",\n"
+                + "	\"metadata\": \"https://en.wikipedia.org/wiki/Long_John_Silver\"\n"
+                + "}";
+        Entity entity = new Party()
+                .setId(new IdLong(1))
+                .setSelfLink("http://example.org/v1.0/Party(1)")
+                .setDatastreams(new EntitySetImpl(EntityType.DATASTREAM))
+                .setName("Long John Silver")
+                .setDescription("The opportunistic pirate by Robert Louis Stevenson")
+                .setEncodingType("text/html")
+                .setMetadata("https://en.wikipedia.org/wiki/Long_John_Silver");
+        Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
+    }
+    
     @Test
     public void writeObservedPropertyBasic() throws IOException {
         String expResult

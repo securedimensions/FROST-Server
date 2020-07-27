@@ -4,14 +4,14 @@
     <parent>
         <groupId>de.fraunhofer.iosb.ilt.FROST-Server</groupId>
         <artifactId>FROST-Server.Plugins</artifactId>
-        <version>1.12-SNAPSHOT</version>
+        <version>1.12-STA4CS</version>
     </parent>
     <artifactId>FROST-Server.Plugin.OpenApi</artifactId>
     <packaging>jar</packaging>
 
     <name>FROST-Server.Plugin.OpenApi</name>
     <description>OpenAPI definition generator for the SensorThings API interface.</description>
-    <url>https://github.com/FraunhoferIOSB/FROST-Server</url>
+    <url>https://github.com/securedimensions/FROST-Server</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

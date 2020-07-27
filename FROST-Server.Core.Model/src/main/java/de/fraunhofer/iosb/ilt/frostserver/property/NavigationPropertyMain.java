@@ -48,6 +48,7 @@ public enum NavigationPropertyMain implements NavigationProperty {
     OBSERVEDPROPERTY("ObservedProperty", EntityType.OBSERVEDPROPERTY, false),
     OBSERVEDPROPERTIES("ObservedProperties", EntityType.OBSERVEDPROPERTY, true),
     SENSOR("Sensor", EntityType.SENSOR, false),
+    PARTY("Party", EntityType.PARTY, false),
     TASK("Task", EntityType.TASK, false),
     TASKS("Tasks", EntityType.TASK, true),
     TASKINGCAPABILITY("TaskingCapability", EntityType.TASKINGCAPABILITY, false),

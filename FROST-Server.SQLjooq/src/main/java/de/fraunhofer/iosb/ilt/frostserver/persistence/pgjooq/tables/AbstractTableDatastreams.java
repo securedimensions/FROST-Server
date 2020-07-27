@@ -113,6 +113,12 @@ public abstract class AbstractTableDatastreams<J extends Comparable> extends Sta
         );
 
         registerRelation(
+                new RelationOneToMany<>(this, tables.getTableParties(), EntityType.PARTY)
+                        .setSourceFieldAccessor(AbstractTableDatastreams::getPartyId)
+                        .setTargetFieldAccessor(AbstractTableParties::getId)
+        );
+
+        registerRelation(
                 new RelationOneToMany<>(this, tables.getTableObsProperties(), EntityType.OBSERVEDPROPERTY)
                         .setSourceFieldAccessor(AbstractTableDatastreams::getObsPropertyId)
                         .setTargetFieldAccessor(AbstractTableObsProperties::getId)
@@ -129,6 +135,8 @@ public abstract class AbstractTableDatastreams<J extends Comparable> extends Sta
     public abstract TableField<Record, J> getId();
 
     public abstract TableField<Record, J> getSensorId();
+
+    public abstract TableField<Record, J> getPartyId();
 
     public abstract TableField<Record, J> getObsPropertyId();
 

@@ -23,6 +23,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
+import de.fraunhofer.iosb.ilt.frostserver.model.Party;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.UnitOfMeasurement;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.DataSize;
@@ -111,6 +112,7 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
             entity.setProperties(Utils.jsonToObject(props, Map.class));
         }
         entity.setSensor(entityFactories.sensorFromId(tuple, table.getSensorId()));
+        entity.setParty(entityFactories.partyFromId(tuple, table.getPartyId()));
         entity.setThing(entityFactories.thingFromId(tuple, table.getThingId()));
         entity.setUnitOfMeasurement(new UnitOfMeasurement(getFieldOrNull(tuple, table.colUnitName), getFieldOrNull(tuple, table.colUnitSymbol), getFieldOrNull(tuple, table.colUnitDefinition)));
         return entity;
@@ -118,12 +120,15 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
 
     @Override
     public boolean insert(PostgresPersistenceManager<J> pm, Datastream ds) throws NoSuchEntityException, IncompleteEntityException {
-        // First check ObservedPropery, Sensor and Thing
+        // First check ObservedPropery, Sensor, Party and Thing
         ObservedProperty op = ds.getObservedProperty();
         entityFactories.entityExistsOrCreate(pm, op);
 
         Sensor s = ds.getSensor();
         entityFactories.entityExistsOrCreate(pm, s);
+
+        Party p = ds.getParty();
+        entityFactories.entityExistsOrCreate(pm, p);
 
         Thing t = ds.getThing();
         entityFactories.entityExistsOrCreate(pm, t);
@@ -140,6 +145,7 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
 
         insert.put(table.getObsPropertyId(), op.getId().getValue());
         insert.put(table.getSensorId(), s.getId().getValue());
+        insert.put(table.getPartyId(), p.getId().getValue());
         insert.put(table.getThingId(), t.getId().getValue());
 
         entityFactories.insertUserDefinedId(pm, insert, table.getId(), ds);
@@ -174,6 +180,7 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
         updateProperties(datastream, update, message);
         updateObservedProperty(datastream, pm, update, message);
         updateSensor(datastream, pm, update, message);
+        updateParty(datastream, pm, update, message);
         updateThing(datastream, pm, update, message);
         updateUnitOfMeasurement(datastream, update, message);
 
@@ -226,6 +233,16 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
             }
             update.put(table.getSensorId(), datastream.getSensor().getId().getValue());
             message.addField(NavigationPropertyMain.SENSOR);
+        }
+    }
+
+    private void updateParty(Datastream datastream, PostgresPersistenceManager<J> pm, Map<Field, Object> update, EntityChangedMessage message) throws NoSuchEntityException {
+        if (datastream.isSetParty()) {
+            if (!entityFactories.entityExists(pm, datastream.getParty())) {
+                throw new NoSuchEntityException("Party with no id or not found.");
+            }
+            update.put(table.getPartyId(), datastream.getParty().getId().getValue());
+            message.addField(NavigationPropertyMain.PARTY);
         }
     }
 

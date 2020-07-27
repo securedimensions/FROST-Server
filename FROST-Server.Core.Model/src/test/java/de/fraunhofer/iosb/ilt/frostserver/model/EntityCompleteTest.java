@@ -82,6 +82,9 @@ public class EntityCompleteTest {
         entity.setSensor(new Sensor().setId(new IdLong(2)));
         Assert.assertFalse(isEntityComplete(entity, containingSet));
 
+        entity.setParty(new Party().setId(new IdLong(1)));
+        Assert.assertFalse(isEntityComplete(entity, containingSet));
+
         EntitySet<ObservedProperty> observedProperties = new EntitySetImpl<>(EntityType.OBSERVEDPROPERTY);
         observedProperties.add(new ObservedProperty().setId(new IdLong(3)));
         entity.setObservedProperties(observedProperties);

@@ -59,7 +59,7 @@ public enum EntityProperty implements Property {
     UNITOFMEASUREMENT("UnitOfMeasurement", true),
     UNITOFMEASUREMENTS("UnitOfMeasurements", true),
     VALIDTIME("ValidTime");
-
+    
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(EntityProperty.class.getName());
     private static final Map<String, EntityProperty> PROPERTY_BY_NAME = new HashMap<>();
 

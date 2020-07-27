@@ -41,6 +41,7 @@ public class TableCollection<J extends Comparable> {
     private AbstractTableObservations<J> tableObservations;
     private AbstractTableObsProperties<J> tableObsProperties;
     private AbstractTableSensors<J> tableSensors;
+    private AbstractTableParties<J> tableParties;
     private AbstractTableTasks<J> tableTasks;
     private AbstractTableTaskingCapabilities<J> tableTaskingCapabilities;
     private AbstractTableThings<J> tableThings;
@@ -70,6 +71,7 @@ public class TableCollection<J extends Comparable> {
         addAndInit(map, EntityType.OBSERVATION, tableObservations);
         addAndInit(map, EntityType.OBSERVEDPROPERTY, this.tableObsProperties);
         addAndInit(map, EntityType.SENSOR, tableSensors);
+        addAndInit(map, EntityType.PARTY, tableParties);
         addAndInit(map, EntityType.TASK, tableTasks);
         addAndInit(map, EntityType.TASKINGCAPABILITY, tableTaskingCapabilities);
         addAndInit(map, EntityType.THING, tableThings);
@@ -288,6 +290,25 @@ public class TableCollection<J extends Comparable> {
             throw new IllegalArgumentException(CHANGE_AFTER_INIT);
         }
         this.tableSensors = tableSensors;
+        return this;
+    }
+
+    /**
+     * @return the tableParties
+     */
+    public AbstractTableParties<J> getTableParties() {
+        return tableParties;
+    }
+
+    /**
+     * @param tableParties the tableParties to set
+     * @return this
+     */
+    public TableCollection<J> setTableParties(AbstractTableParties<J> tableParties) {
+        if (tablesByType != null) {
+            throw new IllegalArgumentException(CHANGE_AFTER_INIT);
+        }
+        this.tableParties = tableParties;
         return this;
     }
 

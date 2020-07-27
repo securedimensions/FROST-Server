@@ -28,6 +28,11 @@ public class TableUuidMultiDatastreams extends AbstractTableMultiDatastreams<UUI
     public final TableField<Record, UUID> colSensorId = createField(DSL.name("SENSOR_ID"), SQLDataType.UUID.nullable(false), this, "");
 
     /**
+     * The column <code>public.MULTI_DATASTREAMS.PARTY_ID</code>.
+     */
+    public final TableField<Record, UUID> colPartyId = createField(DSL.name("PARTY_ID"), SQLDataType.UUID.nullable(false), this, "");
+
+    /**
      * The column <code>public.MULTI_DATASTREAMS.THING_ID</code>.
      */
     public final TableField<Record, UUID> colThingId = createField(DSL.name("THING_ID"), SQLDataType.UUID.nullable(false), this, "");
@@ -65,6 +70,11 @@ public class TableUuidMultiDatastreams extends AbstractTableMultiDatastreams<UUI
     @Override
     public TableField<Record, UUID> getSensorId() {
         return colSensorId;
+    }
+
+    @Override
+    public TableField<Record, UUID> getPartyId() {
+        return colPartyId;
     }
 
     @Override

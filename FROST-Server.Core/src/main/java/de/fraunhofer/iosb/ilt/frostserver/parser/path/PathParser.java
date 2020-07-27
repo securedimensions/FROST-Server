@@ -263,6 +263,18 @@ public class PathParser implements ParserVisitor {
     }
 
     @Override
+    public ResourcePath visit(ASTeParty node, ResourcePath data) {
+        addAsEntitiy(data, node, EntityType.PARTY);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTcParties node, ResourcePath data) {
+        addAsEntitiySet(data, EntityType.PARTY);
+        return defltAction(node, data);
+    }
+
+    @Override
     public ResourcePath visit(ASTeTask node, ResourcePath data) {
         addAsEntitiy(data, node, EntityType.TASK);
         return defltAction(node, data);

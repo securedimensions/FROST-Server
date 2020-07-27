@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:style="http://www.eclipse.org/papyrus/infra/gmfdiag/style">
+  <notation:Diagram xmi:id="_kKoPUL1XEeq9X9aJnBvb1g" type="PapyrusUMLClassDiagram" name="Class Diagram" measurementUnit="Pixel">
+    <styles xsi:type="notation:StringValueStyle" xmi:id="_kKoPUb1XEeq9X9aJnBvb1g" name="diagram_compatibility_version" stringValue="1.4.0"/>
+    <styles xsi:type="notation:DiagramStyle" xmi:id="_kKoPUr1XEeq9X9aJnBvb1g"/>
+    <styles xsi:type="style:PapyrusDiagramStyle" xmi:id="_kKoPU71XEeq9X9aJnBvb1g" diagramKindId="org.eclipse.papyrus.uml.diagram.class">
+      <owner href="java.uml#_kELCAL1XEeq9X9aJnBvb1g"/>
+    </styles>
+    <element href="java.uml#_kELCAL1XEeq9X9aJnBvb1g"/>
+  </notation:Diagram>
+  <notation:Diagram xmi:id="_kOTOYL1XEeq9X9aJnBvb1g" type="PapyrusUMLCommunicationDiagram" name="Communication Diagram" measurementUnit="Pixel">
+    <children xsi:type="notation:Shape" xmi:id="_kOTOYb1XEeq9X9aJnBvb1g" type="Interaction_Shape">
+      <children xsi:type="notation:DecorationNode" xmi:id="_kOTOYr1XEeq9X9aJnBvb1g" type="Interaction_NameLabel"/>
+      <children xsi:type="notation:DecorationNode" xmi:id="_kOTOY71XEeq9X9aJnBvb1g" type="Interaction_FloatingNameLabel">
+        <layoutConstraint xsi:type="notation:Location" xmi:id="_kOTOZL1XEeq9X9aJnBvb1g" x="50"/>
+      </children>
+      <children xsi:type="notation:BasicCompartment" xmi:id="_kOTOZb1XEeq9X9aJnBvb1g" type="Interaction_SubfragmentCompartment">
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_kOTOZr1XEeq9X9aJnBvb1g"/>
+      </children>
+      <element href="java.uml#_kMVfgL1XEeq9X9aJnBvb1g"/>
+      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_kOTOZ71XEeq9X9aJnBvb1g"/>
+    </children>
+    <styles xsi:type="notation:StringValueStyle" xmi:id="_kOTOaL1XEeq9X9aJnBvb1g" name="diagram_compatibility_version" stringValue="1.4.0"/>
+    <styles xsi:type="notation:DiagramStyle" xmi:id="_kOTOab1XEeq9X9aJnBvb1g"/>
+    <styles xsi:type="style:PapyrusDiagramStyle" xmi:id="_kOTOar1XEeq9X9aJnBvb1g" diagramKindId="org.eclipse.papyrus.uml.diagram.communication">
+      <owner href="java.uml#_kELCAL1XEeq9X9aJnBvb1g"/>
+    </styles>
+    <element href="java.uml#_kMVfgL1XEeq9X9aJnBvb1g"/>
+  </notation:Diagram>
+  <notation:Diagram xmi:id="_kOc_YL1XEeq9X9aJnBvb1g" type="PapyrusUMLComponentDiagram" name="Component Diagram" measurementUnit="Pixel">
+    <styles xsi:type="notation:StringValueStyle" xmi:id="_kOc_Yb1XEeq9X9aJnBvb1g" name="diagram_compatibility_version" stringValue="1.4.0"/>
+    <styles xsi:type="notation:DiagramStyle" xmi:id="_kOc_Yr1XEeq9X9aJnBvb1g"/>
+    <styles xsi:type="style:PapyrusDiagramStyle" xmi:id="_kOc_Y71XEeq9X9aJnBvb1g" diagramKindId="org.eclipse.papyrus.uml.diagram.component.root.package">
+      <owner href="java.uml#_kELCAL1XEeq9X9aJnBvb1g"/>
+    </styles>
+    <element href="java.uml#_kELCAL1XEeq9X9aJnBvb1g"/>
+  </notation:Diagram>
+  <notation:Diagram xmi:id="_kPJi8L1XEeq9X9aJnBvb1g" type="PapyrusUMLSequenceDiagram" name="Sequence Diagram" measurementUnit="Pixel">
+    <children xsi:type="notation:Shape" xmi:id="_kPJi8b1XEeq9X9aJnBvb1g" type="Interaction_Shape">
+      <children xsi:type="notation:DecorationNode" xmi:id="_kPJi8r1XEeq9X9aJnBvb1g" type="Interaction_NameLabel"/>
+      <children xsi:type="notation:BasicCompartment" xmi:id="_kPJi871XEeq9X9aJnBvb1g" type="Interaction_SubfragmentCompartment">
+        <layoutConstraint xsi:type="notation:Bounds" xmi:id="_kPJi9L1XEeq9X9aJnBvb1g"/>
+      </children>
+      <element href="java.uml#_kPBAEL1XEeq9X9aJnBvb1g"/>
+      <layoutConstraint xsi:type="notation:Bounds" xmi:id="_kPJi9b1XEeq9X9aJnBvb1g"/>
+    </children>
+    <styles xsi:type="notation:StringValueStyle" xmi:id="_kPJi9r1XEeq9X9aJnBvb1g" name="diagram_compatibility_version" stringValue="1.4.0"/>
+    <styles xsi:type="notation:DiagramStyle" xmi:id="_kPJi971XEeq9X9aJnBvb1g"/>
+    <styles xsi:type="style:PapyrusDiagramStyle" xmi:id="_kPJi-L1XEeq9X9aJnBvb1g" diagramKindId="org.eclipse.papyrus.uml.diagram.sequence">
+      <owner href="java.uml#_kELCAL1XEeq9X9aJnBvb1g"/>
+    </styles>
+    <element href="java.uml#_kPBAEL1XEeq9X9aJnBvb1g"/>
+  </notation:Diagram>
+</xmi:XMI>

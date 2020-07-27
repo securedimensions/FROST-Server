@@ -35,6 +35,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.Table
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidSensors;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidParties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidTaskingCapabilities;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidTasks;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidThings;
@@ -76,6 +77,7 @@ public class PostgresPersistenceManagerUuid extends PostgresPersistenceManager<U
                     .setTableMultiDatastreamsObsProperties(TableUuidMultiDatastreamsObsProperties.MULTI_DATASTREAMS_OBS_PROPERTIES)
                     .setTableObservations(TableUuidObservations.OBSERVATIONS)
                     .setTableObsProperties(TableUuidObsProperties.OBS_PROPERTIES)
+                    .setTableParties(TableUuidParties.PARTIES)
                     .setTableSensors(TableUuidSensors.SENSORS)
                     .setTableTasks(TableUuidTasks.TASKS)
                     .setTableTaskingCapabilities(TableUuidTaskingCapabilities.TASKINGCAPABILITIES)

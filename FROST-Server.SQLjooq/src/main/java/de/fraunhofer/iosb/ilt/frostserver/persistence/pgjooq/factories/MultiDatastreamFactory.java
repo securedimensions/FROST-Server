@@ -22,6 +22,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
+import de.fraunhofer.iosb.ilt.frostserver.model.Party;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySet;
@@ -117,6 +118,7 @@ public class MultiDatastreamFactory<J extends Comparable> implements EntityFacto
             entity.setProperties(Utils.jsonToObject(props, Map.class));
         }
         entity.setSensor(entityFactories.sensorFromId(tuple, table.getSensorId()));
+        entity.setParty(entityFactories.partyFromId(tuple, table.getPartyId()));
         entity.setThing(entityFactories.thingFromId(tuple, table.getThingId()));
         List<UnitOfMeasurement> units = Utils.jsonToObject(getFieldOrNull(tuple, table.colUnitOfMeasurements), EntityFactories.TYPE_LIST_UOM);
         entity.setUnitOfMeasurements(units);
@@ -128,6 +130,9 @@ public class MultiDatastreamFactory<J extends Comparable> implements EntityFacto
         // First check Sensor and Thing
         Sensor s = ds.getSensor();
         entityFactories.entityExistsOrCreate(pm, s);
+        
+        Party p = ds.getParty();
+        entityFactories.entityExistsOrCreate(pm, p);
 
         Thing t = ds.getThing();
         entityFactories.entityExistsOrCreate(pm, t);
@@ -140,6 +145,7 @@ public class MultiDatastreamFactory<J extends Comparable> implements EntityFacto
         insert.put(table.colProperties, EntityFactories.objectToJson(ds.getProperties()));
 
         insert.put(table.getSensorId(), s.getId().getValue());
+        insert.put(table.getPartyId(), p.getId().getValue());
         insert.put(table.getThingId(), t.getId().getValue());
 
         entityFactories.insertUserDefinedId(pm, insert, table.getId(), ds);
@@ -190,6 +196,7 @@ public class MultiDatastreamFactory<J extends Comparable> implements EntityFacto
         updateDescription(md, update, message);
         updateProperties(md, update, message);
         updateSensor(md, pm, update, message);
+        updateParty(md, pm, update, message);
         updateThing(md, pm, update, message);
 
         MultiDatastream original = (MultiDatastream) pm.get(EntityType.MULTIDATASTREAM, entityFactories.idFromObject(mdsId));
@@ -263,6 +270,16 @@ public class MultiDatastreamFactory<J extends Comparable> implements EntityFacto
             }
             update.put(table.getSensorId(), md.getSensor().getId().getValue());
             message.addField(NavigationPropertyMain.SENSOR);
+        }
+    }
+
+    private void updateParty(MultiDatastream md, PostgresPersistenceManager<J> pm, Map<Field, Object> update, EntityChangedMessage message) throws NoSuchEntityException {
+        if (md.isSetParty()) {
+            if (!entityFactories.entityExists(pm, md.getParty())) {
+                throw new NoSuchEntityException("Party with no id or not found.");
+            }
+            update.put(table.getPartyId(), md.getParty().getId().getValue());
+            message.addField(NavigationPropertyMain.PARTY);
         }
     }
 

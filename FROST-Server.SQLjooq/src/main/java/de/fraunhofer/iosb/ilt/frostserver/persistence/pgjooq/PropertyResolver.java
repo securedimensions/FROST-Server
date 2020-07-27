@@ -31,6 +31,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTabl
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObservations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableSensors;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableParties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableTaskingCapabilities;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableTasks;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableThings;
@@ -88,6 +89,7 @@ public class PropertyResolver<J extends Comparable> {
         initObsProperties();
         initObservations();
         initSensors();
+        initParties();
         initTasks();
         initTaskingCapabilities();
         initThings();
@@ -123,6 +125,7 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(EntityProperty.UNITOFMEASUREMENT, tableClass, "name", table -> table.colUnitName);
         addEntry(EntityProperty.UNITOFMEASUREMENT, tableClass, "symbol", table -> table.colUnitSymbol);
         addEntry(NavigationPropertyMain.SENSOR, tableClass, AbstractTableDatastreams::getSensorId);
+        addEntry(NavigationPropertyMain.PARTY, tableClass, AbstractTableDatastreams::getPartyId);
         addEntry(NavigationPropertyMain.OBSERVEDPROPERTY, tableClass, AbstractTableDatastreams::getObsPropertyId);
         addEntry(NavigationPropertyMain.THING, tableClass, AbstractTableDatastreams::getThingId);
         addEntry(NavigationPropertyMain.OBSERVATIONS, tableClass, AbstractTableDatastreams::getId);
@@ -144,6 +147,7 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(EntityProperty.RESULTTIME, tableClass, KEY_TIME_INTERVAL_END, table -> table.colResultTimeEnd);
         addEntry(EntityProperty.UNITOFMEASUREMENTS, tableClass, table -> table.colUnitOfMeasurements);
         addEntry(NavigationPropertyMain.SENSOR, tableClass, AbstractTableMultiDatastreams::getSensorId);
+        addEntry(NavigationPropertyMain.PARTY, tableClass, AbstractTableMultiDatastreams::getPartyId);
         addEntry(NavigationPropertyMain.THING, tableClass, AbstractTableMultiDatastreams::getThingId);
         addEntry(NavigationPropertyMain.OBSERVEDPROPERTIES, tableClass, AbstractTableMultiDatastreams::getId);
         addEntry(NavigationPropertyMain.OBSERVATIONS, tableClass, AbstractTableMultiDatastreams::getId);
@@ -229,6 +233,19 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(EntityProperty.PROPERTIES, tableClass, table -> table.colProperties);
         addEntry(NavigationPropertyMain.DATASTREAMS, tableClass, AbstractTableSensors::getId);
         addEntry(NavigationPropertyMain.MULTIDATASTREAMS, tableClass, AbstractTableSensors::getId);
+    }
+
+    private void initParties() {
+        Class<? extends AbstractTableParties> tableClass = tableCollection.getTableParties().getClass();
+        addEntry(EntityProperty.ID, tableClass, AbstractTableParties::getId);
+        addEntry(EntityProperty.SELFLINK, tableClass, AbstractTableParties::getId);
+        addEntry(EntityProperty.NAME, tableClass, table -> table.colName);
+        addEntry(EntityProperty.DESCRIPTION, tableClass, table -> table.colDescription);
+        addEntry(EntityProperty.ENCODINGTYPE, tableClass, table -> table.colEncodingType);
+        addEntry(EntityProperty.METADATA, tableClass, table -> table.colMetadata);
+        addEntry(EntityProperty.PROPERTIES, tableClass, table -> table.colProperties);
+        addEntry(NavigationPropertyMain.DATASTREAMS, tableClass, AbstractTableParties::getId);
+        addEntry(NavigationPropertyMain.MULTIDATASTREAMS, tableClass, AbstractTableParties::getId);
     }
 
     private void initTaskingCapabilities() {

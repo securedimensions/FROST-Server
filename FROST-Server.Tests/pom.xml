@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.fraunhofer.iosb.ilt.FROST-Server</groupId>
         <artifactId>FROST-ServerParent</artifactId>
-        <version>1.12-SNAPSHOT</version>
+        <version>1.12-STA4CS</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>FROST-Server.Tests</artifactId>
@@ -12,7 +12,7 @@
 
     <name>FROST-Server.Tests</name>
     <description>Integration tests for the FROST-Server.</description>
-    <url>https://github.com/FraunhoferIOSB/FROST-Server</url>
+    <url>https://github.com/securedimensions/FROST-Server</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

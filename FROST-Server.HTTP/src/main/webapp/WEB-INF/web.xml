@@ -45,7 +45,7 @@
     <context-param>
         <description>The base URL of the SensorThings Server without version.</description>
         <param-name>serviceRootUrl</param-name>
-        <param-value>http://localhost:8080/FROST-Server</param-value>
+        <param-value>http://localhost:8080/test</param-value>
     </context-param>
     <context-param>
         <description>The default value for the $count query option.</description>
@@ -102,6 +102,6 @@
     <context-param>
         <description>JNDI data source name</description>
         <param-name>persistence.db_jndi_datasource</param-name>
-        <param-value>jdbc/sensorThings</param-value>
+        <param-value>jdbc/sta4cs</param-value>
     </context-param>
 </web-app>

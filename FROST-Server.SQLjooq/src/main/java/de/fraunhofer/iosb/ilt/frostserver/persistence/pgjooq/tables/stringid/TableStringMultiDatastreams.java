@@ -27,6 +27,11 @@ public class TableStringMultiDatastreams extends AbstractTableMultiDatastreams<S
     public final TableField<Record, String> colSensorId = createField(DSL.name("SENSOR_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
+     * The column <code>public.MULTI_DATASTREAMS.PARTY_ID</code>.
+     */
+    public final TableField<Record, String> colPartyId = createField(DSL.name("PARTY_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
      * The column <code>public.MULTI_DATASTREAMS.THING_ID</code>.
      */
     public final TableField<Record, String> colThingId = createField(DSL.name("THING_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
@@ -64,6 +69,11 @@ public class TableStringMultiDatastreams extends AbstractTableMultiDatastreams<S
     @Override
     public TableField<Record, String> getSensorId() {
         return colSensorId;
+    }
+
+    @Override
+    public TableField<Record, String> getPartyId() {
+        return colPartyId;
     }
 
     @Override

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_kELCAL1XEeq9X9aJnBvb1g" name="SensorThingsDataModel">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_kX7rgL1XEeq9X9aJnBvb1g">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_kMVfgL1XEeq9X9aJnBvb1g" name="Interaction1"/>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_kPBAEL1XEeq9X9aJnBvb1g" name="Interaction2"/>
+</uml:Model>

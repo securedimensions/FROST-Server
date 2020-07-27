@@ -4,12 +4,12 @@
 
     <groupId>de.fraunhofer.iosb.ilt.FROST-Server</groupId>
     <artifactId>FROST-ServerParent</artifactId>
-    <version>1.12-SNAPSHOT</version>
+    <version>1.12-STA4CS</version>
     <packaging>pom</packaging>
 
     <name>FROST-ServerParent</name>
     <description>A server implementation of the OGC SensorThings API.</description>
-    <url>https://github.com/FraunhoferIOSB/FROST-Server</url>
+    <url>https://github.com/securedimensions/FROST-Server</url>
     <inceptionYear>2016</inceptionYear>
 
     <modules>
@@ -115,13 +115,13 @@
     <scm>
         <connection>scm:git:git://github.com/FraunhoferIOSB/SensorThingsServer.git</connection>
         <developerConnection>scm:git:ssh://github.com:FraunhoferIOSB/SensorThingsServer.git</developerConnection>
-        <url>https://github.com/FraunhoferIOSB/FROST-Server/tree/master</url>
+        <url>https://github.com/securedimensions/FROST-Server/tree/master</url>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/FraunhoferIOSB/FROST-Server/issues</url>
+        <url>https://github.com/securedimensions/FROST-Server/issues</url>
     </issueManagement>
 
     <distributionManagement>

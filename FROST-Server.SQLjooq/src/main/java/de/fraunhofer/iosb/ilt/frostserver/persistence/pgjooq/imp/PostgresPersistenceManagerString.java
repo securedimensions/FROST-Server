@@ -36,6 +36,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.Tab
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.TableStringMultiDatastreamsObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.TableStringObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.TableStringObservations;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.TableStringParties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.TableStringSensors;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.TableStringTaskingCapabilities;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.TableStringTasks;
@@ -78,6 +79,7 @@ public class PostgresPersistenceManagerString extends PostgresPersistenceManager
                     .setTableObservations(TableStringObservations.OBSERVATIONS)
                     .setTableObsProperties(TableStringObsProperties.OBS_PROPERTIES)
                     .setTableSensors(TableStringSensors.SENSORS)
+                    .setTableParties(TableStringParties.PARTIES)
                     .setTableTasks(TableStringTasks.TASKS)
                     .setTableTaskingCapabilities(TableStringTaskingCapabilities.TASKINGCAPABILITIES)
                     .setTableThings(TableStringThings.THINGS)

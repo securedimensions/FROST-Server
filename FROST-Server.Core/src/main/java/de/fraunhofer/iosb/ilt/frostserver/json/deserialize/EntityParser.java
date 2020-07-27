@@ -37,6 +37,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
+import de.fraunhofer.iosb.ilt.frostserver.model.Party;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Entity;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySet;
@@ -121,6 +122,8 @@ public class EntityParser {
         module.addDeserializer(Location.class, new CustomEntityDeserializer<>(Location.class));
         module.addDeserializer(FeatureOfInterest.class, new CustomEntityDeserializer<>(FeatureOfInterest.class));
         module.addDeserializer(Sensor.class, new CustomEntityDeserializer<>(Sensor.class));
+        module.addDeserializer(Party.class, new CustomEntityDeserializer<>(Party.class));
+        module.addDeserializer(Thing.class, new CustomEntityDeserializer<>(Thing.class));
         module.addDeserializer(EntityChangedMessage.class, new CustomEntityChangedMessageDeserializer());
         module.addDeserializer(TimeInstant.class, new TimeInstantDeserializer());
         module.addDeserializer(TimeInterval.class, new TimeIntervalDeserializer());
@@ -169,6 +172,10 @@ public class EntityParser {
 
     public Sensor parseSensor(String value) throws IOException {
         return mapper.readValue(value, Sensor.class);
+    }
+
+    public Party parseParty(String value) throws IOException {
+        return mapper.readValue(value, Party.class);
     }
 
     public Thing parseThing(String value) throws IOException {

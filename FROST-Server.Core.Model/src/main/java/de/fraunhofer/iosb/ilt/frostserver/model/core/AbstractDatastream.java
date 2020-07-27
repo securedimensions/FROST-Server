@@ -21,6 +21,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.EntityChangedMessage;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
+import de.fraunhofer.iosb.ilt.frostserver.model.Party;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInterval;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElement;
@@ -50,6 +51,7 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
     private TimeInterval phenomenonTime;
     private TimeInterval resultTime;
     private Sensor sensor;
+    private Party party;
     private Thing thing;
     private EntitySet<Observation> observations;
 
@@ -58,6 +60,7 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
     private boolean setPhenomenonTime;
     private boolean setResultTime;
     private boolean setSensor;
+    private boolean setParty;
     private boolean setThing;
 
     public AbstractDatastream() {
@@ -90,6 +93,11 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
                 LOGGER.debug("Set sensorId to {}.", parentId);
                 return true;
 
+            case PARTY:
+                setParty(new Party(parentId));
+                LOGGER.debug("Set partyId to {}.", parentId);
+                return true;
+
             case THING:
                 setThing(new Thing(parentId));
                 LOGGER.debug("Set thingId to {}.", parentId);
@@ -114,6 +122,7 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
         setResultTime = set;
         if (!entityPropertiesOnly) {
             setSensor = set;
+            setParty = set;
             setThing = set;
         }
     }
@@ -141,6 +150,10 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
         if (!Objects.equals(sensor, comparedTo.getSensor())) {
             setSensor = true;
             message.addNpField(NavigationPropertyMain.SENSOR);
+        }
+        if (!Objects.equals(party, comparedTo.getParty())) {
+            setParty = true;
+            message.addNpField(NavigationPropertyMain.PARTY);
         }
         if (!Objects.equals(thing, comparedTo.getThing())) {
             setThing = true;
@@ -252,6 +265,24 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
         return setSensor;
     }
 
+    
+    
+    public Party getParty() {
+        return party;
+    }
+
+    public T setParty(Party party) {
+        this.party = party;
+        setParty = party != null;
+        return getThis();
+    }
+
+    public boolean isSetParty() {
+        return setParty;
+    }
+
+    
+    
     public Thing getThing() {
         return thing;
     }
@@ -289,6 +320,7 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
                 phenomenonTime,
                 resultTime,
                 sensor,
+                party,
                 thing,
                 observations);
     }
@@ -311,6 +343,7 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
                 && Objects.equals(phenomenonTime, other.phenomenonTime)
                 && Objects.equals(resultTime, other.resultTime)
                 && Objects.equals(sensor, other.sensor)
+                && Objects.equals(party, other.party)
                 && Objects.equals(thing, other.thing)
                 && Objects.equals(observations, other.observations);
     }

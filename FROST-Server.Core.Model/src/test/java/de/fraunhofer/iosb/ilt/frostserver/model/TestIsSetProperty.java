@@ -106,6 +106,7 @@ public class TestIsSetProperty {
         propertyValues.put(NavigationPropertyMain.MULTIDATASTREAM, new MultiDatastream(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.OBSERVEDPROPERTY, new ObservedProperty(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.SENSOR, new Sensor(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.PARTY, new Party(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASK, new Task(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASKINGCAPABILITY, new TaskingCapability(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.THING, new Thing(new IdLong(nextId++)));
@@ -379,6 +380,7 @@ public class TestIsSetProperty {
         Assert.assertEquals(shouldBeSet, mds.isSetPhenomenonTime());
         Assert.assertEquals(shouldBeSet, mds.isSetResultTime());
         Assert.assertEquals(shouldBeSet, mds.isSetSensor());
+        Assert.assertEquals(shouldBeSet, mds.isSetParty());
         Assert.assertEquals(shouldBeSet, mds.isSetThing());
     }
 
@@ -449,6 +451,27 @@ public class TestIsSetProperty {
         testIsSetPropertyNamedEntity(shouldBeSet, shouldIdBeSet, sensor);
         Assert.assertEquals(shouldBeSet, sensor.isSetEncodingType());
         Assert.assertEquals(shouldBeSet, sensor.isSetMetadata());
+    }
+
+    @Test
+    public void testParty() {
+        Party entity = new Party();
+        testIsSetPropertyParty(false, true, entity);
+
+        entity.setEntityPropertiesSet();
+        testIsSetPropertyParty(true, true, entity);
+
+        entity.setEntityPropertiesSet(false, false);
+        testIsSetPropertyParty(false, false, entity);
+
+        entity.setEntityPropertiesSet(true, false);
+        testIsSetPropertyParty(true, true, entity);
+    }
+
+    private void testIsSetPropertyParty(boolean shouldBeSet, boolean shouldIdBeSet, Party party) {
+        testIsSetPropertyNamedEntity(shouldBeSet, shouldIdBeSet, party);
+        Assert.assertEquals(shouldBeSet, party.isSetEncodingType());
+        Assert.assertEquals(shouldBeSet, party.isSetMetadata());
     }
 
     @Test
