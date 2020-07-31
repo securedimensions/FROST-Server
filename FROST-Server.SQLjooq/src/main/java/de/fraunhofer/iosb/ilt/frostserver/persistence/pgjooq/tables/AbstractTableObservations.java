@@ -1,6 +1,7 @@
 package de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables;
 
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.relations.RelationManyToMany;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.relations.RelationOneToMany;
 import java.time.OffsetDateTime;
 import org.jooq.Field;
@@ -108,6 +109,14 @@ public abstract class AbstractTableObservations<J extends Comparable> extends St
                 new RelationOneToMany<>(this, tables.getTableFeatures(), EntityType.FEATUREOFINTEREST)
                         .setSourceFieldAccessor(AbstractTableObservations::getFeatureId)
                         .setTargetFieldAccessor(AbstractTableFeatures::getId)
+        );
+        
+        registerRelation(
+                new RelationManyToMany<>(this, tables.getTableObservationsObservationGroups(), tables.getTableObservationGroups(), EntityType.OBSERVATIONGROUP)
+                        .setSourceFieldAcc(AbstractTableObservations::getId)
+                        .setSourceLinkFieldAcc(AbstractTableObservationsObservationGroups::getObservationId)
+                        .setTargetLinkFieldAcc(AbstractTableObservationsObservationGroups::getObservationGroupId)
+                        .setTargetFieldAcc(AbstractTableObservationGroups::getId)
         );
     }
 

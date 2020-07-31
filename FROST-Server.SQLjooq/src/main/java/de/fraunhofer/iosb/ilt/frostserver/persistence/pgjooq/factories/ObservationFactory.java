@@ -23,6 +23,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.FeatureOfInterest;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
+import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Id;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInstant;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeValue;
@@ -33,8 +34,11 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.Utils;
 import static de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.Utils.getFieldOrNull;
 import static de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories.EntityFactories.CAN_NOT_BE_NULL;
 import static de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories.EntityFactories.CHANGED_MULTIPLE_ROWS;
+import static de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories.EntityFactories.LINKED_O_TO_OG;
+
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableMultiDatastreamsObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObservations;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObservationsObservationGroups;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.TableCollection;
 import de.fraunhofer.iosb.ilt.frostserver.property.EntityProperty;
 import de.fraunhofer.iosb.ilt.frostserver.property.NavigationPropertyMain;
@@ -282,9 +286,9 @@ public class ObservationFactory<J extends Comparable> implements EntityFactory<O
             message.addField(EntityProperty.VALIDTIME);
         }
 
+        DSLContext dslContext = pm.getDslContext();
         long count = 0;
         if (!update.isEmpty()) {
-            DSLContext dslContext = pm.getDslContext();
             count = dslContext.update(table)
                     .set(update)
                     .where(table.getId().equal(id))
@@ -295,6 +299,9 @@ public class ObservationFactory<J extends Comparable> implements EntityFactory<O
             throw new IllegalStateException(CHANGED_MULTIPLE_ROWS);
         }
         LOGGER.debug("Updated Observation {}", id);
+        
+        linkObservationGroups(newObservation, dslContext, id);
+        
         return message;
     }
 
@@ -387,6 +394,23 @@ public class ObservationFactory<J extends Comparable> implements EntityFactory<O
         return newHasDatastream;
     }
 
+    private void linkObservationGroups(Observation o, DSLContext dslContext, J observationId) {
+        for (ObservationGroup og : o.getObservationGroups()) {
+            if (og.getId() == null) {
+                throw new IllegalArgumentException("ObservationGroup with no id.");
+            }
+            J ogId = (J) og.getId().getValue();
+
+            AbstractTableObservationsObservationGroups<J> qlog = entityFactories.tableCollection.getTableObservationsObservationGroups();
+            dslContext.insertInto(qlog)
+                    .set(qlog.getObservationGroupId(), ogId)
+                    .set(qlog.getObservationId(), observationId)
+                    .execute();
+            LOGGER.debug(LINKED_O_TO_OG, observationId, ogId);
+        }
+    }
+
+    
     @Override
     public void delete(PostgresPersistenceManager<J> pm, J entityId) throws NoSuchEntityException {
         long count = pm.getDslContext()

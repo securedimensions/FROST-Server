@@ -120,6 +120,11 @@ public class EntityBuilderTest {
         histLocations.add(new HistoricalLocation(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.HISTORICALLOCATIONS, histLocations);
 
+        EntitySetImpl<ObservationGroup> observationGroups = new EntitySetImpl<>(EntityType.OBSERVATIONGROUP);
+        observationGroups.add(new ObservationGroup(new IdLong(nextId++)));
+        observationGroups.add(new ObservationGroup(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.OBSERVATIONGROUPS, observationGroups);
+
         EntitySetImpl<Location> locations = new EntitySetImpl<>(EntityType.LOCATION);
         locations.add(new Location(new IdLong(nextId++)));
         locations.add(new Location(new IdLong(nextId++)));

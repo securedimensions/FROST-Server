@@ -25,6 +25,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.FeatureOfInterest;
 import de.fraunhofer.iosb.ilt.frostserver.model.Location;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
+import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
@@ -63,6 +64,46 @@ public class EntityParserTest {
         entityParser = new EntityParser(IdLong.class);
     }
 
+    
+    @Test
+    public void readObservationGroupLinkObservation() throws IOException {
+        String json = "{\n"
+                + "    \"time\": \"2020-07-31T12:00:00Z\",\n"
+                + "    \"Observations\": [\n"
+                + "		    {\"@iot.id\": 1}\n"
+                + "		]\n"
+                + "}";
+        Observation ob = new Observation().setId(new IdLong(1));
+        EntitySet<Observation> obs = new EntitySetImpl<>(EntityType.OBSERVATION);
+        obs.add(ob);
+        ObservationGroup expectedResult = new ObservationGroup()
+                .setTime(TimeInstant.parse("2020-07-31T12:00:00Z"))
+                .setObservations(obs);
+        ObservationGroup parsedResult = entityParser.parseObservationGroup(json);
+        assertEquals(expectedResult, parsedResult);
+    }
+
+    
+    @Test
+    public void readObservationGroupLinkObservations() throws IOException {
+        String json = "{\n"
+                + "    \"time\": \"2020-07-31T12:00:00Z\",\n"
+                + "    \"Observations\": [\n"
+                + "		    {\"@iot.id\": 1},\n"
+                + "		    {\"@iot.id\": 2}\n"
+                + "		]\n"
+                + "}";
+        EntitySet<Observation> obs = new EntitySetImpl<>(EntityType.OBSERVATION);
+        obs.add(new Observation().setId(new IdLong(1)));
+        obs.add(new Observation().setId(new IdLong(2)));
+        ObservationGroup expectedResult = new ObservationGroup()
+                .setTime(TimeInstant.parse("2020-07-31T12:00:00Z"))
+                .setObservations(obs);
+        ObservationGroup parsedResult = entityParser.parseObservationGroup(json);
+        assertEquals(expectedResult, parsedResult);
+    }
+
+    
     @Test
     public void readDatastreamBasic() throws IOException {
         String json = "{\n"
@@ -1142,6 +1183,13 @@ public class EntityParserTest {
         String json = "{ \"someField\": 123}";
         entityParser.parseObservation(json);
     }
+
+    @Test(expected = UnrecognizedPropertyException.class)
+    public void readObservationGroupWithUnknownField() throws IOException {
+        String json = "{ \"someField\": 123}";
+        entityParser.parseHistoricalLocation(json);
+    }
+
 
     @Test
     public void readEntityLongId() throws IOException {

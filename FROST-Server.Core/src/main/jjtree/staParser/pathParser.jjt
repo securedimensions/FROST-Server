@@ -51,6 +51,7 @@ TOKEN:
 | <C_MULTIDATASTREAMS:    "MultiDatastreams" >
 | <C_FEATURESOFINTEREST:  "FeaturesOfInterest" >
 | <C_HISTORICALLOCATIONS: "HistoricalLocations" >
+| <C_OBSERVATIONGROUPS:   "ObservationGroups" >
 | <C_LOCATIONS:           "Locations" >
 | <C_SENSORS:             "Sensors" >
 | <C_PARTIES:             "Parties" >
@@ -65,6 +66,7 @@ TOKEN:
 | <E_MULTIDATASTREAM:    "MultiDatastream" >
 | <E_FEATUREOFINTEREST:  "FeatureOfInterest" >
 | <E_HISTORICALLOCATION: "HistoricalLocation" >
+| <E_OBSERVATIONGROUP:   "ObservationGroup" >
 | <E_LOCATION:           "Location" >
 | <E_SENSOR:             "Sensor" >
 | <E_PARTY:              "Party" >
@@ -133,6 +135,7 @@ void IdentifiedPath(): {}
   cMultiDatastreams() |
   cFeaturesOfInterest() |
   cHistLocations() |
+  cObservationGroups() |
   cLocations() |
   cSensors() |
   cParties() |
@@ -338,6 +341,39 @@ void childOfHistLocation() #void: {}
   <PATH_SEPARATOR>
   ( cLocations()
   | eThing()
+  | pId()
+  | pSelfLink()
+  | pTime()
+  | cpRef()
+  )
+}
+
+/** Entity and collection ObservationGroup(s) */
+void eObservationGroup(): {}
+{
+  <E_OBSERVATIONGROUP>
+  (childOfObservationGroup())?
+}
+void cObservationGroups(): {}
+{
+  <C_OBSERVATIONGROUPS>
+  (
+    eObservationGroupId()
+  | <PATH_SEPARATOR> cpRef()
+  )?
+}
+void eObservationGroupId()#eObservationGroup: {String i;}
+{
+  <LB> ( i=Long(){jjtThis.jjtSetValue(i);}
+       | i=QuotedString(){jjtThis.jjtSetValue(i);}
+       )
+  <RB>
+      (childOfObservationGroup())?
+}
+void childOfObservationGroup() #void: {}
+{
+  <PATH_SEPARATOR>
+  ( cObservations()
   | pId()
   | pSelfLink()
   | pTime()
@@ -604,6 +640,7 @@ void childOfObservation() #void: {}
   ( eDatastream()
   | eMultiDatastream()
   | eFeatureOfInterest()
+  | cObservationGroups()  
   | pId()
   | pSelfLink()
   | pParameters()

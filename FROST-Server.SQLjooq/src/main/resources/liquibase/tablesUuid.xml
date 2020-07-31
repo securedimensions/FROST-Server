@@ -100,6 +100,20 @@
         </createTable>
     </changeSet>
 
+    <changeSet author="scf" id="20200730-observationGroups" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="OBSERVATION_GROUPS" />
+            </not>
+        </preConditions>
+        <createTable tableName="OBSERVATION_GROUPS">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}" >
+                <constraints primaryKey="true" primaryKeyName="OBSERVATION_GROUP_PKEY"/>
+            </column>
+            <column name="TIME" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+
     <changeSet author="scf" id="20171122-locations" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -134,6 +148,23 @@
             </column>
         </createTable>
         <addPrimaryKey columnNames="LOCATION_ID, HIST_LOCATION_ID" constraintName="LOCATIONS_HIST_LOCATIONS_PKEY" tableName="LOCATIONS_HIST_LOCATIONS"/>
+    </changeSet>
+
+    <changeSet author="scf" id="20200730-obsObservationGroups" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="OBSERVATIONS_OBSERVATION_GROUPS" />
+            </not>
+        </preConditions>
+        <createTable tableName="OBSERVATIONS_OBSERVATION_GROUPS">
+            <column name="OBSERVATION_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBSERVATION_GROUP_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="OBSERVATION_ID, OBSERVATION_GROUP_ID" constraintName="OBSERVATIONS_OBSERVATION_GROUPS_PKEY" tableName="OBSERVATIONS_OBSERVATION_GROUPS"/>
     </changeSet>
 
     <changeSet author="scf" id="20171122-obsProperties" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
@@ -298,6 +329,20 @@
             referencedTableName="LOCATIONS" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE" />
+                
+        <addForeignKeyConstraint
+            constraintName="OBSERVATIONS_OBSERVATION_GROUPS_OBSERVATION_GROUP_ID_FKEY"
+            baseTableName="OBSERVATIONS_OBSERVATION_GROUPS" baseColumnNames="OBSERVATION_GROUP_ID"
+            referencedTableName="OBSERVATION_GROUPS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+        <addForeignKeyConstraint
+            constraintName="OBSERVATIONS_OBSERVATION_GROUPS_OBSERVATION_ID_FKEY"
+            baseTableName="OBSERVATIONS_OBSERVATION_GROUPS" baseColumnNames="OBSERVATION_ID"
+            referencedTableName="OBSERVATIONS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+
         <addForeignKeyConstraint
             constraintName="OBSERVATIONS_DATASTREAM_ID_FKEY"
             baseTableName="OBSERVATIONS" baseColumnNames="DATASTREAM_ID"
@@ -443,6 +488,14 @@
         <createIndex tableName="OBSERVATIONS" indexName="OBSERVATIONS_MULTI_DATASTREAM_ID">
             <column name="MULTI_DATASTREAM_ID" />
         </createIndex>
+                
+        <createIndex tableName="OBSERVATIONS_OBSERVATION_GROUPS" indexName="OBSERVATIONS_OBSERVATION_GROUPS_OBSERVATION_GROUP_ID">
+            <column name="OBSERVATION_GROUP_ID" />
+        </createIndex>
+        <createIndex tableName="OBSERVATIONS_OBSERVATION_GROUPS" indexName="OBSERVATIONS_OBSERVATION_GROUPS_OBSERVATION_ID">
+            <column name="OBSERVATION_ID" />
+        </createIndex>
+
         <createIndex tableName="OBSERVATIONS" indexName="OBSERVATIONS_FEATURE_ID">
             <column name="FEATURE_ID" />
         </createIndex>

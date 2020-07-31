@@ -105,6 +105,9 @@ public class EntityFactories<J extends Comparable> {
     public static final String UNLINKED_L_FROM_T = "Unlinked {} locations from Thing {}.";
     public static final String LINKED_L_TO_T = "Linked Location {} to Thing {}.";
 
+    public static final String CREATED_OG = "Created observationGroup {}";
+    public static final String LINKED_O_TO_OG = "Linked observation {} to observationGroup {}.";
+    
     /**
      * The logger for this class.
      */
@@ -124,6 +127,7 @@ public class EntityFactories<J extends Comparable> {
     public final ThingFactory<J> thingFactory;
     public final FeatureOfInterestFactory<J> featureOfInterestFactory;
     public final HistoricalLocationFactory<J> historicalLocationFactory;
+    public final ObservationGroupFactory<J> observationGroupFactory;
     public final LocationFactory<J> locationFactory;
     public final SensorFactory<J> sensorFactory;
     public final PartyFactory<J> partyFactory;
@@ -142,6 +146,7 @@ public class EntityFactories<J extends Comparable> {
         datastreamFactory = new DatastreamFactory<>(this, tableCollection.getTableDatastreams().as(defaultPrefix));
         featureOfInterestFactory = new FeatureOfInterestFactory<>(this, tableCollection.getTableFeatures().as(defaultPrefix));
         historicalLocationFactory = new HistoricalLocationFactory<>(this, tableCollection.getTableHistLocations().as(defaultPrefix));
+        observationGroupFactory = new ObservationGroupFactory<>(this, tableCollection.getTableObservationGroups().as(defaultPrefix));
         locationFactory = new LocationFactory<>(this, tableCollection.getTableLocations().as(defaultPrefix));
         multiDatastreamFactory = new MultiDatastreamFactory<>(this, tableCollection.getTableMultiDatastreams().as(defaultPrefix));
         observationFactory = new ObservationFactory<>(this, tableCollection.getTableObservations().as(defaultPrefix));
@@ -156,6 +161,7 @@ public class EntityFactories<J extends Comparable> {
         factoryPerEntity.put(EntityType.DATASTREAM, datastreamFactory);
         factoryPerEntity.put(EntityType.FEATUREOFINTEREST, featureOfInterestFactory);
         factoryPerEntity.put(EntityType.HISTORICALLOCATION, historicalLocationFactory);
+        factoryPerEntity.put(EntityType.OBSERVATIONGROUP, observationGroupFactory);
         factoryPerEntity.put(EntityType.LOCATION, locationFactory);
         factoryPerEntity.put(EntityType.MULTIDATASTREAM, multiDatastreamFactory);
         factoryPerEntity.put(EntityType.OBSERVATION, observationFactory);

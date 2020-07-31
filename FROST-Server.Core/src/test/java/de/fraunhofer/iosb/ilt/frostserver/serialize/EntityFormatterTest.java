@@ -27,6 +27,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.HistoricalLocation;
 import de.fraunhofer.iosb.ilt.frostserver.model.Location;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
+import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
@@ -58,6 +59,7 @@ import org.junit.Test;
  */
 public class EntityFormatterTest {
 
+	
     @Test
     public void writeThingBasic() throws IOException {
         String expResult
@@ -423,6 +425,24 @@ public class EntityFormatterTest {
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setTime(TestHelper.createTimeInstant(2015, 01, 25, 12, 0, 0, DateTimeZone.forOffsetHours(-7), DateTimeZone.UTC));
         Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
+    }
+
+    @Test
+    public void writeObservationGroupBasic() throws IOException {
+        String expResult
+                = "{\n"
+                + "	\"@iot.id\": 1,\n"
+                + "	\"@iot.selfLink\": \"http://example.org/v1.0/ObservationGroups(1)\",\n"
+                + "	\"Observations@iot.navigationLink\": \"ObservationGroups(1)/Observations\",\n"
+                + "	\"time\": \"2020-07-31T12:00:00.000Z\"\n"
+                + "}";
+        Entity entity = new ObservationGroup()
+                .setId(new IdLong(1))
+                .setSelfLink("http://example.org/v1.0/ObservationGroups(1)")
+                .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "ObservationGroups(1)/Observations").setExportObject(false))
+                .setTime(TestHelper.createTimeInstant(2020, 07, 31, 12, 0, 0, DateTimeZone.forOffsetHours(0), DateTimeZone.UTC));
+        String parsedResult = EntityFormatter.writeEntity(entity);
+        Assert.assertTrue(jsonEqual(expResult, parsedResult));
     }
 
     @Test

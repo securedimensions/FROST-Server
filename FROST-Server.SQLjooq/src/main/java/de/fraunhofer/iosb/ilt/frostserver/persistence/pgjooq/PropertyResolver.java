@@ -29,6 +29,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTabl
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableLocations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableMultiDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObsProperties;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObservationGroups;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObservations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableSensors;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableParties;
@@ -85,6 +86,7 @@ public class PropertyResolver<J extends Comparable> {
         initMultiDatastreams();
         initFeatures();
         initHistLocations();
+        initObservationGroups();
         initLocations();
         initObsProperties();
         initObservations();
@@ -175,6 +177,14 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(NavigationPropertyMain.LOCATIONS, tableClass, AbstractTableHistLocations::getId);
     }
 
+    private void initObservationGroups() {
+        Class<? extends AbstractTableObservationGroups> tableClass = tableCollection.getTableObservationGroups().getClass();
+        addEntry(EntityProperty.ID, tableClass, AbstractTableObservationGroups::getId);
+        addEntry(EntityProperty.SELFLINK, tableClass, AbstractTableObservationGroups::getId);
+        addEntry(EntityProperty.TIME, tableClass, table -> table.time);
+        addEntry(NavigationPropertyMain.OBSERVATIONS, tableClass, AbstractTableObservationGroups::getId);
+    }
+
     private void initLocations() {
         Class<? extends AbstractTableLocations> tableClass = tableCollection.getTableLocations().getClass();
         addEntry(EntityProperty.ID, tableClass, AbstractTableLocations::getId);
@@ -208,6 +218,7 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(NavigationPropertyMain.FEATUREOFINTEREST, tableClass, AbstractTableObservations::getFeatureId);
         addEntry(NavigationPropertyMain.DATASTREAM, tableClass, AbstractTableObservations::getDatastreamId);
         addEntry(NavigationPropertyMain.MULTIDATASTREAM, tableClass, AbstractTableObservations::getMultiDatastreamId);
+        addEntry(NavigationPropertyMain.OBSERVATIONGROUPS, tableClass, AbstractTableObservations::getId);
     }
 
     private void initObsProperties() {

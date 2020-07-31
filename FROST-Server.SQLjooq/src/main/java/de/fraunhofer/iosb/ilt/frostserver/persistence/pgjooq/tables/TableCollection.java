@@ -34,8 +34,10 @@ public class TableCollection<J extends Comparable> {
     private AbstractTableDatastreams<J> tableDatastreams;
     private AbstractTableFeatures<J> tableFeatures;
     private AbstractTableHistLocations<J> tableHistLocations;
+    private AbstractTableObservationGroups<J> tableObservationGroups;
     private AbstractTableLocations<J> tableLocations;
     private AbstractTableLocationsHistLocations<J> tableLocationsHistLocations;
+    private AbstractTableObservationsObservationGroups<J> tableObservationsObservationGroups;
     private AbstractTableMultiDatastreams<J> tableMultiDatastreams;
     private AbstractTableMultiDatastreamsObsProperties<J> tableMultiDatastreamsObsProperties;
     private AbstractTableObservations<J> tableObservations;
@@ -66,6 +68,7 @@ public class TableCollection<J extends Comparable> {
         addAndInit(map, EntityType.DATASTREAM, tableDatastreams);
         addAndInit(map, EntityType.FEATUREOFINTEREST, tableFeatures);
         addAndInit(map, EntityType.HISTORICALLOCATION, tableHistLocations);
+        addAndInit(map, EntityType.OBSERVATIONGROUP, tableObservationGroups);
         addAndInit(map, EntityType.LOCATION, tableLocations);
         addAndInit(map, EntityType.MULTIDATASTREAM, tableMultiDatastreams);
         addAndInit(map, EntityType.OBSERVATION, tableObservations);
@@ -159,6 +162,27 @@ public class TableCollection<J extends Comparable> {
         return this;
     }
 
+
+    /**
+     * @return the tableObservationGroups
+     */
+    public AbstractTableObservationGroups<J> getTableObservationGroups() {
+        return tableObservationGroups;
+    }
+
+    /**
+     * @param tableObservationGroups the tableObservationGroups to set
+     * @return this
+     */
+    public TableCollection<J> setTableObservationGroups(AbstractTableObservationGroups<J> tableObservationGroups) {
+        if (tablesByType != null) {
+            throw new IllegalArgumentException(CHANGE_AFTER_INIT);
+        }
+        this.tableObservationGroups = tableObservationGroups;
+        return this;
+    }
+
+
     /**
      * @return the tableLocations
      */
@@ -196,6 +220,27 @@ public class TableCollection<J extends Comparable> {
         this.tableLocationsHistLocations = tableLocationsHistLocations;
         return this;
     }
+
+    
+    /**
+     * @return the tableObservationsObservationGroups
+     */
+    public AbstractTableObservationsObservationGroups<J> getTableObservationsObservationGroups() {
+        return tableObservationsObservationGroups;
+    }
+
+    /**
+     * @param tableObservationsObservationGroups the tableObservationsObservationGroups to set
+     * @return this
+     */
+    public TableCollection<J> setTableObservationsObservationGroups(AbstractTableObservationsObservationGroups<J> tableObservationsObservationGroups) {
+        if (tablesByType != null) {
+            throw new IllegalArgumentException(CHANGE_AFTER_INIT);
+        }
+        this.tableObservationsObservationGroups = tableObservationsObservationGroups;
+        return this;
+    }
+
 
     /**
      * @return the tableMultiDatastreams

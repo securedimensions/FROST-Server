@@ -18,6 +18,8 @@
 package de.fraunhofer.iosb.ilt.frostserver.model;
 
 import de.fraunhofer.iosb.ilt.frostserver.model.core.AbstractEntity;
+import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySet;
+import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySetImpl;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Id;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInstant;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInterval;
@@ -54,6 +56,8 @@ public class Observation extends AbstractEntity<Observation> {
     private MultiDatastream multiDatastream;
     private FeatureOfInterest featureOfInterest;
 
+    private EntitySet<ObservationGroup> observationGroups; // 0..*
+    
     private boolean setPhenomenonTime;
     private boolean setResultTime;
     private boolean setResult;
@@ -63,13 +67,14 @@ public class Observation extends AbstractEntity<Observation> {
     private boolean setDatastream;
     private boolean setMultiDatastream;
     private boolean setFeatureOfInterest;
-
+    
     public Observation() {
         this(null);
     }
 
     public Observation(Id id) {
         super(id);
+        this.observationGroups = new EntitySetImpl<>(EntityType.OBSERVATIONGROUP);
     }
 
     @Override
@@ -256,6 +261,18 @@ public class Observation extends AbstractEntity<Observation> {
         return setValidTime;
     }
 
+    
+    public EntitySet<ObservationGroup> getObservationGroups() {
+        return observationGroups;
+    }
+
+    public Observation setObservationGroups(EntitySet<ObservationGroup> observationGroups) {
+        this.observationGroups = observationGroups;
+        return this;
+    }
+
+    
+    
     public Map<String, Object> getParameters() {
         return parameters;
     }
@@ -341,7 +358,8 @@ public class Observation extends AbstractEntity<Observation> {
                 parameters,
                 datastream,
                 multiDatastream,
-                featureOfInterest
+                featureOfInterest,
+                observationGroups
         );
     }
 
@@ -366,7 +384,8 @@ public class Observation extends AbstractEntity<Observation> {
                 && Objects.equals(parameters, other.parameters)
                 && Objects.equals(datastream, other.datastream)
                 && Objects.equals(multiDatastream, other.multiDatastream)
-                && Objects.equals(featureOfInterest, other.featureOfInterest);
+                && Objects.equals(featureOfInterest, other.featureOfInterest)
+                && Objects.equals(observationGroups, other.observationGroups);
     }
 
 }

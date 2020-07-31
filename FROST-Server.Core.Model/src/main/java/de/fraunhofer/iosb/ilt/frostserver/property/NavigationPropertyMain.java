@@ -48,13 +48,17 @@ public enum NavigationPropertyMain implements NavigationProperty {
     OBSERVEDPROPERTY("ObservedProperty", EntityType.OBSERVEDPROPERTY, false),
     OBSERVEDPROPERTIES("ObservedProperties", EntityType.OBSERVEDPROPERTY, true),
     SENSOR("Sensor", EntityType.SENSOR, false),
-    PARTY("Party", EntityType.PARTY, false),
     TASK("Task", EntityType.TASK, false),
     TASKS("Tasks", EntityType.TASK, true),
     TASKINGCAPABILITY("TaskingCapability", EntityType.TASKINGCAPABILITY, false),
     TASKINGCAPABILITIES("TaskingCapabilities", EntityType.TASKINGCAPABILITY, true),
     THING("Thing", EntityType.THING, false),
-    THINGS("Things", EntityType.THING, true);
+    THINGS("Things", EntityType.THING, true),
+    
+    PARTY("Party", EntityType.PARTY, false),
+    OBSERVATIONGROUPS("ObservationGroups", EntityType.OBSERVATIONGROUP, true),
+    
+    ;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NavigationPropertyMain.class.getName());
     private static final Map<String, NavigationPropertyMain> PROPERTY_BY_NAME = new HashMap<>();

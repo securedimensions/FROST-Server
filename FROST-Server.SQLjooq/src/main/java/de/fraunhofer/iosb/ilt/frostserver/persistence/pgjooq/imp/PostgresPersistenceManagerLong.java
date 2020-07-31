@@ -35,13 +35,16 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.Table
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongMultiDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongMultiDatastreamsObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongObsProperties;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongObservationGroups;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongObservations;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongObservationsObservationGroups;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongParties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongSensors;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongTaskingCapabilities;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongTasks;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongThings;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongThingsLocations;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservationsObservationGroups;
 import de.fraunhofer.iosb.ilt.frostserver.settings.CoreSettings;
 
 /**
@@ -72,8 +75,10 @@ public class PostgresPersistenceManagerLong extends PostgresPersistenceManager<L
                     .setTableDatastreams(TableLongDatastreams.DATASTREAMS)
                     .setTableFeatures(TableLongFeatures.FEATURES)
                     .setTableHistLocations(TableLongHistLocations.HIST_LOCATIONS)
+                    .setTableObservationGroups(TableLongObservationGroups.OBSERVATION_GROUPS)
                     .setTableLocations(TableLongLocations.LOCATIONS)
                     .setTableLocationsHistLocations(TableLongLocationsHistLocations.LOCATIONS_HIST_LOCATIONS)
+                    .setTableObservationsObservationGroups(TableLongObservationsObservationGroups.OBSERVATIONS_OBSERVATION_GROUPS)
                     .setTableMultiDatastreams(TableLongMultiDatastreams.MULTI_DATASTREAMS)
                     .setTableMultiDatastreamsObsProperties(TableLongMultiDatastreamsObsProperties.MULTI_DATASTREAMS_OBS_PROPERTIES)
                     .setTableObservations(TableLongObservations.OBSERVATIONS)

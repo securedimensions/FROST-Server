@@ -126,6 +126,11 @@ public class TestIsSetProperty {
         histLocations.add(new HistoricalLocation(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.HISTORICALLOCATIONS, histLocations);
 
+        EntitySetImpl<ObservationGroup> observationGroups = new EntitySetImpl<>(EntityType.OBSERVATIONGROUP);
+        observationGroups.add(new ObservationGroup(new IdLong(nextId++)));
+        observationGroups.add(new ObservationGroup(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.OBSERVATIONGROUPS, observationGroups);
+
         EntitySetImpl<Location> locations = new EntitySetImpl<>(EntityType.LOCATION);
         locations.add(new Location(new IdLong(nextId++)));
         locations.add(new Location(new IdLong(nextId++)));
@@ -324,11 +329,32 @@ public class TestIsSetProperty {
         testIsSetPropertyHistoricalLocation(true, true, entity);
     }
 
+    private void testIsSetPropertyObservationGroup(boolean shouldBeSet, boolean shouldIdBeSet, ObservationGroup og) {
+        testIsSetPropertyAbstractEntity(shouldBeSet, shouldIdBeSet, og);
+        Assert.assertEquals(shouldBeSet, og.isSetTime());
+    }
+
+    @Test
+    public void testObservationGroup() {
+        ObservationGroup entity = new ObservationGroup();
+        testIsSetPropertyObservationGroup(false, true, entity);
+
+        entity.setEntityPropertiesSet();
+        testIsSetPropertyObservationGroup(true, true, entity);
+
+        entity.setEntityPropertiesSet(false, false);
+        testIsSetPropertyObservationGroup(false, false, entity);
+
+        entity.setEntityPropertiesSet(true, false);
+        testIsSetPropertyObservationGroup(true, true, entity);
+    }
+
     private void testIsSetPropertyHistoricalLocation(boolean shouldBeSet, boolean shouldIdBeSet, HistoricalLocation hl) {
         testIsSetPropertyAbstractEntity(shouldBeSet, shouldIdBeSet, hl);
         Assert.assertEquals(shouldBeSet, hl.isSetThing());
         Assert.assertEquals(shouldBeSet, hl.isSetTime());
     }
+
 
     @Test
     public void testLocation() {

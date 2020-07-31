@@ -35,6 +35,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.HistoricalLocation;
 import de.fraunhofer.iosb.ilt.frostserver.model.Location;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
+import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
@@ -122,13 +123,14 @@ public class EntityParser {
         module.addDeserializer(Location.class, new CustomEntityDeserializer<>(Location.class));
         module.addDeserializer(FeatureOfInterest.class, new CustomEntityDeserializer<>(FeatureOfInterest.class));
         module.addDeserializer(Sensor.class, new CustomEntityDeserializer<>(Sensor.class));
-        module.addDeserializer(Party.class, new CustomEntityDeserializer<>(Party.class));
         module.addDeserializer(Thing.class, new CustomEntityDeserializer<>(Thing.class));
         module.addDeserializer(EntityChangedMessage.class, new CustomEntityChangedMessageDeserializer());
         module.addDeserializer(TimeInstant.class, new TimeInstantDeserializer());
         module.addDeserializer(TimeInterval.class, new TimeIntervalDeserializer());
         module.addDeserializer(TimeValue.class, new TimeValueDeserializer());
 
+        module.addDeserializer(Party.class, new CustomEntityDeserializer<>(Party.class));
+        
         mapper.registerModule(module);
         return mapper;
     }
@@ -181,6 +183,11 @@ public class EntityParser {
     public Thing parseThing(String value) throws IOException {
         return mapper.readValue(value, Thing.class);
     }
+
+    public ObservationGroup parseObservationGroup(String value) throws IOException {
+        return mapper.readValue(value, ObservationGroup.class);
+    }
+
 
     public <T extends Entity> T parseEntity(Class<T> clazz, String value) throws IOException {
         return mapper.readValue(value, clazz);

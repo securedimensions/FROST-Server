@@ -53,7 +53,8 @@ public enum EntityType {
     THING("Thing", "Things", CORE, Thing.class),
     
     /* CitSci extension */
-    PARTY("Party", "Parties", CORE, Party.class);
+    PARTY("Party", "Parties", CORE, Party.class),
+    OBSERVATIONGROUP("ObservationGroup", "ObservationGroups", CORE, ObservationGroup.class);
 	/* CitSci extension */
 	
     /**
@@ -105,6 +106,7 @@ public enum EntityType {
         initHistLocation();
         initLocation();
         initObservation();
+        initObservationGroup();
         initObsProp();
         initSensor();
         initParty();
@@ -222,7 +224,19 @@ public enum EntityType {
         propertyMap.put(NavigationPropertyMain.MULTIDATASTREAM, false);
         // FEATUREOFINTEREST must be generated on the fly if not present.
         propertyMap.put(NavigationPropertyMain.FEATUREOFINTEREST, false);
+        propertyMap.put(NavigationPropertyMain.OBSERVATIONGROUPS, false);
+        
     }
+
+    private static void initObservationGroup() {
+        Map<Property, Boolean> propertyMap;
+        propertyMap = OBSERVATIONGROUP.propertyMapRw;
+        propertyMap.put(EntityProperty.ID, false);
+        propertyMap.put(EntityProperty.SELFLINK, false);
+        propertyMap.put(EntityProperty.TIME, true);
+        propertyMap.put(NavigationPropertyMain.OBSERVATIONS, false);
+    }
+
 
     private static void initObsProp() {
         Map<Property, Boolean> propertyMap;

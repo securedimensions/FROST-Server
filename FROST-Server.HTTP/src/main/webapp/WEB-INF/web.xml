@@ -45,7 +45,7 @@
     <context-param>
         <description>The base URL of the SensorThings Server without version.</description>
         <param-name>serviceRootUrl</param-name>
-        <param-value>http://localhost:8080/test</param-value>
+        <param-value>https://cos4cloud.demo.secure-dimensions.de/sta4cs</param-value>
     </context-param>
     <context-param>
         <description>The default value for the $count query option.</description>

@@ -507,6 +507,43 @@ public class PathParserTest {
         Assert.assertEquals(expResult, result);
     }
 
+    @Test
+    public void testPathsetParties() {
+        String path = "/Parties";
+        ResourcePath result = PathParser.parsePath("", path);
+
+        ResourcePath expResult = new ResourcePath("", path);
+        PathElementEntitySet espe = new PathElementEntitySet(EntityType.PARTY, null);
+        expResult.addPathElement(espe, true, false);
+        expResult.setMainElement(espe);
+
+        Assert.assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testPathsetPartiesRef() {
+        String path = "/Parties/$ref";
+        ResourcePath result = PathParser.parsePath("", path);
+
+        ResourcePath expResult = new ResourcePath("", path);
+        PathElementEntitySet espe = new PathElementEntitySet(EntityType.PARTY, null);
+        expResult.addPathElement(espe, true, false);
+        expResult.setMainElement(espe);
+        expResult.setRef(true);
+
+        Assert.assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testPathParty() {
+        testParty(0);
+        testParty(1);
+        testParty(-1);
+        testParty(Long.MAX_VALUE);
+        testParty(Long.MIN_VALUE);
+        testParty("a String Id");
+    }
+
     private void testThing(long id) {
         String path = "/Things(" + id + ")";
         ResourcePath result = PathParser.parsePath(new IdManagerLong(), "", path);
@@ -528,6 +565,32 @@ public class PathParserTest {
         PathElementEntitySet espe = new PathElementEntitySet(EntityType.THING, null);
         expResult.addPathElement(espe, false, false);
         PathElementEntity epe = new PathElementEntity(new IdString(id), EntityType.THING, espe);
+        expResult.addPathElement(epe, true, true);
+
+        Assert.assertEquals(expResult, result);
+    }
+
+    private void testParty(long id) {
+        String path = "/Parties(" + id + ")";
+        ResourcePath result = PathParser.parsePath(new IdManagerLong(), "", path);
+
+        ResourcePath expResult = new ResourcePath("", path);
+        PathElementEntitySet espe = new PathElementEntitySet(EntityType.PARTY, null);
+        expResult.addPathElement(espe, false, false);
+        PathElementEntity epe = new PathElementEntity(new IdLong(id), EntityType.PARTY, espe);
+        expResult.addPathElement(epe, true, true);
+
+        Assert.assertEquals(expResult, result);
+    }
+
+    private void testParty(String id) {
+        String path = "/Parties('" + id + "')";
+        ResourcePath result = PathParser.parsePath(new IdManagerString(), "", path);
+
+        ResourcePath expResult = new ResourcePath("", path);
+        PathElementEntitySet espe = new PathElementEntitySet(EntityType.PARTY, null);
+        expResult.addPathElement(espe, false, false);
+        PathElementEntity epe = new PathElementEntity(new IdString(id), EntityType.PARTY, espe);
         expResult.addPathElement(epe, true, true);
 
         Assert.assertEquals(expResult, result);

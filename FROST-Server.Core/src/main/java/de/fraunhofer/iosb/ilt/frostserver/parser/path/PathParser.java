@@ -239,6 +239,18 @@ public class PathParser implements ParserVisitor {
     }
 
     @Override
+    public ResourcePath visit(ASTeObservationGroup node, ResourcePath data) {
+        addAsEntitiy(data, node, EntityType.OBSERVATIONGROUP);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTcObservationGroups node, ResourcePath data) {
+        addAsEntitiySet(data, EntityType.OBSERVATIONGROUP);
+        return defltAction(node, data);
+    }
+
+    @Override
     public ResourcePath visit(ASTeLocation node, ResourcePath data) {
         addAsEntitiy(data, node, EntityType.LOCATION);
         return defltAction(node, data);
