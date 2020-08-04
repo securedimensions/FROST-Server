@@ -1,3 +1,9 @@
+# NOTICE
+The code in this repository is a fork of Fraunhofer Open Source Sensor Things API (STA). The purpose of the work published in the reporistory is to develop and extension to the current OGC Sensor Things Data Model and the API to be used for Citizen Science (STA4CS).
+
+The work is accomplished under the H2020 project [Cos4Cloud](https://cos4cloud-eosc.eu) which receives funding from the European Commission under grant no. 863463.
+<img src="https://cos4cloud-eosc.eu/wp-content/uploads/2020/07/logoUE.png">
+
 # FROST-Server [![Build Status](https://travis-ci.org/FraunhoferIOSB/FROST-Server.svg?branch=master)](https://travis-ci.org/FraunhoferIOSB/FROST-Server) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/da22d7347eb7450a955274916ed2d336)](https://www.codacy.com/gh/FraunhoferIOSB/FROST-Server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=FraunhoferIOSB/FROST-Server&amp;utm_campaign=Badge_Grade)
 
 ![FROST-Server Logo](https://raw.githubusercontent.com/FraunhoferIOSB/FROST-Server/master/docs/images/FROST-Server-darkgrey.png)
