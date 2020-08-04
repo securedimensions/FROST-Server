@@ -1,5 +1,5 @@
 # Sensor Things API for Citizen Science
-The code in this repository is a fork of Fraunhofer Open Source Sensor Things API (STA). The purpose of the work published in the reporistory is to develop and extension to the current OGC Sensor Things Data Model and the API to be used for Citizen Science (STA4CS).
+The code in this repository is a fork of Fraunhofer Open Source Sensor Things API (STA). The purpose of the work published here is to develop and extension to the current OGC Sensor Things Data Model and the API to be used for Citizen Science (STA4CS).
 
 The work is accomplished under the H2020 project [Cos4Cloud](https://cos4cloud-eosc.eu) which receives funding from the European Commission under grant no. 863463.
 
