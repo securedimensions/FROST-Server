@@ -233,6 +233,8 @@ public enum EntityType {
         propertyMap = OBSERVATIONGROUP.propertyMapRw;
         propertyMap.put(EntityProperty.ID, false);
         propertyMap.put(EntityProperty.SELFLINK, false);
+        propertyMap.put(EntityProperty.NAME, true);
+        propertyMap.put(EntityProperty.DESCRIPTION, true);
         propertyMap.put(EntityProperty.TIME, true);
         propertyMap.put(NavigationPropertyMain.OBSERVATIONS, false);
     }

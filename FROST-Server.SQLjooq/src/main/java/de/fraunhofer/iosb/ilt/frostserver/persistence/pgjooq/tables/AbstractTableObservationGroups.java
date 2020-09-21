@@ -16,6 +16,16 @@ public abstract class AbstractTableObservationGroups<J extends Comparable> exten
     private static final long serialVersionUID = -1457801967;
 
     /**
+     * The column <code>public.OBSERVATION_GROUP.NAME</code>.
+     */
+    public final TableField<Record, String> colName = createField(DSL.name("NAME"), SQLDataType.CLOB.defaultValue(DSL.field("'no name'::text", SQLDataType.CLOB)), this, "");
+
+    /**
+     * The column <code>public.OBSERVATION_GROUP.DESCRIPTION</code>.
+     */
+    public final TableField<Record, String> colDescription = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "");
+
+    /**
      * The column <code>public.OBSERVATION_GROUP.TIME</code>.
      */
     public final TableField<Record, OffsetDateTime> time = createField(DSL.name("TIME"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "");

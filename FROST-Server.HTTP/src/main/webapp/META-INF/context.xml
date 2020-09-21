@@ -7,7 +7,7 @@
     -->
     <!-- service setting -->
     <Parameter override="false" name="ApiVersion" value="v1.0" description="The version tag of the API used in the URL."/>
-    <Parameter override="false" name="serviceRootUrl" value="https://cos4cloud.demo.secure-dimensions.de/sta4cs" description="The base URL of the SensorThings Server without version."/>
+    <Parameter override="false" name="serviceRootUrl" value="https://cos4cloud.demo.secure-dimensions.de/test" description="The base URL of the SensorThings Server without version."/>
     <Parameter override="false" name="defaultCount" value="false" description="The default value for the $count query option."/>
     <Parameter override="false" name="defaultTop" value="100" description="The default value for the $top query option."/>
     <Parameter override="false" name="maxTop" value="1000" description="The maximum allowed value for the $top query option."/>
@@ -63,7 +63,7 @@
     <Resource
         name="jdbc/sta4cs" auth="Container"
         type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
-        url="jdbc:postgresql://database:5432/sta4cs"
+        url="jdbc:postgresql://database:5432/test"
         username="sensorthings" password="ChangeMe"
         maxTotal="20" maxIdle="10" maxWaitMillis="-1"
         defaultAutoCommit="false"

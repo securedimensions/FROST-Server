@@ -97,6 +97,8 @@
             <column autoIncrement="true" name="ID" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="OBSERVATION_GROUP_PKEY"/>
             </column>
+            <column name="NAME" type="TEXT"/>
+            <column name="DESCRIPTION" type="TEXT"/>
             <column name="TIME" type="TIMESTAMP WITH TIME ZONE"/>
         </createTable>
     </changeSet>

@@ -21,6 +21,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.core.AbstractEntity;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySet;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySetImpl;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Id;
+import de.fraunhofer.iosb.ilt.frostserver.model.core.NamedEntity;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInstant;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElement;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElementEntity;
@@ -36,7 +37,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author jab, scf
  */
-public class ObservationGroup extends AbstractEntity<ObservationGroup> {
+public class ObservationGroup extends NamedEntity<ObservationGroup> {
 
     /**
      * The logger for this class.

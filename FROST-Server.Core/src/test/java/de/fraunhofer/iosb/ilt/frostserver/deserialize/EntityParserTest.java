@@ -69,6 +69,8 @@ public class EntityParserTest {
     public void readObservationGroupLinkObservation() throws IOException {
         String json = "{\n"
                 + "    \"time\": \"2020-07-31T12:00:00Z\",\n"
+                + "	\"name\": \"Observation Group Test\",\n"
+                + "	\"description\": \"This is an observation group.\",\n"
                 + "    \"Observations\": [\n"
                 + "		    {\"@iot.id\": 1}\n"
                 + "		]\n"
@@ -78,6 +80,8 @@ public class EntityParserTest {
         obs.add(ob);
         ObservationGroup expectedResult = new ObservationGroup()
                 .setTime(TimeInstant.parse("2020-07-31T12:00:00Z"))
+                .setName("Observation Group Test")
+                .setDescription("This is an observation group.")
                 .setObservations(obs);
         ObservationGroup parsedResult = entityParser.parseObservationGroup(json);
         assertEquals(expectedResult, parsedResult);
@@ -88,6 +92,8 @@ public class EntityParserTest {
     public void readObservationGroupLinkObservations() throws IOException {
         String json = "{\n"
                 + "    \"time\": \"2020-07-31T12:00:00Z\",\n"
+                + "	\"name\": \"Observation Group Test\",\n"
+                + "	\"description\": \"This is an observation group.\",\n"
                 + "    \"Observations\": [\n"
                 + "		    {\"@iot.id\": 1},\n"
                 + "		    {\"@iot.id\": 2}\n"
@@ -98,6 +104,8 @@ public class EntityParserTest {
         obs.add(new Observation().setId(new IdLong(2)));
         ObservationGroup expectedResult = new ObservationGroup()
                 .setTime(TimeInstant.parse("2020-07-31T12:00:00Z"))
+                .setName("Observation Group Test")
+                .setDescription("This is an observation group.")
                 .setObservations(obs);
         ObservationGroup parsedResult = entityParser.parseObservationGroup(json);
         assertEquals(expectedResult, parsedResult);

@@ -181,6 +181,8 @@ public class PropertyResolver<J extends Comparable> {
         Class<? extends AbstractTableObservationGroups> tableClass = tableCollection.getTableObservationGroups().getClass();
         addEntry(EntityProperty.ID, tableClass, AbstractTableObservationGroups::getId);
         addEntry(EntityProperty.SELFLINK, tableClass, AbstractTableObservationGroups::getId);
+        addEntry(EntityProperty.NAME, tableClass, table -> table.colName);
+        addEntry(EntityProperty.DESCRIPTION, tableClass, table -> table.colDescription);
         addEntry(EntityProperty.TIME, tableClass, table -> table.time);
         addEntry(NavigationPropertyMain.OBSERVATIONS, tableClass, AbstractTableObservationGroups::getId);
     }

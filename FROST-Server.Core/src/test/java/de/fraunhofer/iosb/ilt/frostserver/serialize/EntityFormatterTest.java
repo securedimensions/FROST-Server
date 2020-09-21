@@ -434,12 +434,16 @@ public class EntityFormatterTest {
                 + "	\"@iot.id\": 1,\n"
                 + "	\"@iot.selfLink\": \"http://example.org/v1.0/ObservationGroups(1)\",\n"
                 + "	\"Observations@iot.navigationLink\": \"ObservationGroups(1)/Observations\",\n"
+                + "	\"name\": \"Observation Group Test\",\n"
+                + "	\"description\": \"This is an observation group.\",\n"
                 + "	\"time\": \"2020-07-31T12:00:00.000Z\"\n"
                 + "}";
         Entity entity = new ObservationGroup()
                 .setId(new IdLong(1))
                 .setSelfLink("http://example.org/v1.0/ObservationGroups(1)")
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "ObservationGroups(1)/Observations").setExportObject(false))
+                .setName("Observation Group Test")
+                .setDescription("This is an observation group.")
                 .setTime(TestHelper.createTimeInstant(2020, 07, 31, 12, 0, 0, DateTimeZone.forOffsetHours(0), DateTimeZone.UTC));
         String parsedResult = EntityFormatter.writeEntity(entity);
         Assert.assertTrue(jsonEqual(expResult, parsedResult));

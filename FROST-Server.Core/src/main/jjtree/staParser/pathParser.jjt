@@ -376,6 +376,8 @@ void childOfObservationGroup() #void: {}
   ( cObservations()
   | pId()
   | pSelfLink()
+  | pName()
+  | pDescription()
   | pTime()
   | cpRef()
   )

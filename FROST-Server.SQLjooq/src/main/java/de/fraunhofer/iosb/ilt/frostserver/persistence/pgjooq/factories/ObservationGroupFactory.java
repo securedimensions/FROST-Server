@@ -76,6 +76,8 @@ public class ObservationGroupFactory<J extends Comparable> implements EntityFact
         if (id != null) {
             entity.setId(entityFactories.idFromObject(id));
         }
+        entity.setName(getFieldOrNull(tuple, table.colName));
+        entity.setDescription(getFieldOrNull(tuple, table.colDescription));
         entity.setTime(Utils.instantFromTime(getFieldOrNull(tuple, table.time)));
         return entity;
     }
@@ -87,6 +89,8 @@ public class ObservationGroupFactory<J extends Comparable> implements EntityFact
     	DSLContext dslContext = pm.getDslContext();
 
         Map<Field, Object> insert = new HashMap<>();
+        insert.put(table.colName, og.getName());
+        insert.put(table.colDescription, og.getDescription());
         insert.put(table.time, newTime);
         
         entityFactories.insertUserDefinedId(pm, insert, table.getId(), og);
@@ -127,7 +131,21 @@ public class ObservationGroupFactory<J extends Comparable> implements EntityFact
             update.put(table.time, og.getTime().getOffsetDateTime());
             message.addField(EntityProperty.TIME);
         }
-
+        if (og.isSetDescription()) {
+            if (og.getDescription() == null) {
+                throw new IncompleteEntityException(EntityProperty.DESCRIPTION.jsonName + CAN_NOT_BE_NULL);
+            }
+            update.put(table.colDescription, og.getDescription());
+            message.addField(EntityProperty.DESCRIPTION);
+        }
+        if (og.isSetName()) {
+            if (og.getName() == null) {
+                throw new IncompleteEntityException("name" + CAN_NOT_BE_NULL);
+            }
+            update.put(table.colName, og.getName());
+            message.addField(EntityProperty.NAME);
+        }
+        
         DSLContext dslContext = pm.getDslContext();
         long count = 0;
         if (!update.isEmpty()) {
