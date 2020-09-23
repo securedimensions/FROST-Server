@@ -37,6 +37,11 @@ public class TableStringDatastreams extends AbstractTableDatastreams<String> {
     public final TableField<Record, String> colObsPropertyId = createField(DSL.name("OBS_PROPERTY_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
+     * The column <code>public.DATASTREAMS.LICENSE_ID</code>.
+     */
+    public final TableField<Record, String> colLicenseId = createField(DSL.name("LICENSE_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
      * The column <code>public.DATASTREAMS.THING_ID</code>.
      */
     public final TableField<Record, String> colThingId = createField(DSL.name("THING_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
@@ -74,6 +79,11 @@ public class TableStringDatastreams extends AbstractTableDatastreams<String> {
     @Override
     public TableField<Record, String> getObsPropertyId() {
         return colObsPropertyId;
+    }
+
+    @Override
+    public TableField<Record, String> getLicenseId() {
+        return colLicenseId;
     }
 
     @Override

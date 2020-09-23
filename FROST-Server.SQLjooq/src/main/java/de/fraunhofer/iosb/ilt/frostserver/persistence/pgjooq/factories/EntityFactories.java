@@ -28,6 +28,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.FeatureOfInterest;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
+import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
 import de.fraunhofer.iosb.ilt.frostserver.model.Task;
@@ -133,6 +134,7 @@ public class EntityFactories<J extends Comparable> {
     public final PartyFactory<J> partyFactory;
     public final ObservationFactory<J> observationFactory;
     public final ObservedPropertyFactory<J> observedPropertyFactory;
+    public final LicenseFactory<J> licenseFactory;
 
     private final Map<EntityType, EntityFactory<? extends Entity, J>> factoryPerEntity = new EnumMap<>(EntityType.class);
 
@@ -151,6 +153,7 @@ public class EntityFactories<J extends Comparable> {
         multiDatastreamFactory = new MultiDatastreamFactory<>(this, tableCollection.getTableMultiDatastreams().as(defaultPrefix));
         observationFactory = new ObservationFactory<>(this, tableCollection.getTableObservations().as(defaultPrefix));
         observedPropertyFactory = new ObservedPropertyFactory<>(this, tableCollection.getTableObsProperties().as(defaultPrefix));
+        licenseFactory = new LicenseFactory<>(this, tableCollection.getTableLicenses().as(defaultPrefix));
         sensorFactory = new SensorFactory<>(this, tableCollection.getTableSensors().as(defaultPrefix));
         partyFactory = new PartyFactory<>(this, tableCollection.getTableParties().as(defaultPrefix));
         taskFactory = new TaskFactory<>(this, tableCollection.getTableTasks().as(defaultPrefix));
@@ -166,6 +169,7 @@ public class EntityFactories<J extends Comparable> {
         factoryPerEntity.put(EntityType.MULTIDATASTREAM, multiDatastreamFactory);
         factoryPerEntity.put(EntityType.OBSERVATION, observationFactory);
         factoryPerEntity.put(EntityType.OBSERVEDPROPERTY, observedPropertyFactory);
+        factoryPerEntity.put(EntityType.LICENSE, licenseFactory);
         factoryPerEntity.put(EntityType.SENSOR, sensorFactory);
         factoryPerEntity.put(EntityType.PARTY, partyFactory);
         factoryPerEntity.put(EntityType.TASK, taskFactory);
@@ -281,6 +285,20 @@ public class EntityFactories<J extends Comparable> {
             return null;
         }
         ObservedProperty op = new ObservedProperty();
+        op.setId(idManager.fromObject(id));
+        op.setExportObject(false);
+        return op;
+    }
+
+    public License licenseFromId(Record tuple, Field<J> path) {
+        return licenseFromId(getFieldOrNull(tuple, path));
+    }
+
+    public License licenseFromId(J id) {
+        if (id == null) {
+            return null;
+        }
+        License op = new License();
         op.setId(idManager.fromObject(id));
         op.setExportObject(false);
         return op;

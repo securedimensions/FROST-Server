@@ -38,6 +38,11 @@ public class TableUuidDatastreams extends AbstractTableDatastreams<UUID> {
     public final TableField<Record, UUID> colObsPropertyId = createField(DSL.name("OBS_PROPERTY_ID"), SQLDataType.UUID.nullable(false), this, "");
 
     /**
+     * The column <code>public.DATASTREAMS.LICENSE_ID</code>.
+     */
+    public final TableField<Record, UUID> colLicenseId = createField(DSL.name("LICENSE_ID"), SQLDataType.UUID.nullable(false), this, "");
+
+    /**
      * The column <code>public.DATASTREAMS.THING_ID</code>.
      */
     public final TableField<Record, UUID> colThingId = createField(DSL.name("THING_ID"), SQLDataType.UUID.nullable(false), this, "");
@@ -75,6 +80,11 @@ public class TableUuidDatastreams extends AbstractTableDatastreams<UUID> {
     @Override
     public TableField<Record, UUID> getObsPropertyId() {
         return colObsPropertyId;
+    }
+
+    @Override
+    public TableField<Record, UUID> getLicenseId() {
+        return colLicenseId;
     }
 
     @Override

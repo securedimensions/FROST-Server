@@ -347,6 +347,18 @@ public class PathParser implements ParserVisitor {
     }
 
     @Override
+    public ResourcePath visit(ASTeLicense node, ResourcePath data) {
+        addAsEntitiy(data, node, EntityType.LICENSE);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTcLicenses node, ResourcePath data) {
+        addAsEntitiySet(data, EntityType.LICENSE);
+        return defltAction(node, data);
+    }
+
+    @Override
     public ResourcePath visit(ASTpCreationTime node, ResourcePath data) {
         addAsEntitiyProperty(data, EntityProperty.CREATIONTIME);
         return defltAction(node, data);

@@ -30,5 +30,8 @@ public interface DatastreamMixIn extends AbstractDatastreamMixIn {
     public abstract boolean isSetObservedProperty();
 
     @JsonIgnore
+    public abstract boolean isSetLicense();
+
+    @JsonIgnore
     public abstract boolean isSetUnitOfMeasurement();
 }

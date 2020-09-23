@@ -118,6 +118,14 @@ public abstract class AbstractTableMultiDatastreams<J extends Comparable> extend
         );
 
         registerRelation(
+                new RelationManyToMany<>(this, tables.getTableMultiDatastreamsLicenses(), tables.getTableLicenses(), EntityType.LICENSE)
+                        .setSourceFieldAcc(AbstractTableMultiDatastreams::getId)
+                        .setSourceLinkFieldAcc(AbstractTableMultiDatastreamsLicenses::getMultiDatastreamId)
+                        .setTargetLinkFieldAcc(AbstractTableMultiDatastreamsLicenses::getLicenseId)
+                        .setTargetFieldAcc(AbstractTableLicenses::getId)
+        );
+
+        registerRelation(
                 new RelationOneToMany<>(this, tables.getTableObservations(), EntityType.OBSERVATION, true)
                         .setSourceFieldAccessor(AbstractTableMultiDatastreams::getId)
                         .setTargetFieldAccessor(AbstractTableObservations::getMultiDatastreamId)

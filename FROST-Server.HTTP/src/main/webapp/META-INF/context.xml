@@ -39,10 +39,13 @@
     <Parameter override="false" name="auth.keycloakConfigUrl" value="http://keycloak.example.com/auth/realms/[realm]/clients-registrations/install/[client id]" description="The URL on the Keycloak server that the configuration can be downloaded from." />
     <Parameter override="false" name="auth.keycloakConfigSecret" value="" description="The secret required for downloading the keycloak config." />
     -->
-
+    
     <!-- bus setting -->
+<!--
     <Parameter override="false" name="bus.busImplementationClass" value="de.fraunhofer.iosb.ilt.frostserver.messagebus.MqttMessageBus" description="The java class used for connecting to the message bus."/>
     <Parameter override="false" name="bus.mqttBroker" value="tcp://mosquitto:1883" description="The MQTT broker to use as message bus"/>
+-->    
+    
     <!-- persistence setting -->
     <Parameter override="false" name="persistence.persistenceManagerImplementationClass" value="de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerLong" description="The java class used for persistence (must implement PersistenceManaher interface)"/>
     <!-- All options:

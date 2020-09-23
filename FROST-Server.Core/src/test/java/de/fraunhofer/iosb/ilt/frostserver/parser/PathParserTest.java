@@ -301,7 +301,7 @@ public class PathParserTest {
 
     @Test
     public void testPathdeep1() {
-        String path = "/Things(1)/Locations(2)/HistoricalLocations(3)/Thing/Datastreams(5)/Sensor/Datastreams(6)/ObservedProperty/Datastreams(7)/Observations(8)/FeatureOfInterest";
+        String path = "/Things(1)/Locations(2)/HistoricalLocations(3)/Thing/Datastreams(5)/Sensor/Datastreams(6)/ObservedProperty/Datastreams(7)/License/Datastreams(8)/Observations(9)/FeatureOfInterest";
         ResourcePath result = PathParser.parsePath("", path);
 
         ResourcePath expResult = new ResourcePath("", path);
@@ -345,9 +345,17 @@ public class PathParserTest {
         epe = new PathElementEntity(new IdLong(7), EntityType.DATASTREAM, espe);
         expResult.addPathElement(epe, false, false);
 
+        epe = new PathElementEntity(null, EntityType.LICENSE, epe);
+        expResult.addPathElement(epe, false, false);
+
+        espe = new PathElementEntitySet(EntityType.DATASTREAM, epe);
+        expResult.addPathElement(espe, false, false);
+        epe = new PathElementEntity(new IdLong(8), EntityType.DATASTREAM, espe);
+        expResult.addPathElement(epe, false, false);
+
         espe = new PathElementEntitySet(EntityType.OBSERVATION, epe);
         expResult.addPathElement(espe, false, false);
-        epe = new PathElementEntity(new IdLong(8), EntityType.OBSERVATION, espe);
+        epe = new PathElementEntity(new IdLong(9), EntityType.OBSERVATION, espe);
         expResult.addPathElement(epe, false, true);
 
         epe = new PathElementEntity(null, EntityType.FEATUREOFINTEREST, epe);
@@ -403,7 +411,7 @@ public class PathParserTest {
 
     @Test
     public void testPathdeep3() {
-        String path = "/Things(1)/Locations(2)/HistoricalLocations(3)/Thing/MultiDatastreams(5)/Sensor/MultiDatastreams(6)/ObservedProperties(7)/MultiDatastreams(8)/Observations(9)/FeatureOfInterest";
+        String path = "/Things(1)/Locations(2)/HistoricalLocations(3)/Thing/MultiDatastreams(5)/Sensor/MultiDatastreams(6)/ObservedProperties(7)/MultiDatastreams(9)/Observations(10)/FeatureOfInterest";
         ResourcePath result = PathParser.parsePath("", path);
 
         ResourcePath expResult = new ResourcePath("", path);
@@ -444,14 +452,21 @@ public class PathParserTest {
         epe = new PathElementEntity(new IdLong(7), EntityType.OBSERVEDPROPERTY, espe);
         expResult.addPathElement(epe, false, false);
 
+        /*
+        espe = new PathElementEntitySet(EntityType.LICENSE, epe);
+        expResult.addPathElement(espe, false, false);
+        epe = new PathElementEntity(new IdLong(8), EntityType.LICENSE, espe);
+        expResult.addPathElement(epe, false, false);
+         */
+        
         espe = new PathElementEntitySet(EntityType.MULTIDATASTREAM, epe);
         expResult.addPathElement(espe, false, false);
-        epe = new PathElementEntity(new IdLong(8), EntityType.MULTIDATASTREAM, espe);
+        epe = new PathElementEntity(new IdLong(9), EntityType.MULTIDATASTREAM, espe);
         expResult.addPathElement(epe, false, false);
 
         espe = new PathElementEntitySet(EntityType.OBSERVATION, epe);
         expResult.addPathElement(espe, false, false);
-        epe = new PathElementEntity(new IdLong(9), EntityType.OBSERVATION, espe);
+        epe = new PathElementEntity(new IdLong(10), EntityType.OBSERVATION, espe);
         expResult.addPathElement(epe, false, true);
 
         epe = new PathElementEntity(null, EntityType.FEATUREOFINTEREST, epe);

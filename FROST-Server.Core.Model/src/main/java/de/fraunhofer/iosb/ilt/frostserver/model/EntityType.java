@@ -47,6 +47,7 @@ public enum EntityType {
     LOCATION("Location", "Locations", CORE, Location.class),
     OBSERVATION("Observation", "Observations", CORE, Observation.class),
     OBSERVEDPROPERTY("ObservedProperty", "ObservedProperties", CORE, ObservedProperty.class),
+    LICENSE("License", "Licenses", CORE, License.class),
     SENSOR("Sensor", "Sensors", CORE, Sensor.class),
     TASK("Task", "Tasks", ACTUATION, Task.class),
     TASKINGCAPABILITY("TaskingCapability", "TaskingCapabilities", ACTUATION, TaskingCapability.class),
@@ -108,6 +109,7 @@ public enum EntityType {
         initObservation();
         initObservationGroup();
         initObsProp();
+        initLicense();
         initSensor();
         initParty();
         initTask();
@@ -143,6 +145,7 @@ public enum EntityType {
         propertyMap.put(EntityProperty.PROPERTIES, false);
         propertyMap.put(EntityProperty.RESULTTIME, false);
         propertyMap.put(NavigationPropertyMain.OBSERVEDPROPERTY, true);
+        propertyMap.put(NavigationPropertyMain.LICENSE, true);
         propertyMap.put(NavigationPropertyMain.SENSOR, true);
         propertyMap.put(NavigationPropertyMain.PARTY, true);
         propertyMap.put(NavigationPropertyMain.THING, true);
@@ -165,6 +168,7 @@ public enum EntityType {
         propertyMap.put(EntityProperty.PROPERTIES, false);
         propertyMap.put(EntityProperty.RESULTTIME, false);
         propertyMap.put(NavigationPropertyMain.OBSERVEDPROPERTIES, true);
+        propertyMap.put(NavigationPropertyMain.LICENSES, true);
         propertyMap.put(NavigationPropertyMain.SENSOR, true);
         propertyMap.put(NavigationPropertyMain.PARTY, true);
         propertyMap.put(NavigationPropertyMain.THING, true);
@@ -243,6 +247,19 @@ public enum EntityType {
     private static void initObsProp() {
         Map<Property, Boolean> propertyMap;
         propertyMap = OBSERVEDPROPERTY.propertyMapRw;
+        propertyMap.put(EntityProperty.ID, false);
+        propertyMap.put(EntityProperty.SELFLINK, false);
+        propertyMap.put(EntityProperty.NAME, true);
+        propertyMap.put(EntityProperty.DEFINITION, true);
+        propertyMap.put(EntityProperty.DESCRIPTION, true);
+        propertyMap.put(EntityProperty.PROPERTIES, false);
+        propertyMap.put(NavigationPropertyMain.DATASTREAMS, false);
+        propertyMap.put(NavigationPropertyMain.MULTIDATASTREAMS, false);
+    }
+
+    private static void initLicense() {
+        Map<Property, Boolean> propertyMap;
+        propertyMap = LICENSE.propertyMapRw;
         propertyMap.put(EntityProperty.ID, false);
         propertyMap.put(EntityProperty.SELFLINK, false);
         propertyMap.put(EntityProperty.NAME, true);

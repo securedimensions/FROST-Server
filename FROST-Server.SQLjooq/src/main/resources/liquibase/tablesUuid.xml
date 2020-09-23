@@ -55,6 +55,9 @@
             <column name="OBS_PROPERTY_ID" type="${uuid_type}">
                 <constraints nullable="false"/>
             </column>
+            <column name="LICENSE_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
             <column name="THING_ID" type="${uuid_type}">
                 <constraints nullable="false"/>
             </column>
@@ -185,6 +188,22 @@
         </createTable>
     </changeSet>
 
+    <changeSet author="scf" id="20171122-licenses" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LICENSES" />
+            </not>
+        </preConditions>
+        <createTable tableName="LICENSES">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}" >
+                <constraints primaryKey="true" primaryKeyName="LICENSES_PKEY"/>
+            </column>
+            <column name="NAME" type="TEXT"/>
+            <column name="DEFINITION" type="TEXT"/>
+            <column name="DESCRIPTION" type="TEXT"/>
+        </createTable>
+    </changeSet>
+
     <changeSet author="scf" id="20171122-observations" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -285,14 +304,25 @@
 
     <changeSet author="scf" id="20171122-foreignKeys" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <foreignKeyConstraintExists foreignKeyName="DATASTREAMS_OBS_PROPERTY_ID_FKEY" />
-            </not>
+            <and>
+	            <not>
+	                <foreignKeyConstraintExists foreignKeyName="DATASTREAMS_OBS_PROPERTY_ID_FKEY" />
+	            </not>
+	            <not>
+	                <foreignKeyConstraintExists foreignKeyName="DATASTREAMS_LICENSE_ID_FKEY" />
+	            </not>
+            </and>
         </preConditions>
         <addForeignKeyConstraint
             constraintName="DATASTREAMS_OBS_PROPERTY_ID_FKEY"
             baseTableName="DATASTREAMS" baseColumnNames="OBS_PROPERTY_ID"
             referencedTableName="OBS_PROPERTIES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+        <addForeignKeyConstraint
+            constraintName="DATASTREAMS_LICENSE_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="LICENSE_ID"
+            referencedTableName="LICENSES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE" />
         <addForeignKeyConstraint
@@ -447,6 +477,32 @@
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE" />
 
+        <createTable tableName="MULTI_DATASTREAMS_LICENSES">
+            <column name="MULTI_DATASTREAM_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LICENSE_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RANK" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="MULTI_DATASTREAM_ID, LICENSE_ID, RANK" constraintName="MULTI_DATASTREAMS_LICENSES_PKEY" tableName="MULTI_DATASTREAMS_LICENSES"/>
+        <addForeignKeyConstraint
+            constraintName="MDOP_MULTI_DATASTREAM_ID_FKEY"
+            baseTableName="MULTI_DATASTREAMS_LICENSES" baseColumnNames="MULTI_DATASTREAM_ID"
+            referencedTableName="MULTI_DATASTREAMS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+        <addForeignKeyConstraint
+            constraintName="MDL_LICENSE_ID_FKEY"
+            baseTableName="MULTI_DATASTREAMS_LICENSES" baseColumnNames="LICENSE_ID"
+            referencedTableName="LICENSES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+
         <addColumn tableName="OBSERVATIONS">
             <column name="MULTI_DATASTREAM_ID" type="${uuid_type}">
                 <constraints nullable="true"/>
@@ -465,6 +521,9 @@
     <changeSet author="scf" id="20171122-indices" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
         <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_OBS_PROPERTY_ID">
             <column name="OBS_PROPERTY_ID" />
+        </createIndex>
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_LICENSE_ID">
+            <column name="LICENSE_ID" />
         </createIndex>
         <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_SENSOR_ID">
             <column name="SENSOR_ID" />
@@ -522,6 +581,12 @@
         <createIndex tableName="MULTI_DATASTREAMS_OBS_PROPERTIES" indexName="MDOP_OBS_PROPERTY_ID">
             <column name="OBS_PROPERTY_ID" />
         </createIndex>
+        <createIndex tableName="MULTI_DATASTREAMS_LICENSES" indexName="MDL_MULTI_DATASTREAM_ID">
+            <column name="MULTI_DATASTREAM_ID" />
+        </createIndex>
+        <createIndex tableName="MULTI_DATASTREAMS_LICENSES" indexName="MDL_LICENSE_ID">
+            <column name="LICENSE_ID" />
+        </createIndex>
     </changeSet>
 
     <changeSet author="scf" id="20171122-srids" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
@@ -544,6 +609,9 @@
             <column name="PROPERTIES" type="TEXT"/>
         </addColumn>
         <addColumn tableName="OBS_PROPERTIES">
+            <column name="PROPERTIES" type="TEXT"/>
+        </addColumn>
+        <addColumn tableName="LICENSES">
             <column name="PROPERTIES" type="TEXT"/>
         </addColumn>
         <addColumn tableName="SENSORS">

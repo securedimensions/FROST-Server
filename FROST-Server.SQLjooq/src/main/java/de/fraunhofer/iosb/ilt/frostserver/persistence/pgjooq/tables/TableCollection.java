@@ -40,8 +40,10 @@ public class TableCollection<J extends Comparable> {
     private AbstractTableObservationsObservationGroups<J> tableObservationsObservationGroups;
     private AbstractTableMultiDatastreams<J> tableMultiDatastreams;
     private AbstractTableMultiDatastreamsObsProperties<J> tableMultiDatastreamsObsProperties;
+    private AbstractTableMultiDatastreamsLicenses<J> tableMultiDatastreamsLicenses;
     private AbstractTableObservations<J> tableObservations;
     private AbstractTableObsProperties<J> tableObsProperties;
+    private AbstractTableLicenses<J> tableLicenses;
     private AbstractTableSensors<J> tableSensors;
     private AbstractTableParties<J> tableParties;
     private AbstractTableTasks<J> tableTasks;
@@ -73,6 +75,7 @@ public class TableCollection<J extends Comparable> {
         addAndInit(map, EntityType.MULTIDATASTREAM, tableMultiDatastreams);
         addAndInit(map, EntityType.OBSERVATION, tableObservations);
         addAndInit(map, EntityType.OBSERVEDPROPERTY, this.tableObsProperties);
+        addAndInit(map, EntityType.LICENSE, this.tableLicenses);
         addAndInit(map, EntityType.SENSOR, tableSensors);
         addAndInit(map, EntityType.PARTY, tableParties);
         addAndInit(map, EntityType.TASK, tableTasks);
@@ -262,7 +265,27 @@ public class TableCollection<J extends Comparable> {
     }
 
     /**
-     * @return the tableMultiDatastreamsObsProperties
+     * @return the tableMultiDatastreamsLicenses
+     */
+    public AbstractTableMultiDatastreamsLicenses<J> getTableMultiDatastreamsLicenses() {
+        return tableMultiDatastreamsLicenses;
+    }
+
+    /**
+     * @param tableMultiDatastreamsLicenses the
+     * tableMultiDatastreamsObsProperties to set
+     * @return this
+     */
+    public TableCollection<J> setTableMultiDatastreamsLicenses(AbstractTableMultiDatastreamsLicenses<J> tableMultiDatastreamsLicenses) {
+        if (tablesByType != null) {
+            throw new IllegalArgumentException(CHANGE_AFTER_INIT);
+        }
+        this.tableMultiDatastreamsLicenses = tableMultiDatastreamsLicenses;
+        return this;
+    }
+
+    /**
+     * @return the tableMultiDatastreamsLicenses
      */
     public AbstractTableMultiDatastreamsObsProperties<J> getTableMultiDatastreamsObsProperties() {
         return tableMultiDatastreamsObsProperties;
@@ -316,6 +339,25 @@ public class TableCollection<J extends Comparable> {
             throw new IllegalArgumentException(CHANGE_AFTER_INIT);
         }
         this.tableObsProperties = tableObsProperties;
+        return this;
+    }
+
+    /**
+     * @return the tableLicenses
+     */
+    public AbstractTableLicenses<J> getTableLicenses() {
+        return tableLicenses;
+    }
+
+    /**
+     * @param tableLicenses the tableLicenses to set
+     * @return this
+     */
+    public TableCollection<J> setTableLicenses(AbstractTableLicenses<J> tableLicenses) {
+        if (tablesByType != null) {
+            throw new IllegalArgumentException(CHANGE_AFTER_INIT);
+        }
+        this.tableLicenses = tableLicenses;
         return this;
     }
 

@@ -20,6 +20,7 @@ package de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories;
 import de.fraunhofer.iosb.ilt.frostserver.model.Datastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityChangedMessage;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
+import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
@@ -33,6 +34,7 @@ import static de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories.En
 import static de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories.EntityFactories.CHANGED_MULTIPLE_ROWS;
 import static de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories.EntityFactories.NO_ID_OR_NOT_FOUND;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableDatastreams;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableLicenses;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableMultiDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableMultiDatastreamsObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObsProperties;
@@ -59,27 +61,27 @@ import org.slf4j.LoggerFactory;
  *
  * @param <J> The type of the ID fields.
  */
-public class ObservedPropertyFactory<J extends Comparable> implements EntityFactory<ObservedProperty, J> {
+public class LicenseFactory<J extends Comparable> implements EntityFactory<License, J> {
 
     /**
      * The logger for this class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObservedPropertyFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LicenseFactory.class);
 
     private final EntityFactories<J> entityFactories;
-    private final AbstractTableObsProperties<J> table;
+    private final AbstractTableLicenses<J> table;
     private final TableCollection<J> tableCollection;
 
-    public ObservedPropertyFactory(EntityFactories<J> factories, AbstractTableObsProperties<J> table) {
+    public LicenseFactory(EntityFactories<J> factories, AbstractTableLicenses<J> table) {
         this.entityFactories = factories;
         this.table = table;
         this.tableCollection = factories.tableCollection;
     }
 
     @Override
-    public ObservedProperty create(Record tuple, Query query, DataSize dataSize) {
+    public License create(Record tuple, Query query, DataSize dataSize) {
         Set<Property> select = query == null ? Collections.emptySet() : query.getSelect();
-        ObservedProperty entity = new ObservedProperty();
+        License entity = new License();
         entity.setDefinition(getFieldOrNull(tuple, table.colDefinition));
         entity.setDescription(getFieldOrNull(tuple, table.colDescription));
         J id = getFieldOrNull(tuple, table.getId());
@@ -95,14 +97,14 @@ public class ObservedPropertyFactory<J extends Comparable> implements EntityFact
     }
 
     @Override
-    public boolean insert(PostgresPersistenceManager<J> pm, ObservedProperty op) throws NoSuchEntityException, IncompleteEntityException {
+    public boolean insert(PostgresPersistenceManager<J> pm, License l) throws NoSuchEntityException, IncompleteEntityException {
         Map<Field, Object> insert = new HashMap<>();
-        insert.put(table.colDefinition, op.getDefinition());
-        insert.put(table.colName, op.getName());
-        insert.put(table.colDescription, op.getDescription());
-        insert.put(table.colProperties, EntityFactories.objectToJson(op.getProperties()));
+        insert.put(table.colDefinition, l.getDefinition());
+        insert.put(table.colName, l.getName());
+        insert.put(table.colDescription, l.getDescription());
+        insert.put(table.colProperties, EntityFactories.objectToJson(l.getProperties()));
 
-        entityFactories.insertUserDefinedId(pm, insert, table.getId(), op);
+        entityFactories.insertUserDefinedId(pm, insert, table.getId(), l);
 
         DSLContext dslContext = pm.getDslContext();
         Record1<J> result = dslContext.insertInto(table)
@@ -110,24 +112,24 @@ public class ObservedPropertyFactory<J extends Comparable> implements EntityFact
                 .returningResult(table.getId())
                 .fetchOne();
         J generatedId = result.component1();
-        LOGGER.debug("Inserted ObservedProperty. Created id = {}.", generatedId);
-        op.setId(entityFactories.idFromObject(generatedId));
+        LOGGER.debug("Inserted License. Created id = {}.", generatedId);
+        l.setId(entityFactories.idFromObject(generatedId));
 
         // Create new datastreams, if any.
-        for (Datastream ds : op.getDatastreams()) {
-            //ds.setObservedProperty(new ObservedProperty(op.getId()));
-        	ds.setSensor(new Sensor(op.getId()));
+        for (Datastream ds : l.getDatastreams()) {
+            //ds.setLicense(new License(l.getId()));
+        	ds.setSensor(new Sensor(l.getId()));
         	ds.complete();
             pm.insert(ds);
         }
 
         // Create new multiDatastreams, if any.
-        for (MultiDatastream mds : op.getMultiDatastreams()) {
-        	//EntitySet<ObservedProperty> observedProperties = new EntitySetImpl<>(EntityType.OBSERVEDPROPERTY);
-        	//observedProperties.add(new ObservedProperty(op.getId()));
-            //mds.setObservedProperties(observedProperties);
-        	mds.setSensor(new Sensor(op.getId()));
-        	mds.complete();
+        for (MultiDatastream mds : l.getMultiDatastreams()) {
+        	//EntitySet<License> licenses = new EntitySetImpl<>(EntityType.LICENSE);
+        	//licenses.add(new License(l.getId()));
+            //mds.setLicenses(licenses);
+        	mds.setSensor(new Sensor(l.getId()));
+            mds.complete();
             pm.insert(mds);
         }
 
@@ -135,7 +137,7 @@ public class ObservedPropertyFactory<J extends Comparable> implements EntityFact
     }
 
     @Override
-    public EntityChangedMessage update(PostgresPersistenceManager<J> pm, ObservedProperty op, J opId) throws NoSuchEntityException, IncompleteEntityException {
+    public EntityChangedMessage update(PostgresPersistenceManager<J> pm, License op, J opId) throws NoSuchEntityException, IncompleteEntityException {
         Map<Field, Object> update = new HashMap<>();
         EntityChangedMessage message = new EntityChangedMessage();
 
@@ -174,25 +176,25 @@ public class ObservedPropertyFactory<J extends Comparable> implements EntityFact
                     .execute();
         }
         if (count > 1) {
-            LOGGER.error("Updating ObservedProperty {} caused {} rows to change!", opId, count);
+            LOGGER.error("Updating License {} caused {} rows to change!", opId, count);
             throw new IllegalStateException(CHANGED_MULTIPLE_ROWS);
         }
 
         linkDatastreams(op, pm, dslContext, opId);
 
         if (!op.getMultiDatastreams().isEmpty()) {
-            throw new IllegalArgumentException("Can not add MultiDatastreams to an ObservedProperty.");
+            throw new IllegalArgumentException("Can not add MultiDatastreams to an License.");
         }
 
-        LOGGER.debug("Updated ObservedProperty {}", opId);
+        LOGGER.debug("Updated License {}", opId);
         return message;
     }
 
-    private void linkDatastreams(ObservedProperty op, PostgresPersistenceManager<J> pm, DSLContext dslContext, J opId) throws NoSuchEntityException {
+    private void linkDatastreams(License op, PostgresPersistenceManager<J> pm, DSLContext dslContext, J opId) throws NoSuchEntityException {
         // Link existing Datastreams to the observedProperty.
         for (Datastream ds : op.getDatastreams()) {
             if (ds.getId() == null || !entityFactories.entityExists(pm, ds)) {
-                throw new NoSuchEntityException("ObservedProperty" + NO_ID_OR_NOT_FOUND);
+                throw new NoSuchEntityException("License" + NO_ID_OR_NOT_FOUND);
             }
             J dsId = (J) ds.getId().getValue();
             AbstractTableDatastreams<J> qds = tableCollection.getTableDatastreams();
@@ -201,7 +203,7 @@ public class ObservedPropertyFactory<J extends Comparable> implements EntityFact
                     .where(qds.getId().eq(dsId))
                     .execute();
             if (dsCount > 0) {
-                LOGGER.debug("Assigned datastream {} to ObservedProperty {}.", dsId, opId);
+                LOGGER.debug("Assigned datastream {} to License {}.", dsId, opId);
             }
         }
     }
@@ -226,13 +228,13 @@ public class ObservedPropertyFactory<J extends Comparable> implements EntityFact
                 .where(table.getId().eq(entityId))
                 .execute();
         if (count == 0) {
-            throw new NoSuchEntityException("ObservedProperty " + entityId + " not found.");
+            throw new NoSuchEntityException("License " + entityId + " not found.");
         }
     }
 
     @Override
     public EntityType getEntityType() {
-        return EntityType.OBSERVEDPROPERTY;
+        return EntityType.LICENSE;
     }
 
     @Override

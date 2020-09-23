@@ -26,6 +26,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTabl
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableFeatures;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableHistLocations;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableLicenses;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableLocations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableMultiDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObsProperties;
@@ -89,6 +90,7 @@ public class PropertyResolver<J extends Comparable> {
         initObservationGroups();
         initLocations();
         initObsProperties();
+        initLicenses();
         initObservations();
         initSensors();
         initParties();
@@ -129,6 +131,7 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(NavigationPropertyMain.SENSOR, tableClass, AbstractTableDatastreams::getSensorId);
         addEntry(NavigationPropertyMain.PARTY, tableClass, AbstractTableDatastreams::getPartyId);
         addEntry(NavigationPropertyMain.OBSERVEDPROPERTY, tableClass, AbstractTableDatastreams::getObsPropertyId);
+        addEntry(NavigationPropertyMain.LICENSE, tableClass, AbstractTableDatastreams::getLicenseId);
         addEntry(NavigationPropertyMain.THING, tableClass, AbstractTableDatastreams::getThingId);
         addEntry(NavigationPropertyMain.OBSERVATIONS, tableClass, AbstractTableDatastreams::getId);
     }
@@ -152,6 +155,7 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(NavigationPropertyMain.PARTY, tableClass, AbstractTableMultiDatastreams::getPartyId);
         addEntry(NavigationPropertyMain.THING, tableClass, AbstractTableMultiDatastreams::getThingId);
         addEntry(NavigationPropertyMain.OBSERVEDPROPERTIES, tableClass, AbstractTableMultiDatastreams::getId);
+        addEntry(NavigationPropertyMain.LICENSES, tableClass, AbstractTableMultiDatastreams::getId);
         addEntry(NavigationPropertyMain.OBSERVATIONS, tableClass, AbstractTableMultiDatastreams::getId);
     }
 
@@ -233,6 +237,18 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(EntityProperty.PROPERTIES, tableClass, table -> table.colProperties);
         addEntry(NavigationPropertyMain.DATASTREAMS, tableClass, AbstractTableObsProperties::getId);
         addEntry(NavigationPropertyMain.MULTIDATASTREAMS, tableClass, AbstractTableObsProperties::getId);
+    }
+
+    private void initLicenses() {
+        Class<? extends AbstractTableLicenses> tableClass = tableCollection.getTableLicenses().getClass();
+        addEntry(EntityProperty.ID, tableClass, AbstractTableLicenses::getId);
+        addEntry(EntityProperty.SELFLINK, tableClass, AbstractTableLicenses::getId);
+        addEntry(EntityProperty.DEFINITION, tableClass, table -> table.colDefinition);
+        addEntry(EntityProperty.DESCRIPTION, tableClass, table -> table.colDescription);
+        addEntry(EntityProperty.NAME, tableClass, table -> table.colName);
+        addEntry(EntityProperty.PROPERTIES, tableClass, table -> table.colProperties);
+        addEntry(NavigationPropertyMain.DATASTREAMS, tableClass, AbstractTableLicenses::getId);
+        addEntry(NavigationPropertyMain.MULTIDATASTREAMS, tableClass, AbstractTableLicenses::getId);
     }
 
     private void initSensors() {

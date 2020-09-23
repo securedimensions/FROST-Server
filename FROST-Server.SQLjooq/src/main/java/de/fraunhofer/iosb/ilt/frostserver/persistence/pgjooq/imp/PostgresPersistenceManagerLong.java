@@ -30,6 +30,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.Table
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongFeatures;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongHistLocations;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongLicenses;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongLocations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongLocationsHistLocations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongMultiDatastreams;
@@ -83,6 +84,7 @@ public class PostgresPersistenceManagerLong extends PostgresPersistenceManager<L
                     .setTableMultiDatastreamsObsProperties(TableLongMultiDatastreamsObsProperties.MULTI_DATASTREAMS_OBS_PROPERTIES)
                     .setTableObservations(TableLongObservations.OBSERVATIONS)
                     .setTableObsProperties(TableLongObsProperties.OBS_PROPERTIES)
+                    .setTableLicenses(TableLongLicenses.LICENSES)
                     .setTableSensors(TableLongSensors.SENSORS)
                     .setTableParties(TableLongParties.PARTIES)
                     .setTableTasks(TableLongTasks.TASKS)

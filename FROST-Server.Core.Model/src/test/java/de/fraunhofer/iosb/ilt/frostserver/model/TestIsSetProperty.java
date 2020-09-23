@@ -105,6 +105,7 @@ public class TestIsSetProperty {
         propertyValues.put(NavigationPropertyMain.LOCATION, new Location(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.MULTIDATASTREAM, new MultiDatastream(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.OBSERVEDPROPERTY, new ObservedProperty(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.LICENSE, new License(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.SENSOR, new Sensor(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.PARTY, new Party(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASK, new Task(new IdLong(nextId++)));
@@ -150,6 +151,11 @@ public class TestIsSetProperty {
         obsProperties.add(new ObservedProperty(new IdLong(nextId++)));
         obsProperties.add(new ObservedProperty(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.OBSERVEDPROPERTIES, obsProperties);
+
+        EntitySetImpl<License> licenses = new EntitySetImpl<>(EntityType.LICENSE);
+        licenses.add(new License(new IdLong(nextId++)));
+        licenses.add(new License(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.LICENSES, licenses);
 
         EntitySetImpl<Task> tasks = new EntitySetImpl<>(EntityType.TASK);
         tasks.add(new Task(new IdLong(nextId++)));
@@ -456,6 +462,26 @@ public class TestIsSetProperty {
     private void testIsSetPropertyObservedProperty(boolean shouldBeSet, boolean shouldIdBeSet, ObservedProperty op) {
         testIsSetPropertyNamedEntity(shouldBeSet, shouldIdBeSet, op);
         Assert.assertEquals(shouldBeSet, op.isSetDefinition());
+    }
+
+    @Test
+    public void testLicense() {
+        License entity = new License();
+        testIsSetPropertyLicense(false, true, entity);
+
+        entity.setEntityPropertiesSet();
+        testIsSetPropertyLicense(true, true, entity);
+
+        entity.setEntityPropertiesSet(false, false);
+        testIsSetPropertyLicense(false, false, entity);
+
+        entity.setEntityPropertiesSet(true, false);
+        testIsSetPropertyLicense(true, true, entity);
+    }
+
+    private void testIsSetPropertyLicense(boolean shouldBeSet, boolean shouldIdBeSet, License l) {
+        testIsSetPropertyNamedEntity(shouldBeSet, shouldIdBeSet, l);
+        Assert.assertEquals(shouldBeSet, l.isSetDefinition());
     }
 
     @Test

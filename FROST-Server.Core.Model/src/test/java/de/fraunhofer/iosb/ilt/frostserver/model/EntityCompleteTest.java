@@ -82,12 +82,16 @@ public class EntityCompleteTest {
         entity.setSensor(new Sensor().setId(new IdLong(2)));
         Assert.assertFalse(isEntityComplete(entity, containingSet));
 
-        entity.setParty(new Party().setId(new IdLong(1)));
+        entity.setParty(new Party().setId(new IdLong(3)));
         Assert.assertFalse(isEntityComplete(entity, containingSet));
 
         EntitySet<ObservedProperty> observedProperties = new EntitySetImpl<>(EntityType.OBSERVEDPROPERTY);
-        observedProperties.add(new ObservedProperty().setId(new IdLong(3)));
+        observedProperties.add(new ObservedProperty().setId(new IdLong(4)));
         entity.setObservedProperties(observedProperties);
+
+        EntitySet<License> licenses = new EntitySetImpl<>(EntityType.LICENSE);
+        licenses.add(new License().setId(new IdLong(5)));
+        entity.setLicenses(licenses);
         Assert.assertTrue(isEntityComplete(entity, containingSet));
 
         entity.setThing(null);
@@ -104,10 +108,13 @@ public class EntityCompleteTest {
         entity.setMultiObservationDataTypes(multiObservationDataTypes);
         Assert.assertFalse(isEntityComplete(entity, containingSet));
 
-        observedProperties.add(new ObservedProperty().setId(new IdLong(3)));
+        observedProperties.add(new ObservedProperty().setId(new IdLong(6)));
         entity.setObservedProperties(observedProperties);
+
+        licenses.add(new License().setId(new IdLong(7)));
+        entity.setLicenses(licenses);
         Assert.assertTrue(isEntityComplete(entity, containingSet));
-    }
+}
 
     @Test
     public void testObservationComplete() {

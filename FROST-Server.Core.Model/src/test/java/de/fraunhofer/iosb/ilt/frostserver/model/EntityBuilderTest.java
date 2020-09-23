@@ -99,6 +99,7 @@ public class EntityBuilderTest {
         propertyValues.put(NavigationPropertyMain.LOCATION, new Location(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.MULTIDATASTREAM, new MultiDatastream(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.OBSERVEDPROPERTY, new ObservedProperty(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.LICENSE, new License(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.SENSOR, new Sensor(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.PARTY, new Party(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASK, new Task(new IdLong(nextId++)));
@@ -142,8 +143,11 @@ public class EntityBuilderTest {
 
         EntitySetImpl<ObservedProperty> obsProperties = new EntitySetImpl<>(EntityType.OBSERVEDPROPERTY);
         obsProperties.add(new ObservedProperty(new IdLong(nextId++)));
-        obsProperties.add(new ObservedProperty(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.OBSERVEDPROPERTIES, obsProperties);
+
+        EntitySetImpl<License> licenses = new EntitySetImpl<>(EntityType.LICENSE);
+        licenses.add(new License(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.LICENSES, licenses);
 
         EntitySetImpl<Task> tasks = new EntitySetImpl<>(EntityType.TASK);
         tasks.add(new Task(new IdLong(nextId++)));

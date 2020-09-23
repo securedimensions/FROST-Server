@@ -24,18 +24,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  * @author jab, scf
  */
-public interface MultiDatastreamMixIn extends AbstractDatastreamMixIn {
+public interface LicenseMixIn extends NamedDsHoldingEntityMixIn {
 
     @JsonIgnore
-    public abstract boolean isSetMultiObservationDataTypes();
-
-    @JsonIgnore
-    public abstract boolean isSetObservedProperties();
-
-    @JsonIgnore
-    public abstract boolean isSetLicenses();
-
-    @JsonIgnore
-    public abstract boolean isSetUnitOfMeasurements();
+    public abstract boolean isSetDefinition();
 
 }

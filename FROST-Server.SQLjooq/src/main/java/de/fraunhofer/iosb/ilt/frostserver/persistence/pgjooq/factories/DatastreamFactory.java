@@ -20,6 +20,7 @@ package de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories;
 import de.fraunhofer.iosb.ilt.frostserver.model.Datastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityChangedMessage;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
+import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
@@ -95,8 +96,8 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
                 // It's not a polygon, probably a point or a line.
             }
         }
-        ObservedProperty op = entityFactories.observedProperyFromId(tuple, table.getObsPropertyId());
-        entity.setObservedProperty(op);
+        entity.setObservedProperty(entityFactories.observedProperyFromId(tuple, table.getObsPropertyId()));
+        entity.setLicense(entityFactories.licenseFromId(tuple, table.getLicenseId()));
         OffsetDateTime pTimeStart = getFieldOrNull(tuple, table.colPhenomenonTimeStart);
         OffsetDateTime pTimeEnd = getFieldOrNull(tuple, table.colPhenomenonTimeEnd);
         if (pTimeStart != null && pTimeEnd != null) {
@@ -124,6 +125,9 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
         ObservedProperty op = ds.getObservedProperty();
         entityFactories.entityExistsOrCreate(pm, op);
 
+        License l = ds.getLicense();
+        entityFactories.entityExistsOrCreate(pm, l);
+
         Sensor s = ds.getSensor();
         entityFactories.entityExistsOrCreate(pm, s);
 
@@ -144,6 +148,7 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
         insert.put(table.colProperties, EntityFactories.objectToJson(ds.getProperties()));
 
         insert.put(table.getObsPropertyId(), op.getId().getValue());
+        insert.put(table.getLicenseId(), l.getId().getValue());
         insert.put(table.getSensorId(), s.getId().getValue());
         insert.put(table.getPartyId(), p.getId().getValue());
         insert.put(table.getThingId(), t.getId().getValue());
@@ -179,6 +184,7 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
         updateObservationType(datastream, update, message);
         updateProperties(datastream, update, message);
         updateObservedProperty(datastream, pm, update, message);
+        updateLicense(datastream, pm, update, message);
         updateSensor(datastream, pm, update, message);
         updateParty(datastream, pm, update, message);
         updateThing(datastream, pm, update, message);
@@ -253,6 +259,16 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
             }
             update.put(table.getObsPropertyId(), datastream.getObservedProperty().getId().getValue());
             message.addField(NavigationPropertyMain.OBSERVEDPROPERTY);
+        }
+    }
+
+    private void updateLicense(Datastream datastream, PostgresPersistenceManager<J> pm, Map<Field, Object> update, EntityChangedMessage message) throws NoSuchEntityException {
+        if (datastream.isSetLicense()) {
+            if (!entityFactories.entityExists(pm, datastream.getLicense())) {
+                throw new NoSuchEntityException("License with no id or not found.");
+            }
+            update.put(table.getLicenseId(), datastream.getLicense().getId().getValue());
+            message.addField(NavigationPropertyMain.LICENSE);
         }
     }
 

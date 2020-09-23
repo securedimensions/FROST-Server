@@ -37,6 +37,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
+import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
@@ -170,6 +171,10 @@ public class EntityParser {
 
     public ObservedProperty parseObservedProperty(String value) throws IOException {
         return mapper.readValue(value, ObservedProperty.class);
+    }
+
+    public License parseLicense(String value) throws IOException {
+        return mapper.readValue(value, License.class);
     }
 
     public Sensor parseSensor(String value) throws IOException {

@@ -27,6 +27,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
+import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
@@ -126,6 +127,7 @@ public class EntityParserTest {
                 + "	\"description\": \"Temperature measurement\",\n"
                 + "	\"Thing\": {\"@iot.id\": 5394817},\n"
                 + "	\"ObservedProperty\": {\"@iot.id\": 5394816},\n"
+                + "	\"License\": {\"@iot.id\": 42},\n"
                 + "	\"Sensor\": {\"@iot.id\": " + Long.MAX_VALUE + "},\n"
                 + "	\"Party\": {\"@iot.id\": " + Long.MIN_VALUE + "}\n"
                 + "}";
@@ -141,6 +143,7 @@ public class EntityParserTest {
                 .setDescription("Temperature measurement")
                 .setThing(new Thing().setId(new IdLong(5394817)))
                 .setObservedProperty(new ObservedProperty().setId(new IdLong(5394816)))
+                .setLicense(new License().setId(new IdLong(42)))
                 .setSensor(new Sensor().setId(new IdLong(Long.MAX_VALUE)))
                 .setParty(new Party().setId(new IdLong(Long.MIN_VALUE)));
         assertEquals(expectedResult, entityParser.parseDatastream(json));
@@ -160,6 +163,7 @@ public class EntityParserTest {
                 + "	\"description\": \"Temperature measurement\",\n"
                 + "	\"Thing\": {\"@iot.id\": 5394817},\n"
                 + "	\"ObservedProperty\": {\"@iot.id\": 5394816},\n"
+                + "	\"License\": {\"@iot.id\": 42},\n"
                 + "	\"Sensor\": {\"@iot.id\": 5394815},\n"
                 + "	\"Party\": {\"@iot.id\": 4711},\n"
                 + "	\"observedArea\": {\n"
@@ -176,6 +180,7 @@ public class EntityParserTest {
                 && result.isSetDescription()
                 && result.isSetThing()
                 && result.isSetObservedProperty()
+                && result.isSetLicense()
                 && result.isSetSensor()
                 && result.isSetParty()
                 && result.isSetObservedArea()
@@ -193,6 +198,7 @@ public class EntityParserTest {
                 && !result.isSetDescription()
                 && !result.isSetThing()
                 && !result.isSetObservedProperty()
+                && !result.isSetLicense()
                 && !result.isSetSensor()
                 && !result.isSetParty()
                 && !result.isSetObservedArea()
@@ -214,6 +220,7 @@ public class EntityParserTest {
                 + "	\"description\": \"Temperature measurement\",\n"
                 + "	\"Thing\": {\"@iot.id\": 5394817},\n"
                 + "	\"ObservedProperty\": {\"@iot.id\": 5394816},\n"
+                + "	\"License\": {\"@iot.id\": 42},\n"
                 + "	\"Sensor\": {\"@iot.id\": 5394815},\n"
                 + "	\"Party\": {\"@iot.id\": 4711},\n"
                 + "	\"observedArea\": {\n"
@@ -233,6 +240,7 @@ public class EntityParserTest {
                 .setDescription("Temperature measurement")
                 .setThing(new Thing().setId(new IdLong(5394817)))
                 .setObservedProperty(new ObservedProperty().setId(new IdLong(5394816)))
+                .setLicense(new License().setId(new IdLong(42)))
                 .setSensor(new Sensor().setId(new IdLong(5394815)))
                 .setParty(new Party().setId(new IdLong(4711)))
                 .setObservedArea(TestHelper.getPolygon(2, 100, 0, 101, 0, 101, 1, 100, 1, 100, 0));
@@ -255,6 +263,11 @@ public class EntityParserTest {
                 + "        \"definition\": \"http://www.qudt.org/qudt/owl/1.0.0/quantity/Instances.html#Temperature\",\n"
                 + "        \"description\": \"Temperature of the camping site\"\n"
                 + "    },\n"
+                + "    \"License\": {\n"
+                + "        \"name\": \"Create Commons BY 4.0\",\n"
+                + "        \"definition\": \"https://creativecommons.org/licenses/by/4.0/\",\n"
+                + "        \"description\": \"Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.\"\n"
+                + "    },\n"
                 + "    \"Sensor\": {\n"
                 + "        \"description\": \"Sensor 101\",\n"
                 + "        \"encodingType\": \"http://schema.org/description\",\n"
@@ -276,6 +289,12 @@ public class EntityParserTest {
                                 .setName("Temperature")
                                 .setDefinition("http://www.qudt.org/qudt/owl/1.0.0/quantity/Instances.html#Temperature")
                                 .setDescription("Temperature of the camping site")
+                )
+                .setLicense(
+                        new License()
+                                .setName("Create Commons BY 4.0")
+                                .setDefinition("https://creativecommons.org/licenses/by/4.0/")
+                                .setDescription("Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.")
                 )
                 .setSensor(
                         new Sensor()
@@ -730,6 +749,29 @@ public class EntityParserTest {
     public void readObservedPropertyWithAllValuesMissing() throws IOException {
         String json = "{}";
         ObservedProperty result = entityParser.parseObservedProperty(json);
+        Assert.assertTrue(!result.isSetName()
+                && !result.isSetDescription()
+                && !result.isSetDefinition());
+    }
+
+    @Test
+    public void readLicenseBasic() throws IOException {
+        String json = "{\n"
+                + "  \"name\": \"Create Commons BY\",\n"
+                + "  \"description\": \"Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.\",\n"
+                + "  \"definition\": \"https://creativecommons.org/licenses/by/4.0/\"\n"
+                + "}";
+        ObservedProperty expectedResult = new ObservedProperty()
+                .setName("Create Commons BY")
+                .setDescription("Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.")
+                .setDefinition("https://creativecommons.org/licenses/by/4.0/");
+        assertEquals(expectedResult, entityParser.parseObservedProperty(json));
+    }
+
+    @Test
+    public void readLicenseWithAllValuesMissing() throws IOException {
+        String json = "{}";
+        License result = entityParser.parseLicense(json);
         Assert.assertTrue(!result.isSetName()
                 && !result.isSetDescription()
                 && !result.isSetDefinition());

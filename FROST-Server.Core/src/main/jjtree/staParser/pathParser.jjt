@@ -58,6 +58,7 @@ TOKEN:
 | <C_THINGS:              "Things" >
 | <C_OBSERVATIONS:        "Observations" >
 | <C_OBSERVEDPROPERTIES:  "ObservedProperties" >
+| <C_LICENSES:  	  "Licenses" >
 | <C_TASKINGCAPABILITIES: "TaskingCapabilities" >
 | <C_TASKS:               "Tasks" >
 
@@ -70,10 +71,10 @@ TOKEN:
 | <E_LOCATION:           "Location" >
 | <E_SENSOR:             "Sensor" >
 | <E_PARTY:              "Party" >
-| <E_LICENSE:            "License" >
 | <E_THING:              "Thing" >
 | <E_OBSERVATION:        "Observation" >
 | <E_OBSERVEDPROPERTY:   "ObservedProperty" >
+| <E_LICENSE:            "License" >
 | <E_TASKINGCAPABILITY:  "TaskingCapability" >
 | <E_TASK:               "Task" >
 
@@ -142,6 +143,7 @@ void IdentifiedPath(): {}
   cThings() |
   cObservations() |
   cObservedProps() |
+  cLicenses() |
   cTaskingCapabilities() |
   cTasks()
 }
@@ -215,6 +217,7 @@ void childOfDatastream() #void: {}
   | eSensor()
   | eParty()
   | eObservedProp()
+  | eLicense()
   | pId()
   | pSelfLink()
   | pObservedArea()
@@ -260,6 +263,7 @@ void childOfMultiDatastream() #void: {}
   | eSensor()
   | eParty()
   | cObservedProps()
+  | cLicenses()
   | pId()
   | pSelfLink()
   | pObservedArea()
@@ -693,6 +697,42 @@ void childOfObservedProp() #void: {}
   )
 }
 
+/** Entity and collection License(s) */
+void eLicense(): {}
+{
+  <E_LICENSE>
+  (childOfLicense())?
+}
+void cLicenses(): {}
+{
+  <C_LICENSES>
+  (
+    eLicenseId()
+  | <PATH_SEPARATOR> cpRef()
+  )?
+}
+void eLicenseId()#eLicense: {String i;}
+{
+  <LB> ( i=Long(){jjtThis.jjtSetValue(i);}
+       | i=QuotedString(){jjtThis.jjtSetValue(i);}
+       )
+  <RB>
+      (childOfLicense())?
+}
+void childOfLicense() #void: {}
+{
+  <PATH_SEPARATOR>
+  ( cDatastreams()
+  | cMultiDatastreams()
+  | pId()
+  | pSelfLink()
+  | pDefinition()
+  | pDescription()
+  | pName()
+  | pProperties()
+  | cpRef()
+  )
+}
 
 /**
  * Properties.

@@ -39,10 +39,12 @@ public class MultiDatastream extends AbstractDatastream<MultiDatastream> {
     private List<String> multiObservationDataTypes;
     private List<UnitOfMeasurement> unitOfMeasurements;
     private EntitySet<ObservedProperty> observedProperties;
+    private EntitySet<License> licenses;
 
     private boolean setMultiObservationDataTypes;
     private boolean setUnitOfMeasurements;
     private boolean setObservedProperties;
+    private boolean setLicenses;
 
     public MultiDatastream() {
         this(null);
@@ -51,6 +53,7 @@ public class MultiDatastream extends AbstractDatastream<MultiDatastream> {
     public MultiDatastream(Id id) {
         super(id);
         observedProperties = new EntitySetImpl<>(EntityType.OBSERVEDPROPERTY);
+        licenses = new EntitySetImpl<>(EntityType.LICENSE);
         unitOfMeasurements = new ArrayList<>();
         multiObservationDataTypes = new ArrayList<>();
         setObservationTypeIntern(ObservationType.COMPLEX_OBSERVATION.getCode());
@@ -68,6 +71,9 @@ public class MultiDatastream extends AbstractDatastream<MultiDatastream> {
         }
         if (!entityPropertiesOnly && observedProperties.size() != multiObservationDataTypes.size()) {
             throw new IllegalStateException("Size of list of observedProperties (" + observedProperties.size() + ") is not equal to size of multiObservationDataTypes (" + multiObservationDataTypes.size() + ").");
+        }
+        if (!entityPropertiesOnly && licenses.size() != multiObservationDataTypes.size()) {
+            throw new IllegalStateException("Size of list of licenses (" + licenses.size() + ") is not equal to size of multiObservationDataTypes (" + multiObservationDataTypes.size() + ").");
         }
         String observationType = getObservationType();
         if (observationType == null || !observationType.equalsIgnoreCase("http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_ComplexObservation")) {
@@ -87,6 +93,7 @@ public class MultiDatastream extends AbstractDatastream<MultiDatastream> {
         setMultiObservationDataTypes = set;
         if (!entityPropertiesOnly) {
             setObservedProperties = set;
+            setLicenses = set;
         }
     }
 
@@ -105,6 +112,10 @@ public class MultiDatastream extends AbstractDatastream<MultiDatastream> {
         if (!Objects.equals(observedProperties, comparedTo.getObservedProperties())) {
             setObservedProperties = true;
             message.addNpField(NavigationPropertyMain.OBSERVEDPROPERTIES);
+        }
+        if (!Objects.equals(licenses, comparedTo.getLicenses())) {
+            setLicenses = true;
+            message.addNpField(NavigationPropertyMain.LICENSES);
         }
     }
 
@@ -195,10 +206,42 @@ public class MultiDatastream extends AbstractDatastream<MultiDatastream> {
     }
 
     /**
-     * @return the setObservedProperty
+     * @return the setObservedProperties
      */
     public boolean isSetObservedProperties() {
         return setObservedProperties;
+    }
+
+    /**
+     * @return the licenses
+     */
+    public EntitySet<License> getLicenses() {
+        return licenses;
+    }
+
+    /**
+     * @param licenses the licene to set
+     * @return this
+     */
+    public MultiDatastream setLicenses(EntitySet<License> licenses) {
+        this.licenses = licenses;
+        setLicenses = licenses != null;
+        return this;
+    }
+
+    public MultiDatastream addLicense(License license) {
+        if (license == null) {
+            licenses = new EntitySetImpl<>(EntityType.LICENSE);
+        }
+        licenses.add(license);
+        return this;
+    }
+
+    /**
+     * @return the setLicense
+     */
+    public boolean isSetLicenses() {
+        return setLicenses;
     }
 
     @Override
@@ -208,7 +251,7 @@ public class MultiDatastream extends AbstractDatastream<MultiDatastream> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), multiObservationDataTypes, unitOfMeasurements, observedProperties);
+        return Objects.hash(super.hashCode(), multiObservationDataTypes, unitOfMeasurements, observedProperties, licenses);
     }
 
     @Override
@@ -226,6 +269,7 @@ public class MultiDatastream extends AbstractDatastream<MultiDatastream> {
         return super.equals(other)
                 && Objects.equals(multiObservationDataTypes, other.multiObservationDataTypes)
                 && Objects.equals(observedProperties, other.observedProperties)
+                && Objects.equals(licenses, other.licenses)
                 && Objects.equals(unitOfMeasurements, other.unitOfMeasurements);
     }
 

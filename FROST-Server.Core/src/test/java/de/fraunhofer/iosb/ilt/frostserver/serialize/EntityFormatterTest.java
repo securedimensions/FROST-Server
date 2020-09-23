@@ -582,7 +582,8 @@ public class EntityFormatterTest {
                 .setObservedArea(TestHelper.getPolygon(2, 100, 0, 101, 0, 101, 1, 100, 1, 100, 0))
                 .setPhenomenonTime(TestHelper.createTimeInterval(2014, 03, 1, 13, 0, 0, 2015, 05, 11, 15, 30, 0, DateTimeZone.UTC))
                 .setResultTime(TestHelper.createTimeInterval(2014, 03, 01, 13, 0, 0, 2015, 05, 11, 15, 30, 0, DateTimeZone.UTC));
-        Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
+        String s = EntityFormatter.writeEntity(entity);
+        Assert.assertTrue(jsonEqual(expResult, s));
     }
 
     @Test
@@ -595,6 +596,7 @@ public class EntityFormatterTest {
                 + "	\"Sensor@iot.navigationLink\": \"MultiDatastreams(1)/Sensor\",\n"
                 + "	\"Party@iot.navigationLink\": \"MultiDatastreams(1)/Party\",\n"
                 + "	\"ObservedProperties@iot.navigationLink\": \"MultiDatastreams(1)/ObservedProperties\",\n"
+                + "	\"Licenses@iot.navigationLink\": \"MultiDatastreams(1)/Licenses\",\n"
                 + "	\"Observations@iot.navigationLink\": \"MultiDatastreams(1)/Observations\",\n"
                 + "	\"name\": \"This is a datastream measuring the wind.\",\n"
                 + "	\"description\": \"This is a datastream measuring wind direction and speed.\",\n"
@@ -626,6 +628,7 @@ public class EntityFormatterTest {
                 .setParty(new Party().setNavigationLink("MultiDatastreams(1)/Party").setExportObject(false))
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "MultiDatastreams(1)/Observations"))
                 .setObservedProperties(new EntitySetImpl(EntityType.OBSERVEDPROPERTY, "MultiDatastreams(1)/ObservedProperties"))
+                .setLicenses(new EntitySetImpl(EntityType.LICENSE, "MultiDatastreams(1)/Licenses"))
                 .setName("This is a datastream measuring the wind.")
                 .setDescription("This is a datastream measuring wind direction and speed.")
                 .addUnitOfMeasurement(new UnitOfMeasurement()
@@ -642,7 +645,8 @@ public class EntityFormatterTest {
                 .addObservationType("http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement")
                 .setPhenomenonTime(TestHelper.createTimeInterval(2014, 03, 1, 13, 0, 0, 2015, 05, 11, 15, 30, 0, DateTimeZone.UTC))
                 .setResultTime(TestHelper.createTimeInterval(2014, 03, 01, 13, 0, 0, 2015, 05, 11, 15, 30, 0, DateTimeZone.UTC));
-        Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
+        String s = EntityFormatter.writeEntity(entity);
+        Assert.assertTrue(jsonEqual(expResult, s));
     }
 
     @Test
@@ -665,8 +669,7 @@ public class EntityFormatterTest {
                 .setDescription("TMP36 - Analog Temperature sensor")
                 .setEncodingType("application/pdf")
                 .setMetadata("http://example.org/TMP35_36_37.pdf");
-        String x = EntityFormatter.writeEntity(entity);
-        Assert.assertTrue(jsonEqual(expResult, x));
+        Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
     }
 
     @Test

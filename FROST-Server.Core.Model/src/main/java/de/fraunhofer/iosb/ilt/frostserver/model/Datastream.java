@@ -39,9 +39,11 @@ public class Datastream extends AbstractDatastream<Datastream> {
     private static final Logger LOGGER = LoggerFactory.getLogger(Datastream.class);
     private UnitOfMeasurement unitOfMeasurement;
     private ObservedProperty observedProperty;
+    private License license;
 
     private boolean setUnitOfMeasurement;
     private boolean setObservedProperty;
+    private boolean setLicense;
 
     public Datastream() {
         this(true, null);
@@ -66,8 +68,10 @@ public class Datastream extends AbstractDatastream<Datastream> {
     @Override
     protected boolean checkParent(PathElementEntity parentEntity, Id parentId) {
         if (parentEntity.getEntityType() == EntityType.OBSERVEDPROPERTY) {
-            setObservedProperty(new ObservedProperty(parentId));
-            LOGGER.debug("Set observedPropertyId to {}.", parentId);
+        	setObservedProperty(new ObservedProperty(parentId));
+        	LOGGER.debug("Set observedPropertyId to {}.", parentId);
+            setLicense(new License(parentId));
+            LOGGER.debug("Set LicenseId to {}.", parentId);
             return true;
         }
 
@@ -82,6 +86,7 @@ public class Datastream extends AbstractDatastream<Datastream> {
 
     private void setSets(boolean set, boolean entityPropertiesOnly) {
         setUnitOfMeasurement = set;
+        setLicense = set;
         if (!entityPropertiesOnly) {
             setObservedProperty = set;
         }
@@ -98,6 +103,10 @@ public class Datastream extends AbstractDatastream<Datastream> {
         if (!Objects.equals(observedProperty, comparedTo.getObservedProperty())) {
             setObservedProperty = true;
             message.addNpField(NavigationPropertyMain.OBSERVEDPROPERTY);
+        }
+        if (!Objects.equals(license, comparedTo.getLicense())) {
+            setLicense = true;
+            message.addNpField(NavigationPropertyMain.LICENSE);
         }
     }
 
@@ -132,6 +141,23 @@ public class Datastream extends AbstractDatastream<Datastream> {
         return setObservedProperty;
     }
 
+    /**
+     * @return true if the License was explicitly set.
+     */
+    public boolean isSetLicense() {
+        return setLicense;
+    }
+
+    public License getLicense() {
+        return license;
+    }
+
+    public Datastream setLicense(License license) {
+        this.license = license;
+        setLicense = license != null;
+        return this;
+    }
+
     @Override
     protected Datastream getThis() {
         return this;
@@ -139,7 +165,7 @@ public class Datastream extends AbstractDatastream<Datastream> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), unitOfMeasurement, observedProperty);
+        return Objects.hash(super.hashCode(), unitOfMeasurement, observedProperty, license);
     }
 
     @Override
@@ -156,7 +182,8 @@ public class Datastream extends AbstractDatastream<Datastream> {
         final Datastream other = (Datastream) obj;
         return super.equals(other)
                 && Objects.equals(observedProperty, other.observedProperty)
-                && Objects.equals(unitOfMeasurement, other.unitOfMeasurement);
+                && Objects.equals(unitOfMeasurement, other.unitOfMeasurement)
+                && Objects.equals(license, other.license);
     }
 
 }
