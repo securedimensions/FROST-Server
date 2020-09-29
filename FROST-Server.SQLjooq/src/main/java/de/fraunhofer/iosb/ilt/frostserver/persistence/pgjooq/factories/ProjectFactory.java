@@ -21,7 +21,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.Datastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityChangedMessage;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
-import de.fraunhofer.iosb.ilt.frostserver.model.Party;
+import de.fraunhofer.iosb.ilt.frostserver.model.Project;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.DataSize;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.PostgresPersistenceManager;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.Utils;
@@ -32,12 +32,15 @@ import static de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories.En
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableMultiDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableParties;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableProjects;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.TableCollection;
 import de.fraunhofer.iosb.ilt.frostserver.property.EntityProperty;
 import de.fraunhofer.iosb.ilt.frostserver.property.Property;
 import de.fraunhofer.iosb.ilt.frostserver.query.Query;
 import de.fraunhofer.iosb.ilt.frostserver.util.exception.IncompleteEntityException;
 import de.fraunhofer.iosb.ilt.frostserver.util.exception.NoSuchEntityException;
+
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,54 +57,55 @@ import org.slf4j.LoggerFactory;
  *
  * @param <J> The type of the ID fields.
  */
-public class PartyFactory<J extends Comparable> implements EntityFactory<Party, J> {
+public class ProjectFactory<J extends Comparable> implements EntityFactory<Project, J> {
 
     /**
      * The logger for this class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PartyFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectFactory.class);
 
     private final EntityFactories<J> entityFactories;
-    private final AbstractTableParties<J> table;
+    private final AbstractTableProjects<J> table;
     private final TableCollection<J> tableCollection;
 
-    public PartyFactory(EntityFactories<J> factories, AbstractTableParties<J> table) {
+    public ProjectFactory(EntityFactories<J> factories, AbstractTableProjects<J> table) {
         this.entityFactories = factories;
         this.table = table;
         this.tableCollection = factories.tableCollection;
     }
 
     @Override
-    public Party create(Record record, Query query, DataSize dataSize) {
+    public Project create(Record record, Query query, DataSize dataSize) {
         Set<Property> select = query == null ? Collections.emptySet() : query.getSelect();
-        Party entity = new Party();
+        Project entity = new Project();
         entity.setName(getFieldOrNull(record, table.colName));
         entity.setDescription(getFieldOrNull(record, table.colDescription));
-        entity.setNickName(getFieldOrNull(record, table.colNickName));
-        entity.setRole(getFieldOrNull(record, table.colRole));
-        entity.setAuthId(getFieldOrNull(record, table.colAuthId));
+        entity.setUrl(getFieldOrNull(record, table.colUrl));
+        if (select.isEmpty() || select.contains(EntityProperty.PROPERTIES)) {
+            String props = getFieldOrNull(record, table.colProperties);
+            entity.setProperties(Utils.jsonToObject(props, Map.class));
+        }
         J id = getFieldOrNull(record, table.getId());
         if (id != null) {
             entity.setId(entityFactories.idFromObject(id));
         }
-        if (select.isEmpty() || select.contains(EntityProperty.PROPERTIES)) {
-            String props = getFieldOrNull(record, table.colProperties);
-            entity.setProperties(Utils.jsonToObject(props, Map.class));
+        OffsetDateTime pTimeStart = getFieldOrNull(record, table.colRuntimeStart);
+        OffsetDateTime pTimeEnd = getFieldOrNull(record, table.colRuntimeEnd);
+        if (pTimeStart != null && pTimeEnd != null) {
+            entity.setRuntime(Utils.intervalFromTimes(pTimeStart, pTimeEnd));
         }
         return entity;
     }
 
     @Override
-    public boolean insert(PostgresPersistenceManager<J> pm, Party s) throws NoSuchEntityException, IncompleteEntityException {
+    public boolean insert(PostgresPersistenceManager<J> pm, Project p) throws NoSuchEntityException, IncompleteEntityException {
         Map<Field, Object> insert = new HashMap<>();
-        insert.put(table.colName, s.getName());
-        insert.put(table.colDescription, s.getDescription());
-        insert.put(table.colNickName, s.getNickName());
-        insert.put(table.colRole, s.getRole());
-        insert.put(table.colAuthId, s.getAuthId());
-        insert.put(table.colProperties, EntityFactories.objectToJson(s.getProperties()));
+        insert.put(table.colName, p.getName());
+        insert.put(table.colDescription, p.getDescription());
+        insert.put(table.colUrl, p.getUrl());
+        insert.put(table.colProperties, EntityFactories.objectToJson(p.getProperties()));
 
-        entityFactories.insertUserDefinedId(pm, insert, table.getId(), s);
+        entityFactories.insertUserDefinedId(pm, insert, table.getId(), p);
 
         DSLContext dslContext = pm.getDslContext();
         Record1<J> result = dslContext.insertInto(table)
@@ -109,19 +113,19 @@ public class PartyFactory<J extends Comparable> implements EntityFactory<Party, 
                 .returningResult(table.getId())
                 .fetchOne();
         J generatedId = result.component1();
-        LOGGER.debug("Inserted Party. Created id = {}.", generatedId);
-        s.setId(entityFactories.idFromObject(generatedId));
+        LOGGER.debug("Inserted Project. Created id = {}.", generatedId);
+        p.setId(entityFactories.idFromObject(generatedId));
 
         // Create new datastreams, if any.
-        for (Datastream ds : s.getDatastreams()) {
-            ds.setParty(new Party(s.getId()));
+        for (Datastream ds : p.getDatastreams()) {
+            ds.setProject(new Project(p.getId()));
             ds.complete();
             pm.insert(ds);
         }
 
         // Create new multiDatastreams, if any.
-        for (MultiDatastream mds : s.getMultiDatastreams()) {
-            mds.setParty(new Party(s.getId()));
+        for (MultiDatastream mds : p.getMultiDatastreams()) {
+            mds.setProject(new Project(p.getId()));
             mds.complete();
             pm.insert(mds);
         }
@@ -130,47 +134,33 @@ public class PartyFactory<J extends Comparable> implements EntityFactory<Party, 
     }
 
     @Override
-    public EntityChangedMessage update(PostgresPersistenceManager<J> pm, Party s, J partyId) throws NoSuchEntityException, IncompleteEntityException {
+    public EntityChangedMessage update(PostgresPersistenceManager<J> pm, Project p, J projectId) throws NoSuchEntityException, IncompleteEntityException {
         Map<Field, Object> update = new HashMap<>();
         EntityChangedMessage message = new EntityChangedMessage();
 
-        if (s.isSetName()) {
-            if (s.getName() == null) {
+        if (p.isSetName()) {
+            if (p.getName() == null) {
                 throw new IncompleteEntityException("name" + CAN_NOT_BE_NULL);
             }
-            update.put(table.colName, s.getName());
+            update.put(table.colName, p.getName());
             message.addField(EntityProperty.NAME);
         }
-        if (s.isSetDescription()) {
-            if (s.getDescription() == null) {
+        if (p.isSetDescription()) {
+            if (p.getDescription() == null) {
                 throw new IncompleteEntityException(EntityProperty.DESCRIPTION.jsonName + CAN_NOT_BE_NULL);
             }
-            update.put(table.colDescription, s.getDescription());
+            update.put(table.colDescription, p.getDescription());
             message.addField(EntityProperty.DESCRIPTION);
         }
-        if (s.isSetNickName()) {
-            if (s.getNickName() == null) {
-                throw new IncompleteEntityException("nickName" + CAN_NOT_BE_NULL);
+        if (p.isSetUrl()) {
+            if (p.getUrl() == null) {
+                throw new IncompleteEntityException("url" + CAN_NOT_BE_NULL);
             }
-            update.put(table.colNickName, s.getNickName());
+            update.put(table.colUrl, p.getUrl());
             message.addField(EntityProperty.NICKNAME);
         }
-        if (s.isSetRole()) {
-            if (s.getRole() == null) {
-                throw new IncompleteEntityException("role" + CAN_NOT_BE_NULL);
-            }
-            update.put(table.colRole, s.getRole());
-            message.addField(EntityProperty.ROLE);
-        }
-        if (s.isSetAuthId()) {
-            if (s.getAuthId() == null) {
-                throw new IncompleteEntityException("authId" + CAN_NOT_BE_NULL);
-            }
-            update.put(table.colAuthId, s.getAuthId());
-            message.addField(EntityProperty.AUTHID);
-        }
-        if (s.isSetProperties()) {
-            update.put(table.colProperties, EntityFactories.objectToJson(s.getProperties()));
+        if (p.isSetProperties()) {
+            update.put(table.colProperties, EntityFactories.objectToJson(p.getProperties()));
             message.addField(EntityProperty.PROPERTIES);
         }
 
@@ -179,52 +169,52 @@ public class PartyFactory<J extends Comparable> implements EntityFactory<Party, 
         if (!update.isEmpty()) {
             count = dslContext.update(table)
                     .set(update)
-                    .where(table.getId().equal(partyId))
+                    .where(table.getId().equal(projectId))
                     .execute();
         }
         if (count > 1) {
-            LOGGER.error("Updating Party {} caused {} rows to change!", partyId, count);
+            LOGGER.error("Updating Project {} caused {} rows to change!", projectId, count);
             throw new IllegalStateException(CHANGED_MULTIPLE_ROWS);
         }
 
-        linkExistingDatastreams(s, pm, dslContext, partyId);
+        linkExistingDatastreams(p, pm, dslContext, projectId);
 
-        linkExistingMultiDatastreams(s, pm, dslContext, partyId);
+        linkExistingMultiDatastreams(p, pm, dslContext, projectId);
 
-        LOGGER.debug("Updated Party {}", partyId);
+        LOGGER.debug("Updated Project {}", projectId);
         return message;
     }
 
-    private void linkExistingMultiDatastreams(Party s, PostgresPersistenceManager<J> pm, DSLContext dslContext, J partyId) throws NoSuchEntityException {
-        for (MultiDatastream mds : s.getMultiDatastreams()) {
+    private void linkExistingMultiDatastreams(Project p, PostgresPersistenceManager<J> pm, DSLContext dslContext, J projectId) throws NoSuchEntityException {
+        for (MultiDatastream mds : p.getMultiDatastreams()) {
             if (mds.getId() == null || !entityFactories.entityExists(pm, mds)) {
                 throw new NoSuchEntityException("MultiDatastream" + NO_ID_OR_NOT_FOUND);
             }
             J mdsId = (J) mds.getId().getValue();
             AbstractTableMultiDatastreams<J> qmds = tableCollection.getTableMultiDatastreams();
             long mdsCount = dslContext.update(qmds)
-                    .set(qmds.getPartyId(), partyId)
+                    .set(qmds.getProjectId(), projectId)
                     .where(qmds.getId().eq(mdsId))
                     .execute();
             if (mdsCount > 0) {
-                LOGGER.debug("Assigned multiDatastream {} to party {}.", mdsId, partyId);
+                LOGGER.debug("Assigned multiDatastream {} to project {}.", mdsId, projectId);
             }
         }
     }
 
-    private void linkExistingDatastreams(Party s, PostgresPersistenceManager<J> pm, DSLContext dslContext, J partyId) throws NoSuchEntityException {
-        for (Datastream ds : s.getDatastreams()) {
+    private void linkExistingDatastreams(Project p, PostgresPersistenceManager<J> pm, DSLContext dslContext, J projectId) throws NoSuchEntityException {
+        for (Datastream ds : p.getDatastreams()) {
             if (ds.getId() == null || !entityFactories.entityExists(pm, ds)) {
                 throw new NoSuchEntityException("Datastream" + NO_ID_OR_NOT_FOUND);
             }
             J dsId = (J) ds.getId().getValue();
             AbstractTableDatastreams<J> qds = tableCollection.getTableDatastreams();
             long dsCount = dslContext.update(qds)
-                    .set(qds.getPartyId(), partyId)
+                    .set(qds.getProjectId(), projectId)
                     .where(qds.getId().eq(dsId))
                     .execute();
             if (dsCount > 0) {
-                LOGGER.debug("Assigned datastream {} to party {}.", dsId, partyId);
+                LOGGER.debug("Assigned datastream {} to project {}.", dsId, projectId);
             }
         }
     }
@@ -236,13 +226,13 @@ public class PartyFactory<J extends Comparable> implements EntityFactory<Party, 
                 .where(table.getId().eq(entityId))
                 .execute();
         if (count == 0) {
-            throw new NoSuchEntityException("Party " + entityId + " not found.");
+            throw new NoSuchEntityException("Project " + entityId + " not found.");
         }
     }
 
     @Override
     public EntityType getEntityType() {
-        return EntityType.PARTY;
+        return EntityType.PROJECT;
     }
 
     @Override

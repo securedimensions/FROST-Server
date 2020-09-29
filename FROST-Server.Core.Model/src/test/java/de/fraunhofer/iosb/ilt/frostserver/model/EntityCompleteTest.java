@@ -85,12 +85,15 @@ public class EntityCompleteTest {
         entity.setParty(new Party().setId(new IdLong(3)));
         Assert.assertFalse(isEntityComplete(entity, containingSet));
 
+        entity.setProject(new Project().setId(new IdLong(4)));
+        Assert.assertFalse(isEntityComplete(entity, containingSet));
+
         EntitySet<ObservedProperty> observedProperties = new EntitySetImpl<>(EntityType.OBSERVEDPROPERTY);
-        observedProperties.add(new ObservedProperty().setId(new IdLong(4)));
+        observedProperties.add(new ObservedProperty().setId(new IdLong(5)));
         entity.setObservedProperties(observedProperties);
 
         EntitySet<License> licenses = new EntitySetImpl<>(EntityType.LICENSE);
-        licenses.add(new License().setId(new IdLong(5)));
+        licenses.add(new License().setId(new IdLong(6)));
         entity.setLicenses(licenses);
         Assert.assertTrue(isEntityComplete(entity, containingSet));
 
@@ -108,10 +111,10 @@ public class EntityCompleteTest {
         entity.setMultiObservationDataTypes(multiObservationDataTypes);
         Assert.assertFalse(isEntityComplete(entity, containingSet));
 
-        observedProperties.add(new ObservedProperty().setId(new IdLong(6)));
+        observedProperties.add(new ObservedProperty().setId(new IdLong(7)));
         entity.setObservedProperties(observedProperties);
 
-        licenses.add(new License().setId(new IdLong(7)));
+        licenses.add(new License().setId(new IdLong(8)));
         entity.setLicenses(licenses);
         Assert.assertTrue(isEntityComplete(entity, containingSet));
 }

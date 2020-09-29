@@ -46,6 +46,7 @@ public class TableCollection<J extends Comparable> {
     private AbstractTableLicenses<J> tableLicenses;
     private AbstractTableSensors<J> tableSensors;
     private AbstractTableParties<J> tableParties;
+    private AbstractTableProjects<J> tableProjects;
     private AbstractTableTasks<J> tableTasks;
     private AbstractTableTaskingCapabilities<J> tableTaskingCapabilities;
     private AbstractTableThings<J> tableThings;
@@ -78,6 +79,7 @@ public class TableCollection<J extends Comparable> {
         addAndInit(map, EntityType.LICENSE, this.tableLicenses);
         addAndInit(map, EntityType.SENSOR, tableSensors);
         addAndInit(map, EntityType.PARTY, tableParties);
+        addAndInit(map, EntityType.PROJECT, tableProjects);
         addAndInit(map, EntityType.TASK, tableTasks);
         addAndInit(map, EntityType.TASKINGCAPABILITY, tableTaskingCapabilities);
         addAndInit(map, EntityType.THING, tableThings);
@@ -396,6 +398,25 @@ public class TableCollection<J extends Comparable> {
             throw new IllegalArgumentException(CHANGE_AFTER_INIT);
         }
         this.tableParties = tableParties;
+        return this;
+    }
+
+    /**
+     * @return the tableProjects
+     */
+    public AbstractTableProjects<J> getTableProjects() {
+        return tableProjects;
+    }
+
+    /**
+     * @param tableProjects the tableProjects to set
+     * @return this
+     */
+    public TableCollection<J> setTableProjects(AbstractTableProjects<J> tableProjects) {
+        if (tablesByType != null) {
+            throw new IllegalArgumentException(CHANGE_AFTER_INIT);
+        }
+        this.tableProjects = tableProjects;
         return this;
     }
 

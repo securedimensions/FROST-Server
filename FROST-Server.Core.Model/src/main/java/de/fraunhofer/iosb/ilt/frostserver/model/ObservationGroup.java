@@ -23,6 +23,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySetImpl;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Id;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.NamedEntity;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInstant;
+import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInterval;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElement;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElementEntity;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElementEntitySet;
@@ -43,10 +44,13 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
      * The logger for this class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ObservationGroup.class);
-    private TimeInstant time;
+    private TimeInstant created;
+    private TimeInterval runtime;
+    
     private EntitySet<Observation> observations;
 
-    private boolean setTime;
+    private boolean setCreated;
+    private boolean setRuntime;
     
     public ObservationGroup() {
         this(null);
@@ -81,33 +85,52 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
     }
 
     private void setSets(boolean set, boolean entityPropertiesOnly) {
-        setTime = set;
+        setCreated = set;
     }
 
     @Override
     public void setEntityPropertiesSet(ObservationGroup comparedTo, EntityChangedMessage message) {
         super.setEntityPropertiesSet(comparedTo, message);
         setSets(false, false);
-        if (!Objects.equals(time, comparedTo.getTime())) {
-            setTime = true;
-            message.addEpField(EntityProperty.TIME);
+        if (!Objects.equals(created, comparedTo.getCreated())) {
+            setCreated = true;
+            message.addEpField(EntityProperty.CREATED);
+        }
+        if (!Objects.equals(runtime, comparedTo.getRuntime())) {
+            setRuntime = true;
+            message.addEpField(EntityProperty.RUNTIME);
         }
         
     }
 
-    public TimeInstant getTime() {
-        return time;
+    public TimeInstant getCreated() {
+        return created;
     }
 
-    public ObservationGroup setTime(TimeInstant time) {
-        this.time = time;
-        setTime = time != null;
+    public ObservationGroup setCreated(TimeInstant created) {
+        this.created = created;
+        setCreated = created != null;
         return this;
     }
 
-    public boolean isSetTime() {
-        return setTime;
+    public boolean isSetCreated() {
+        return setCreated;
     }
+
+    public TimeInterval getRuntime() {
+        return runtime;
+    }
+
+    public ObservationGroup setRuntime(TimeInterval runtime) {
+        this.runtime = runtime;
+        setRuntime = runtime != null;
+        return this;
+    }
+
+    public boolean isSetRuntime() {
+        return setRuntime;
+    }
+
 
     public EntitySet<Observation> getObservations() {
         return observations;
@@ -125,7 +148,7 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(time, observations);
+        return Objects.hash(created, observations);
     }
 
     @Override
@@ -141,7 +164,7 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
         }
         final ObservationGroup other = (ObservationGroup) obj;
         return super.equals(other)
-                && Objects.equals(this.time, other.time)
+                && Objects.equals(this.created, other.created)
                 && Objects.equals(this.observations, other.observations);
     }
 

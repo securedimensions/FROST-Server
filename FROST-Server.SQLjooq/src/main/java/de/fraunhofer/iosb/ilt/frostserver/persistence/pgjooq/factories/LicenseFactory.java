@@ -83,6 +83,7 @@ public class LicenseFactory<J extends Comparable> implements EntityFactory<Licen
         Set<Property> select = query == null ? Collections.emptySet() : query.getSelect();
         License entity = new License();
         entity.setDefinition(getFieldOrNull(tuple, table.colDefinition));
+        entity.setLogo(getFieldOrNull(tuple, table.colLogo));
         entity.setDescription(getFieldOrNull(tuple, table.colDescription));
         J id = getFieldOrNull(tuple, table.getId());
         if (id != null) {
@@ -100,6 +101,7 @@ public class LicenseFactory<J extends Comparable> implements EntityFactory<Licen
     public boolean insert(PostgresPersistenceManager<J> pm, License l) throws NoSuchEntityException, IncompleteEntityException {
         Map<Field, Object> insert = new HashMap<>();
         insert.put(table.colDefinition, l.getDefinition());
+        insert.put(table.colLogo, l.getLogo());
         insert.put(table.colName, l.getName());
         insert.put(table.colDescription, l.getDescription());
         insert.put(table.colProperties, EntityFactories.objectToJson(l.getProperties()));
@@ -147,6 +149,10 @@ public class LicenseFactory<J extends Comparable> implements EntityFactory<Licen
             }
             update.put(table.colDefinition, op.getDefinition());
             message.addField(EntityProperty.DEFINITION);
+        }
+        if (op.isSetLogo()) {
+            update.put(table.colLogo, op.getLogo());
+            message.addField(EntityProperty.LOGO);
         }
         if (op.isSetDescription()) {
             if (op.getDescription() == null) {

@@ -37,6 +37,11 @@ public class TableStringMultiDatastreams extends AbstractTableMultiDatastreams<S
     public final TableField<Record, String> colThingId = createField(DSL.name("THING_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
+     * The column <code>public.MULTI_DATASTREAMS.PROJECT_ID</code>.
+     */
+    public final TableField<Record, String> colProjectId = createField(DSL.name("PROJECT_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
      * Create a <code>public.MULTI_DATASTREAMS</code> table reference
      */
     public TableStringMultiDatastreams() {
@@ -79,6 +84,11 @@ public class TableStringMultiDatastreams extends AbstractTableMultiDatastreams<S
     @Override
     public TableField<Record, String> getThingId() {
         return colThingId;
+    }
+
+    @Override
+    public TableField<Record, String> getProjectId() {
+        return colProjectId;
     }
 
     /**

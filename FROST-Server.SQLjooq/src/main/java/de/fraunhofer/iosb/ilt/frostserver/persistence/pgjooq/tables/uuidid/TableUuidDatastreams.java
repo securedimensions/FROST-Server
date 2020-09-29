@@ -48,6 +48,11 @@ public class TableUuidDatastreams extends AbstractTableDatastreams<UUID> {
     public final TableField<Record, UUID> colThingId = createField(DSL.name("THING_ID"), SQLDataType.UUID.nullable(false), this, "");
 
     /**
+     * The column <code>public.DATASTREAMS.PROJECT_ID</code>.
+     */
+    public final TableField<Record, UUID> colProjectId = createField(DSL.name("PROJECT_ID"), SQLDataType.UUID.nullable(false), this, "");
+
+    /**
      * Create a <code>public.DATASTREAMS</code> table reference
      */
     public TableUuidDatastreams() {
@@ -100,6 +105,11 @@ public class TableUuidDatastreams extends AbstractTableDatastreams<UUID> {
     @Override
     public TableField<Record, UUID> getThingId() {
         return colThingId;
+    }
+
+    @Override
+    public TableField<Record, UUID> getProjectId() {
+        return colProjectId;
     }
 
     /**

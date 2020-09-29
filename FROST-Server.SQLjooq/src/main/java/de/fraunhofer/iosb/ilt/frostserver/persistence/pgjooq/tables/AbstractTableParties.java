@@ -19,14 +19,19 @@ public abstract class AbstractTableParties<J extends Comparable> extends StaTabl
     public final TableField<Record, String> colDescription = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>public.PARTIES.ENCODING_TYPE</code>.
+     * The column <code>public.PARTIES.NICK_NAME</code>.
      */
-    public final TableField<Record, String> colEncodingType = createField(DSL.name("ENCODING_TYPE"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, String> colNickName = createField(DSL.name("NICK_NAME"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>public.PARTIES.METADATA</code>.
+     * The column <code>public.PARTIES.ROLE</code>.
      */
-    public final TableField<Record, String> colMetadata = createField(DSL.name("METADATA"), SQLDataType.CLOB, this, "");
+    public final TableField<Record, String> colRole = createField(DSL.name("ROLE"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>public.PARTIES.AUTH_ID</code>.
+     */
+    public final TableField<Record, String> colAuthId = createField(DSL.name("AUTH_ID"), SQLDataType.CLOB, this, "");
 
     /**
      * The column <code>public.PARTIES.NAME</code>.

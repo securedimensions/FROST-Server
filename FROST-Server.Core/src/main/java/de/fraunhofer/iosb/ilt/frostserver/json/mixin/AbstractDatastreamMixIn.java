@@ -48,6 +48,9 @@ public interface AbstractDatastreamMixIn extends NamedEntityMixIn {
     public abstract boolean isSetParty();
 
     @JsonIgnore
+    public abstract boolean isSetProject();
+
+    @JsonIgnore
     public abstract boolean isSetThing();
 
     @JsonIgnore

@@ -57,6 +57,8 @@ public class Datastream extends AbstractDatastream<Datastream> {
         super(id);
         if (!onlyId) {
             this.unitOfMeasurement = new UnitOfMeasurement();
+            this.observedProperty = new ObservedProperty();
+            this.license = new License();
         }
     }
 
@@ -70,8 +72,10 @@ public class Datastream extends AbstractDatastream<Datastream> {
         if (parentEntity.getEntityType() == EntityType.OBSERVEDPROPERTY) {
         	setObservedProperty(new ObservedProperty(parentId));
         	LOGGER.debug("Set observedPropertyId to {}.", parentId);
-            setLicense(new License(parentId));
+        	setLicense(new License(parentId));
             LOGGER.debug("Set LicenseId to {}.", parentId);
+            setProject(new Project(parentId));
+            LOGGER.debug("Set ProjectId to {}.", parentId);
             return true;
         }
 
@@ -86,8 +90,8 @@ public class Datastream extends AbstractDatastream<Datastream> {
 
     private void setSets(boolean set, boolean entityPropertiesOnly) {
         setUnitOfMeasurement = set;
-        setLicense = set;
         if (!entityPropertiesOnly) {
+        	setLicense = set;
             setObservedProperty = set;
         }
     }

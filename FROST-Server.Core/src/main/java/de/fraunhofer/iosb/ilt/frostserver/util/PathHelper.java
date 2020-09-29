@@ -41,6 +41,7 @@ public class PathHelper {
         navPropsForType.put(EntityType.TASKINGCAPABILITY, NavigationPropertyMain.TASKINGCAPABILITIES);
 
         navPropsForType = getNavPropsForType(EntityType.DATASTREAM);
+        navPropsForType.put(EntityType.PROJECT, NavigationPropertyMain.PROJECT);
         navPropsForType.put(EntityType.SENSOR, NavigationPropertyMain.SENSOR);
         navPropsForType.put(EntityType.PARTY, NavigationPropertyMain.PARTY);
         navPropsForType.put(EntityType.OBSERVEDPROPERTY, NavigationPropertyMain.OBSERVEDPROPERTY);
@@ -48,6 +49,7 @@ public class PathHelper {
         navPropsForType.put(EntityType.THING, NavigationPropertyMain.THING);
 
         navPropsForType = getNavPropsForType(EntityType.MULTIDATASTREAM);
+        navPropsForType.put(EntityType.PROJECT, NavigationPropertyMain.PROJECT);
         navPropsForType.put(EntityType.SENSOR, NavigationPropertyMain.SENSOR);
         navPropsForType.put(EntityType.PARTY, NavigationPropertyMain.PARTY);
         navPropsForType.put(EntityType.OBSERVEDPROPERTY, NavigationPropertyMain.OBSERVEDPROPERTIES);
@@ -82,6 +84,10 @@ public class PathHelper {
         navPropsForType.put(EntityType.MULTIDATASTREAM, NavigationPropertyMain.MULTIDATASTREAMS);
 
         navPropsForType = getNavPropsForType(EntityType.PARTY);
+        navPropsForType.put(EntityType.DATASTREAM, NavigationPropertyMain.DATASTREAMS);
+        navPropsForType.put(EntityType.MULTIDATASTREAM, NavigationPropertyMain.MULTIDATASTREAMS);
+
+        navPropsForType = getNavPropsForType(EntityType.PROJECT);
         navPropsForType.put(EntityType.DATASTREAM, NavigationPropertyMain.DATASTREAMS);
         navPropsForType.put(EntityType.MULTIDATASTREAM, NavigationPropertyMain.MULTIDATASTREAMS);
 

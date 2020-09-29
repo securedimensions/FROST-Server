@@ -47,9 +47,8 @@ public enum NavigationPropertyMain implements NavigationProperty {
     OBSERVATIONS("Observations", EntityType.OBSERVATION, true),
     OBSERVEDPROPERTY("ObservedProperty", EntityType.OBSERVEDPROPERTY, false),
     OBSERVEDPROPERTIES("ObservedProperties", EntityType.OBSERVEDPROPERTY, true),
-    LICENSE("License", EntityType.LICENSE, false),
-    LICENSES("Licenses", EntityType.LICENSE, true),
     SENSOR("Sensor", EntityType.SENSOR, false),
+    SENSORS("Sensors", EntityType.SENSOR, true),
     TASK("Task", EntityType.TASK, false),
     TASKS("Tasks", EntityType.TASK, true),
     TASKINGCAPABILITY("TaskingCapability", EntityType.TASKINGCAPABILITY, false),
@@ -57,10 +56,15 @@ public enum NavigationPropertyMain implements NavigationProperty {
     THING("Thing", EntityType.THING, false),
     THINGS("Things", EntityType.THING, true),
     
+    LICENSE("License", EntityType.LICENSE, false),
+    LICENSES("Licenses", EntityType.LICENSE, true),
     PARTY("Party", EntityType.PARTY, false),
-    OBSERVATIONGROUPS("ObservationGroups", EntityType.OBSERVATIONGROUP, true),
-    
-    ;
+    PARTIES("Parties", EntityType.PARTY, true),
+    PROJECT("Project", EntityType.PROJECT, false),
+    PROJECTS("Projects", EntityType.PROJECT, true),
+    OBSERVATIONGROUP("ObservationGroup", EntityType.OBSERVATIONGROUP, false),
+    OBSERVATIONGROUPS("ObservationGroups", EntityType.OBSERVATIONGROUP, true);
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NavigationPropertyMain.class.getName());
     private static final Map<String, NavigationPropertyMain> PROPERTY_BY_NAME = new HashMap<>();

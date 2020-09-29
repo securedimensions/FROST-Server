@@ -47,6 +47,11 @@ public class TableStringDatastreams extends AbstractTableDatastreams<String> {
     public final TableField<Record, String> colThingId = createField(DSL.name("THING_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
 
     /**
+     * The column <code>public.DATASTREAMS.PROJECT_ID</code>.
+     */
+    public final TableField<Record, String> colProjectId = createField(DSL.name("PROJECT_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
      * Create a <code>public.DATASTREAMS</code> table reference
      */
     public TableStringDatastreams() {
@@ -99,6 +104,11 @@ public class TableStringDatastreams extends AbstractTableDatastreams<String> {
     @Override
     public TableField<Record, String> getThingId() {
         return colThingId;
+    }
+
+    @Override
+    public TableField<Record, String> getProjectId() {
+        return colProjectId;
     }
 
     /**

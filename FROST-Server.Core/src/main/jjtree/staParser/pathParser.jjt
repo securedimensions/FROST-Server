@@ -58,7 +58,8 @@ TOKEN:
 | <C_THINGS:              "Things" >
 | <C_OBSERVATIONS:        "Observations" >
 | <C_OBSERVEDPROPERTIES:  "ObservedProperties" >
-| <C_LICENSES:  	  "Licenses" >
+| <C_LICENSES:  	  	  "Licenses" >
+| <C_PROJECTS:  	      "Projects" >
 | <C_TASKINGCAPABILITIES: "TaskingCapabilities" >
 | <C_TASKS:               "Tasks" >
 
@@ -75,6 +76,7 @@ TOKEN:
 | <E_OBSERVATION:        "Observation" >
 | <E_OBSERVEDPROPERTY:   "ObservedProperty" >
 | <E_LICENSE:            "License" >
+| <E_PROJECT:            "Project" >
 | <E_TASKINGCAPABILITY:  "TaskingCapability" >
 | <E_TASK:               "Task" >
 
@@ -83,11 +85,16 @@ TOKEN:
 | <EP_CREATIONTIME:      "creationTime" >
 | <EP_DESCRIPTION:       "description" >
 | <EP_DEFINITION:        "definition" >
+| <EP_LOGO:        		 "logo" >
+| <EP_URL:        		 "url" >
 | <EP_ENCODINGTYPE:      "encodingType" >
 | <EP_FEATURE:           "feature" >
 | <EP_LOCATION:          "location" >
 | <EP_METADATA:          "metadata" >
 | <EP_NAME:              "name" >
+| <EP_NICKNAME:          "nickName" >
+| <EP_ROLE:          	 "role" >
+| <EP_AUTHID:            "authId" >
 | <EP_OBSERVATIONTYPE:   "observationType" >
 | <EP_MULTIOBSERVATIONDATATYPES: "multiObservationDataTypes" >
 | <EP_OBSERVEDAREA:      "observedArea" >
@@ -99,6 +106,8 @@ TOKEN:
 | <EP_RESULTQUALITY:     "resultQuality" >
 | <EP_TASKINGPARAMETERS: "taskingParameters" >
 | <EP_TIME:              "time" >
+| <EP_CREATED:           "created" >
+| <EP_RUNTIME:           "runtime" >
 | <EP_UNITOFMEASUREMENT: "unitOfMeasurement" >
 | <EP_UNITOFMEASUREMENTS: "unitOfMeasurements" >
 | <EP_VALIDTIME:         "validTime" >
@@ -144,6 +153,7 @@ void IdentifiedPath(): {}
   cObservations() |
   cObservedProps() |
   cLicenses() |
+  cProjects() |
   cTaskingCapabilities() |
   cTasks()
 }
@@ -218,6 +228,7 @@ void childOfDatastream() #void: {}
   | eParty()
   | eObservedProp()
   | eLicense()
+  | eProject()
   | pId()
   | pSelfLink()
   | pObservedArea()
@@ -262,6 +273,7 @@ void childOfMultiDatastream() #void: {}
   | eThing()
   | eSensor()
   | eParty()
+  | eProject()
   | cObservedProps()
   | cLicenses()
   | pId()
@@ -382,7 +394,7 @@ void childOfObservationGroup() #void: {}
   | pSelfLink()
   | pName()
   | pDescription()
-  | pTime()
+  | pCreated()
   | cpRef()
   )
 }
@@ -494,9 +506,10 @@ void childOfParty() #void: {}
   | cMultiDatastreams()
   | pId()
   | pSelfLink()
-  | pMetadata()
-  | pEncodingType()
   | pName()
+  | pNickName()
+  | pRole()
+  | pAuthId()
   | pDescription()
   | pProperties()
   | cpRef()
@@ -727,8 +740,47 @@ void childOfLicense() #void: {}
   | pId()
   | pSelfLink()
   | pDefinition()
+  | pLogo()
   | pDescription()
   | pName()
+  | pProperties()
+  | cpRef()
+  )
+}
+
+/** Entity and collection Project(s) */
+void eProject(): {}
+{
+  <E_PROJECT>
+  (childOfProject())?
+}
+void cProjects(): {}
+{
+  <C_PROJECTS>
+  (
+    eProjectId()
+  | <PATH_SEPARATOR> cpRef()
+  )?
+}
+void eProjectId()#eProject: {String i;}
+{
+  <LB> ( i=Long(){jjtThis.jjtSetValue(i);}
+       | i=QuotedString(){jjtThis.jjtSetValue(i);}
+       )
+  <RB>
+      (childOfProject())?
+}
+void childOfProject() #void: {}
+{
+  <PATH_SEPARATOR>
+  ( cDatastreams()
+  | cMultiDatastreams()
+  | pId()
+  | pSelfLink()
+  | pUrl()
+  | pDescription()
+  | pName()
+  | pRuntime()
   | pProperties()
   | cpRef()
   )
@@ -767,6 +819,18 @@ void pDefinition(): {}
   (<PATH_SEPARATOR> ppValue() )?
 }
 
+void pLogo(): {}
+{
+  <EP_LOGO>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pUrl(): {}
+{
+  <EP_URL>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
 void pEncodingType(): {}
 {
   <EP_ENCODINGTYPE>
@@ -797,6 +861,24 @@ void pName(): {}
   (<PATH_SEPARATOR> ppValue() )?
 }
 
+void pNickName(): {}
+{
+  <EP_NICKNAME>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pRole(): {}
+{
+  <EP_ROLE>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pAuthId(): {}
+{
+  <EP_AUTHID>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
 void pObservedArea(): {}
 {
   <EP_OBSERVEDAREA>
@@ -818,6 +900,12 @@ void pMultiObservationDataTypes(): {}
 void pPhenomenonTime(): {}
 {
   <EP_PHENOMENONTIME>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pRuntime(): {}
+{
+  <EP_RUNTIME>
   (<PATH_SEPARATOR> ppValue() )?
 }
 
@@ -861,6 +949,12 @@ void pTaskingParameters(): {}
 void pTime(): {}
 {
   <EP_TIME>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pCreated(): {}
+{
+  <EP_CREATED>
   (<PATH_SEPARATOR> ppValue() )?
 }
 

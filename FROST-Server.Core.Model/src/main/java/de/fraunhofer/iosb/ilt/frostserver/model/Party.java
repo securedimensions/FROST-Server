@@ -28,11 +28,13 @@ import java.util.Objects;
  */
 public class Party extends NamedDsHoldingEntity<Party> {
 
-    private String encodingType;
-    private Object metadata;
+    private String nickName;
+    private String role;
+    private String authId;
 
-    private boolean setEncodingType;
-    private boolean setMetadata;
+    private boolean setNickName;
+    private boolean setRole;
+    private boolean setAuthId;
 
     public Party() {
         this(null);
@@ -54,51 +56,71 @@ public class Party extends NamedDsHoldingEntity<Party> {
     }
 
     private void setSets(boolean set) {
-        setEncodingType = set;
-        setMetadata = set;
+        setRole = set;
+        setNickName = set;
+        setAuthId = set;
     }
 
     @Override
     public void setEntityPropertiesSet(Party comparedTo, EntityChangedMessage message) {
         super.setEntityPropertiesSet(comparedTo, message);
         setSets(false);
-        if (!Objects.equals(encodingType, comparedTo.getEncodingType())) {
-            setEncodingType = true;
-            message.addEpField(EntityProperty.ENCODINGTYPE);
+        if (!Objects.equals(nickName, comparedTo.getNickName())) {
+            setNickName = true;
+            message.addEpField(EntityProperty.NICKNAME);
         }
-        if (!Objects.equals(metadata, comparedTo.getMetadata())) {
-            setMetadata = true;
-            message.addEpField(EntityProperty.METADATA);
+        if (!Objects.equals(role, comparedTo.getRole())) {
+            setRole = true;
+            message.addEpField(EntityProperty.ROLE);
+        }
+        if (!Objects.equals(authId, comparedTo.getAuthId())) {
+            setAuthId = true;
+            message.addEpField(EntityProperty.AUTHID);
         }
     }
 
-    public String getEncodingType() {
-        return encodingType;
+    public String getNickName() {
+        return nickName;
     }
 
-    public Party setEncodingType(String encodingType) {
-        this.encodingType = encodingType;
-        setEncodingType = true;
+    public Party setNickName(String nickName) {
+        this.nickName = nickName;
+        setNickName = true;
         return this;
     }
 
-    public boolean isSetEncodingType() {
-        return setEncodingType;
+    public boolean isSetNickName() {
+        return setNickName;
     }
 
-    public Object getMetadata() {
-        return metadata;
+    public String getRole() {
+        return role;
     }
 
-    public Party setMetadata(Object metadata) {
-        this.metadata = metadata;
-        setMetadata = true;
+    public Party setRole(String role) {
+        this.role = role;
+        setRole = true;
         return this;
     }
 
-    public boolean isSetMetadata() {
-        return setMetadata;
+    public boolean isSetRole() {
+        return setRole;
     }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public Party setAuthId(String authId) {
+        this.authId = authId;
+        setAuthId = true;
+        return this;
+    }
+
+    public boolean isSetAuthId() {
+        return setAuthId;
+    }
+
 
     @Override
     protected Party getThis() {
@@ -107,7 +129,7 @@ public class Party extends NamedDsHoldingEntity<Party> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), encodingType, metadata);
+        return Objects.hash(super.hashCode(), nickName, role, authId);
     }
 
     @Override
@@ -123,8 +145,9 @@ public class Party extends NamedDsHoldingEntity<Party> {
         }
         final Party other = (Party) obj;
         return super.equals(other)
-                && Objects.equals(encodingType, other.encodingType)
-                && Objects.equals(metadata, other.metadata);
+                && Objects.equals(nickName, other.nickName)
+                && Objects.equals(role, other.role)
+                && Objects.equals(authId, other.authId);
     }
 
 }

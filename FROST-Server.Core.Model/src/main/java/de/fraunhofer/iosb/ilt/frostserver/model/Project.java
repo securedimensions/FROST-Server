@@ -19,6 +19,7 @@ package de.fraunhofer.iosb.ilt.frostserver.model;
 
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Id;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.NamedDsHoldingEntity;
+import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInterval;
 import de.fraunhofer.iosb.ilt.frostserver.property.EntityProperty;
 import java.util.Objects;
 
@@ -26,86 +27,86 @@ import java.util.Objects;
  *
  * @author jab, scf
  */
-public class License extends NamedDsHoldingEntity<License> {
+public class Project extends NamedDsHoldingEntity<Project> {
 
-    private String definition;
-    private String logo;
+    private String url;
+    private TimeInterval runtime;
 
-    private boolean setDefinition;
-    private boolean setLogo;
+    private boolean setUrl;
+    private boolean setRuntime;
 
-    public License() {
+    public Project() {
     }
 
-    public License(Id id) {
+    public Project(Id id) {
         super(id);
     }
 
     @Override
     public EntityType getEntityType() {
-        return EntityType.LICENSE;
+        return EntityType.PROJECT;
     }
 
     @Override
     public void setEntityPropertiesSet(boolean set, boolean entityPropertiesOnly) {
         super.setEntityPropertiesSet(set, entityPropertiesOnly);
-        setDefinition = set;
-        setLogo = set;
+        setUrl = set;
+        setRuntime = set;
     }
 
     @Override
-    public void setEntityPropertiesSet(License comparedTo, EntityChangedMessage message) {
+    public void setEntityPropertiesSet(Project comparedTo, EntityChangedMessage message) {
         super.setEntityPropertiesSet(comparedTo, message);
-        if (!Objects.equals(definition, comparedTo.getDefinition())) {
-            setDefinition = true;
-            message.addEpField(EntityProperty.DEFINITION);
+        if (!Objects.equals(url, comparedTo.getUrl())) {
+            setUrl = true;
+            message.addEpField(EntityProperty.URL);
         } else {
-            setDefinition = false;
+            setUrl = false;
         }
-        if (!Objects.equals(logo, comparedTo.getLogo())) {
-            setLogo = true;
-            message.addEpField(EntityProperty.LOGO);
+        if (!Objects.equals(runtime, comparedTo.getRuntime())) {
+            setRuntime = true;
+            message.addEpField(EntityProperty.RUNTIME);
         } else {
-            setLogo = false;
+            setRuntime = false;
         }
     }
 
-    public String getDefinition() {
-        return definition;
+    public String getUrl() {
+        return url;
     }
 
-    public License setDefinition(String definition) {
-        this.definition = definition;
-        setDefinition = definition != null;
+    public Project setUrl(String url) {
+        this.url = url;
+        setUrl = url != null;
         return this;
     }
 
-    public boolean isSetDefinition() {
-        return setDefinition;
+    public boolean isSetUrl() {
+        return setUrl;
     }
 
-    public String getLogo() {
-        return logo;
+    public TimeInterval getRuntime() {
+        return runtime;
     }
 
-    public License setLogo(String logo) {
-        this.logo = logo;
-        setLogo = logo != null;
+    public Project setRuntime(TimeInterval runtime) {
+        this.runtime = runtime;
+        setRuntime = runtime != null;
         return this;
     }
 
-    public boolean isSetLogo() {
-        return setLogo;
+    public boolean isSetRuntime() {
+        return setRuntime;
     }
 
     @Override
-    protected License getThis() {
+    protected Project getThis() {
         return this;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), definition, logo);
+        return Objects.hash(super.hashCode(), url, runtime);
     }
 
     @Override
@@ -119,10 +120,10 @@ public class License extends NamedDsHoldingEntity<License> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final License other = (License) obj;
+        final Project other = (Project) obj;
         return super.equals(other)
-                && Objects.equals(definition, other.definition)
-                && Objects.equals(logo, other.logo);
+                && Objects.equals(url, other.url)
+                && Objects.equals(runtime, other.runtime);
     }
 
 }

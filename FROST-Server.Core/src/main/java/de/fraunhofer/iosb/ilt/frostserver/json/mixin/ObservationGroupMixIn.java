@@ -27,6 +27,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public interface ObservationGroupMixIn extends NamedEntityMixIn {
 
     @JsonIgnore
-    public abstract boolean isSetTime();
+    public abstract boolean isSetCreated();
+
+    @JsonIgnore
+    public abstract boolean isSetRuntime();
 
 }

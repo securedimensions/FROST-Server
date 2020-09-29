@@ -26,9 +26,19 @@ public abstract class AbstractTableObservationGroups<J extends Comparable> exten
     public final TableField<Record, String> colDescription = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>public.OBSERVATION_GROUP.TIME</code>.
+     * The column <code>public.OBSERVATION_GROUP.CREATED</code>.
      */
-    public final TableField<Record, OffsetDateTime> time = createField(DSL.name("TIME"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "");
+    public final TableField<Record, OffsetDateTime> colCreated = createField(DSL.name("CREATED"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "");
+
+    /**
+     * The column <code>public.OBSERVATION_GROUP.RUNTIME_START</code>.
+     */
+    public final TableField<Record, OffsetDateTime> colRuntimeStart = createField(DSL.name("RUNTIME_START"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "");
+
+    /**
+     * The column <code>public.OBSERVATION_GROUP.RUNTIME_END</code>.
+     */
+    public final TableField<Record, OffsetDateTime> colRuntimeEnd = createField(DSL.name("RUNTIME_END"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "");
 
     /**
      * Create a <code>public.OBSERVATION_GROUPS</code> table reference

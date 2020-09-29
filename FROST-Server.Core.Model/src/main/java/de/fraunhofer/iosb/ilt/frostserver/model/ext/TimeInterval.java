@@ -60,7 +60,10 @@ public class TimeInterval implements TimeValue {
             return false;
         }
         final TimeInterval other = (TimeInterval) obj;
-        return Objects.equals(this.interval, other.interval);
+        return (
+        		(this.interval.getStartMillis() == other.interval.getStartMillis()) && 
+        		(this.interval.getEndMillis() == other.interval.getEndMillis())
+        		);
     }
 
     public static TimeInterval create(long start, long end) {

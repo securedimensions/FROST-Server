@@ -30,6 +30,11 @@ public abstract class AbstractTableLicenses<J extends Comparable> extends StaTab
     public final TableField<Record, String> colDescription = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "");
 
     /**
+     * The column <code>public.LICENSES.LOGO</code>.
+     */
+    public final TableField<Record, String> colLogo = createField(DSL.name("LOGO"), SQLDataType.CLOB, this, "");
+
+    /**
      * The column <code>public.LICENSES.PROPERTIES</code>.
      */
     public final TableField<Record, String> colProperties = createField(DSL.name("PROPERTIES"), SQLDataType.CLOB, this, "");

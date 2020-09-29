@@ -58,6 +58,8 @@ public class EntityBuilderTest {
     public void setUp() {
         propertyValues.put(EntityProperty.CREATIONTIME, TimeInstant.now());
         propertyValues.put(EntityProperty.DEFINITION, "MyDefinition");
+        propertyValues.put(EntityProperty.LOGO, "https://www.secure-dimensions.de/images/SD.ico");
+        propertyValues.put(EntityProperty.URL, "https://www.secure-dimensions.de");
         propertyValues.put(EntityProperty.DESCRIPTION, "My description");
         propertyValues.put(EntityProperty.ENCODINGTYPE, "My EncodingType");
         propertyValues.put(EntityProperty.FEATURE, new Point(8, 42));
@@ -66,6 +68,9 @@ public class EntityBuilderTest {
         propertyValues.put(EntityProperty.METADATA, "my meta data");
         propertyValues.put(EntityProperty.MULTIOBSERVATIONDATATYPES, Arrays.asList("Type 1", "Type 2"));
         propertyValues.put(EntityProperty.NAME, "myName");
+        propertyValues.put(EntityProperty.NICKNAME, "myNickName");
+        propertyValues.put(EntityProperty.ROLE, "myRole");
+        propertyValues.put(EntityProperty.AUTHID, "myAuthID");
         propertyValues.put(EntityProperty.OBSERVATIONTYPE, "my Type");
         propertyValues.put(EntityProperty.OBSERVEDAREA, new Polygon(new LngLatAlt(0, 0), new LngLatAlt(1, 0), new LngLatAlt(1, 1)));
         Map<String, Object> parameters = new HashMap<>();
@@ -82,6 +87,8 @@ public class EntityBuilderTest {
         propertyValues.put(EntityProperty.SELFLINK, "http://my.self/link");
         propertyValues.put(EntityProperty.TASKINGPARAMETERS, parameters);
         propertyValues.put(EntityProperty.TIME, TimeInstant.now());
+        propertyValues.put(EntityProperty.CREATED, TimeInstant.now());
+        propertyValues.put(EntityProperty.RUNTIME, TimeInterval.parse("2014-03-01T13:00:00Z/2014-05-11T15:30:00Z"));
         UnitOfMeasurement unit1 = new UnitOfMeasurement("unitName", "unitSymbol", "unitDefinition");
         UnitOfMeasurement unit2 = new UnitOfMeasurement("unitName2", "unitSymbol2", "unitDefinition2");
         propertyValues.put(EntityProperty.UNITOFMEASUREMENT, unit1);
@@ -102,6 +109,8 @@ public class EntityBuilderTest {
         propertyValues.put(NavigationPropertyMain.LICENSE, new License(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.SENSOR, new Sensor(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.PARTY, new Party(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.PROJECT, new Project(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.OBSERVATIONGROUP, new ObservationGroup(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASK, new Task(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASKINGCAPABILITY, new TaskingCapability(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.THING, new Thing(new IdLong(nextId++)));
@@ -163,6 +172,21 @@ public class EntityBuilderTest {
         things.add(new Thing(new IdLong(nextId++)));
         things.add(new Thing(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.THINGS, things);
+
+        EntitySetImpl<Sensor> sensors = new EntitySetImpl<>(EntityType.SENSOR);
+        sensors.add(new Sensor(new IdLong(nextId++)));
+        sensors.add(new Sensor(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.SENSORS, sensors);
+
+        EntitySetImpl<Project> projects = new EntitySetImpl<>(EntityType.PROJECT);
+        projects.add(new Project(new IdLong(nextId++)));
+        projects.add(new Project(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.PROJECTS, projects);
+
+        EntitySetImpl<Party> parties = new EntitySetImpl<>(EntityType.PARTY);
+        parties.add(new Party(new IdLong(nextId++)));
+        parties.add(new Party(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.PARTIES, parties);
 
         for (NavigationPropertyMain np : NavigationPropertyMain.values()) {
             Assert.assertTrue("Missing value for " + np, propertyValues.containsKey(np));

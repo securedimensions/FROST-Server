@@ -25,6 +25,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
+import de.fraunhofer.iosb.ilt.frostserver.model.Project;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.UnitOfMeasurement;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.DataSize;
@@ -115,6 +116,7 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
         entity.setSensor(entityFactories.sensorFromId(tuple, table.getSensorId()));
         entity.setParty(entityFactories.partyFromId(tuple, table.getPartyId()));
         entity.setThing(entityFactories.thingFromId(tuple, table.getThingId()));
+        entity.setProject(entityFactories.projectFromId(tuple, table.getProjectId()));
         entity.setUnitOfMeasurement(new UnitOfMeasurement(getFieldOrNull(tuple, table.colUnitName), getFieldOrNull(tuple, table.colUnitSymbol), getFieldOrNull(tuple, table.colUnitDefinition)));
         return entity;
     }
@@ -136,6 +138,9 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
 
         Thing t = ds.getThing();
         entityFactories.entityExistsOrCreate(pm, t);
+        
+        Project j = ds.getProject();
+        entityFactories.entityExistsOrCreate(pm, j);
 
         Map<Field, Object> insert = new HashMap<>();
 
@@ -152,6 +157,7 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
         insert.put(table.getSensorId(), s.getId().getValue());
         insert.put(table.getPartyId(), p.getId().getValue());
         insert.put(table.getThingId(), t.getId().getValue());
+        insert.put(table.getProjectId(), j.getId().getValue());
 
         entityFactories.insertUserDefinedId(pm, insert, table.getId(), ds);
 
@@ -188,6 +194,7 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
         updateSensor(datastream, pm, update, message);
         updateParty(datastream, pm, update, message);
         updateThing(datastream, pm, update, message);
+        updateProject(datastream, pm, update, message);
         updateUnitOfMeasurement(datastream, update, message);
 
         DSLContext dslContext = pm.getDslContext();
@@ -229,6 +236,16 @@ public class DatastreamFactory<J extends Comparable> implements EntityFactory<Da
             }
             update.put(table.getThingId(), datastream.getThing().getId().getValue());
             message.addField(NavigationPropertyMain.THING);
+        }
+    }
+
+    private void updateProject(Datastream datastream, PostgresPersistenceManager<J> pm, Map<Field, Object> update, EntityChangedMessage message) throws NoSuchEntityException {
+        if (datastream.isSetProject()) {
+            if (!entityFactories.entityExists(pm, datastream.getProject())) {
+                throw new NoSuchEntityException("Project with no id or not found.");
+            }
+            update.put(table.getProjectId(), datastream.getProject().getId().getValue());
+            message.addField(NavigationPropertyMain.PROJECT);
         }
     }
 

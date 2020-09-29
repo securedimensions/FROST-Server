@@ -30,6 +30,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
+import de.fraunhofer.iosb.ilt.frostserver.model.Project;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySet;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySetImpl;
@@ -69,7 +70,8 @@ public class EntityParserTest {
     @Test
     public void readObservationGroupLinkObservation() throws IOException {
         String json = "{\n"
-                + "    \"time\": \"2020-07-31T12:00:00Z\",\n"
+        		+ " \"created\": \"2020-07-31T12:00:00Z\",\n"
+        		+ " \"runtime\": \"2014-03-01T13:00:00Z/2020-07-31T12:00:00Z\",\n"
                 + "	\"name\": \"Observation Group Test\",\n"
                 + "	\"description\": \"This is an observation group.\",\n"
                 + "    \"Observations\": [\n"
@@ -80,8 +82,9 @@ public class EntityParserTest {
         EntitySet<Observation> obs = new EntitySetImpl<>(EntityType.OBSERVATION);
         obs.add(ob);
         ObservationGroup expectedResult = new ObservationGroup()
-                .setTime(TimeInstant.parse("2020-07-31T12:00:00Z"))
-                .setName("Observation Group Test")
+                .setCreated(TimeInstant.parse("2020-07-31T12:00:00Z"))
+                .setRuntime(TestHelper.createTimeInterval(2014, 03, 01, 13, 0, 0, 2020, 07, 31, 12, 00, 0, DateTimeZone.UTC))
+.setName("Observation Group Test")
                 .setDescription("This is an observation group.")
                 .setObservations(obs);
         ObservationGroup parsedResult = entityParser.parseObservationGroup(json);
@@ -92,7 +95,7 @@ public class EntityParserTest {
     @Test
     public void readObservationGroupLinkObservations() throws IOException {
         String json = "{\n"
-                + "    \"time\": \"2020-07-31T12:00:00Z\",\n"
+                + "    \"created\": \"2020-07-31T12:00:00Z\",\n"
                 + "	\"name\": \"Observation Group Test\",\n"
                 + "	\"description\": \"This is an observation group.\",\n"
                 + "    \"Observations\": [\n"
@@ -104,7 +107,7 @@ public class EntityParserTest {
         obs.add(new Observation().setId(new IdLong(1)));
         obs.add(new Observation().setId(new IdLong(2)));
         ObservationGroup expectedResult = new ObservationGroup()
-                .setTime(TimeInstant.parse("2020-07-31T12:00:00Z"))
+                .setCreated(TimeInstant.parse("2020-07-31T12:00:00Z"))
                 .setName("Observation Group Test")
                 .setDescription("This is an observation group.")
                 .setObservations(obs);
@@ -128,6 +131,7 @@ public class EntityParserTest {
                 + "	\"Thing\": {\"@iot.id\": 5394817},\n"
                 + "	\"ObservedProperty\": {\"@iot.id\": 5394816},\n"
                 + "	\"License\": {\"@iot.id\": 42},\n"
+                + "	\"Project\": {\"@iot.id\": 55},\n"
                 + "	\"Sensor\": {\"@iot.id\": " + Long.MAX_VALUE + "},\n"
                 + "	\"Party\": {\"@iot.id\": " + Long.MIN_VALUE + "}\n"
                 + "}";
@@ -144,9 +148,11 @@ public class EntityParserTest {
                 .setThing(new Thing().setId(new IdLong(5394817)))
                 .setObservedProperty(new ObservedProperty().setId(new IdLong(5394816)))
                 .setLicense(new License().setId(new IdLong(42)))
+                .setProject(new Project().setId(new IdLong(55)))
                 .setSensor(new Sensor().setId(new IdLong(Long.MAX_VALUE)))
                 .setParty(new Party().setId(new IdLong(Long.MIN_VALUE)));
-        assertEquals(expectedResult, entityParser.parseDatastream(json));
+        Datastream ds = entityParser.parseDatastream(json);
+        assertEquals(expectedResult, ds);
     }
 
     @Test
@@ -164,6 +170,7 @@ public class EntityParserTest {
                 + "	\"Thing\": {\"@iot.id\": 5394817},\n"
                 + "	\"ObservedProperty\": {\"@iot.id\": 5394816},\n"
                 + "	\"License\": {\"@iot.id\": 42},\n"
+                + "	\"Project\": {\"@iot.id\": 55},\n"
                 + "	\"Sensor\": {\"@iot.id\": 5394815},\n"
                 + "	\"Party\": {\"@iot.id\": 4711},\n"
                 + "	\"observedArea\": {\n"
@@ -181,6 +188,7 @@ public class EntityParserTest {
                 && result.isSetThing()
                 && result.isSetObservedProperty()
                 && result.isSetLicense()
+                && result.isSetProject()
                 && result.isSetSensor()
                 && result.isSetParty()
                 && result.isSetObservedArea()
@@ -199,6 +207,7 @@ public class EntityParserTest {
                 && !result.isSetThing()
                 && !result.isSetObservedProperty()
                 && !result.isSetLicense()
+                && !result.isSetProject()
                 && !result.isSetSensor()
                 && !result.isSetParty()
                 && !result.isSetObservedArea()
@@ -221,6 +230,7 @@ public class EntityParserTest {
                 + "	\"Thing\": {\"@iot.id\": 5394817},\n"
                 + "	\"ObservedProperty\": {\"@iot.id\": 5394816},\n"
                 + "	\"License\": {\"@iot.id\": 42},\n"
+                + "	\"Project\": {\"@iot.id\": 55},\n"
                 + "	\"Sensor\": {\"@iot.id\": 5394815},\n"
                 + "	\"Party\": {\"@iot.id\": 4711},\n"
                 + "	\"observedArea\": {\n"
@@ -241,6 +251,7 @@ public class EntityParserTest {
                 .setThing(new Thing().setId(new IdLong(5394817)))
                 .setObservedProperty(new ObservedProperty().setId(new IdLong(5394816)))
                 .setLicense(new License().setId(new IdLong(42)))
+                .setProject(new Project().setId(new IdLong(55)))
                 .setSensor(new Sensor().setId(new IdLong(5394815)))
                 .setParty(new Party().setId(new IdLong(4711)))
                 .setObservedArea(TestHelper.getPolygon(2, 100, 0, 101, 0, 101, 1, 100, 1, 100, 0));
@@ -761,11 +772,11 @@ public class EntityParserTest {
                 + "  \"description\": \"Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.\",\n"
                 + "  \"definition\": \"https://creativecommons.org/licenses/by/4.0/\"\n"
                 + "}";
-        ObservedProperty expectedResult = new ObservedProperty()
+        License expectedResult = new License()
                 .setName("Create Commons BY")
                 .setDescription("Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.")
                 .setDefinition("https://creativecommons.org/licenses/by/4.0/");
-        assertEquals(expectedResult, entityParser.parseObservedProperty(json));
+        assertEquals(expectedResult, entityParser.parseLicense(json));
     }
 
     @Test
@@ -775,6 +786,33 @@ public class EntityParserTest {
         Assert.assertTrue(!result.isSetName()
                 && !result.isSetDescription()
                 && !result.isSetDefinition());
+    }
+
+    @Test
+    public void readProjectBasic() throws IOException {
+        String json = "{\n"
+                + "  \"name\": \"My first CitSci Project\",\n"
+                + "  \"description\": \"Frogs in the Desert\",\n"
+                + "  \"url\": \"https://cos4cloud.demo.secure-dimensions.de\",\n"
+                + "  \"runtime\": \"2014-03-01T13:00:00.000Z/2015-05-11T15:30:00.000Z\"\n"
+                + "}";
+        Project expectedResult = new Project()
+                .setName("My first CitSci Project")
+                .setDescription("Frogs in the Desert")
+                .setUrl("https://cos4cloud.demo.secure-dimensions.de")
+                .setRuntime(TestHelper.createTimeInterval(2014, 03, 1, 13, 0, 0, 2015, 05, 11, 15, 30, 0, DateTimeZone.UTC));
+                
+        assertEquals(expectedResult, entityParser.parseProject(json));
+    }
+
+    @Test
+    public void readProjectWithAllValuesMissing() throws IOException {
+        String json = "{}";
+        Project result = entityParser.parseProject(json);
+        Assert.assertTrue(!result.isSetName()
+                && !result.isSetDescription()
+                && !result.isSetUrl()
+                && !result.isSetRuntime());
     }
 
     @Test

@@ -38,6 +38,11 @@ public class TableUuidMultiDatastreams extends AbstractTableMultiDatastreams<UUI
     public final TableField<Record, UUID> colThingId = createField(DSL.name("THING_ID"), SQLDataType.UUID.nullable(false), this, "");
 
     /**
+     * The column <code>public.MULTI_DATASTREAMS.PROJECT_ID</code>.
+     */
+    public final TableField<Record, UUID> colProjectId = createField(DSL.name("PROJECT_ID"), SQLDataType.UUID.nullable(false), this, "");
+
+    /**
      * Create a <code>public.MULTI_DATASTREAMS</code> table reference
      */
     public TableUuidMultiDatastreams() {
@@ -80,6 +85,11 @@ public class TableUuidMultiDatastreams extends AbstractTableMultiDatastreams<UUI
     @Override
     public TableField<Record, UUID> getThingId() {
         return colThingId;
+    }
+
+    @Override
+    public TableField<Record, UUID> getProjectId() {
+        return colProjectId;
     }
 
     /**

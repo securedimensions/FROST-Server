@@ -24,14 +24,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  * @author jab, scf
  */
-public interface PartyMixIn extends NamedDsHoldingEntityMixIn {
+public interface ProjectMixIn extends NamedDsHoldingEntityMixIn {
 
     @JsonIgnore
-    public abstract boolean isSetNickName();
-
+    public abstract boolean isSetUrl();
+    
     @JsonIgnore
-    public abstract boolean isSetRole();
-
-    @JsonIgnore
-    public abstract boolean isSetAuthId();
+    public abstract boolean isSetRuntime();
+    
 }

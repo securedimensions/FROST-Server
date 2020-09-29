@@ -31,6 +31,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
+import de.fraunhofer.iosb.ilt.frostserver.model.Project;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Entity;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySet;
@@ -228,7 +229,8 @@ public class EntityFormatterTest {
         EntitySet<Thing> things = new EntitySetImpl<>(EntityType.THING);
         things.add(entity);
         things.setCount(1);
-        Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntityCollection(things)));
+        String s = EntityFormatter.writeEntityCollection(things);
+        Assert.assertTrue(jsonEqual(expResult, s));
     }
 
     @Test
@@ -436,7 +438,7 @@ public class EntityFormatterTest {
                 + "	\"Observations@iot.navigationLink\": \"ObservationGroups(1)/Observations\",\n"
                 + "	\"name\": \"Observation Group Test\",\n"
                 + "	\"description\": \"This is an observation group.\",\n"
-                + "	\"time\": \"2020-07-31T12:00:00.000Z\"\n"
+                + "	\"created\": \"2020-07-31T12:00:00.000Z\"\n"
                 + "}";
         Entity entity = new ObservationGroup()
                 .setId(new IdLong(1))
@@ -444,7 +446,7 @@ public class EntityFormatterTest {
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "ObservationGroups(1)/Observations").setExportObject(false))
                 .setName("Observation Group Test")
                 .setDescription("This is an observation group.")
-                .setTime(TestHelper.createTimeInstant(2020, 07, 31, 12, 0, 0, DateTimeZone.forOffsetHours(0), DateTimeZone.UTC));
+                .setCreated(TestHelper.createTimeInstant(2020, 07, 31, 12, 0, 0, DateTimeZone.forOffsetHours(0), DateTimeZone.UTC));
         String parsedResult = EntityFormatter.writeEntity(entity);
         Assert.assertTrue(jsonEqual(expResult, parsedResult));
     }
@@ -458,6 +460,7 @@ public class EntityFormatterTest {
                 + "	\"Thing@iot.navigationLink\": \"HistoricalLocations(1)/Thing\",\n"
                 + "	\"Sensor@iot.navigationLink\": \"Datastreams(1)/Sensor\",\n"
                 + "	\"Party@iot.navigationLink\": \"Datastreams(1)/Party\",\n"
+                + "	\"Project@iot.navigationLink\": \"Datastreams(1)/Project\",\n"
                 + "	\"ObservedProperty@iot.navigationLink\": \"Datastreams(1)/ObservedProperty\",\n"
                 + "	\"Observations@iot.navigationLink\": \"Datastreams(1)/Observations\",\n"
                 + "	\"name\": \"This is a datastream measuring the temperature in an oven.\",\n"
@@ -478,6 +481,7 @@ public class EntityFormatterTest {
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setSensor(new Sensor().setNavigationLink("Datastreams(1)/Sensor").setExportObject(false))
                 .setParty(new Party().setNavigationLink("Datastreams(1)/Party").setExportObject(false))
+                .setProject(new Project().setNavigationLink("Datastreams(1)/Project").setExportObject(false))
                 .setObservedProperty(
                         new ObservedProperty().setNavigationLink("Datastreams(1)/ObservedProperty").setExportObject(false))
                 .setObservations(
@@ -492,7 +496,8 @@ public class EntityFormatterTest {
                 .setObservationType("http://www.opengis.net/def/observationType/OGCOM/2.0/OM_Measurement")
                 .setPhenomenonTime(TestHelper.createTimeInterval(2014, 03, 1, 13, 0, 0, 2015, 05, 11, 15, 30, 0, DateTimeZone.UTC))
                 .setResultTime(TestHelper.createTimeInterval(2014, 03, 01, 13, 0, 0, 2015, 05, 11, 15, 30, 0, DateTimeZone.UTC));
-        Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
+        String s = EntityFormatter.writeEntity(entity);
+        Assert.assertTrue(jsonEqual(expResult, s));
     }
 
     @Test
@@ -504,6 +509,7 @@ public class EntityFormatterTest {
                 + "	\"Thing@iot.navigationLink\": \"HistoricalLocations(1)/Thing\",\n"
                 + "	\"Sensor@iot.navigationLink\": \"Datastreams(1)/Sensor\",\n"
                 + "	\"Party@iot.navigationLink\": \"Datastreams(1)/Party\",\n"
+                + "	\"Project@iot.navigationLink\": \"Datastreams(1)/Project\",\n"
                 + "	\"ObservedProperty@iot.navigationLink\": \"Datastreams(1)/ObservedProperty\",\n"
                 + "	\"Observations@iot.navigationLink\": \"Datastreams(1)/Observations\",\n"
                 + "	\"name\": \"This is a datastream measuring the temperature in an oven.\",\n"
@@ -524,6 +530,7 @@ public class EntityFormatterTest {
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setSensor(new Sensor().setNavigationLink("Datastreams(1)/Sensor").setExportObject(false))
                 .setParty(new Party().setNavigationLink("Datastreams(1)/Party").setExportObject(false))
+                .setProject(new Project().setNavigationLink("Datastreams(1)/Project").setExportObject(false))
                 .setObservedProperty(new ObservedProperty().setNavigationLink("Datastreams(1)/ObservedProperty").setExportObject(false))
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "Datastreams(1)/Observations").setExportObject(false))
                 .setUnitOfMeasurement(new UnitOfMeasurement())
@@ -544,6 +551,7 @@ public class EntityFormatterTest {
                 + "	\"Thing@iot.navigationLink\": \"HistoricalLocations(1)/Thing\",\n"
                 + "	\"Sensor@iot.navigationLink\": \"Datastreams(1)/Sensor\",\n"
                 + "	\"Party@iot.navigationLink\": \"Datastreams(1)/Party\",\n"
+                + "	\"Project@iot.navigationLink\": \"Datastreams(1)/Project\",\n"
                 + "	\"ObservedProperty@iot.navigationLink\": \"Datastreams(1)/ObservedProperty\",\n"
                 + "	\"Observations@iot.navigationLink\": \"Datastreams(1)/Observations\",\n"
                 + "	\"name\": \"This is a datastream measuring the temperature in an oven.\",\n"
@@ -569,6 +577,7 @@ public class EntityFormatterTest {
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setSensor(new Sensor().setNavigationLink("Datastreams(1)/Sensor").setExportObject(false))
                 .setParty(new Party().setNavigationLink("Datastreams(1)/Party").setExportObject(false))
+                .setProject(new Project().setNavigationLink("Datastreams(1)/Project").setExportObject(false))
                 .setObservedProperty(new ObservedProperty().setNavigationLink("Datastreams(1)/ObservedProperty").setExportObject(false))
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "Datastreams(1)/Observations"))
                 .setName("This is a datastream measuring the temperature in an oven.")
@@ -595,6 +604,7 @@ public class EntityFormatterTest {
                 + "	\"Thing@iot.navigationLink\": \"HistoricalLocations(1)/Thing\",\n"
                 + "	\"Sensor@iot.navigationLink\": \"MultiDatastreams(1)/Sensor\",\n"
                 + "	\"Party@iot.navigationLink\": \"MultiDatastreams(1)/Party\",\n"
+                + "	\"Project@iot.navigationLink\": \"MultiDatastreams(1)/Project\",\n"
                 + "	\"ObservedProperties@iot.navigationLink\": \"MultiDatastreams(1)/ObservedProperties\",\n"
                 + "	\"Licenses@iot.navigationLink\": \"MultiDatastreams(1)/Licenses\",\n"
                 + "	\"Observations@iot.navigationLink\": \"MultiDatastreams(1)/Observations\",\n"
@@ -626,6 +636,7 @@ public class EntityFormatterTest {
                 .setThing(new Thing().setNavigationLink("HistoricalLocations(1)/Thing").setExportObject(false))
                 .setSensor(new Sensor().setNavigationLink("MultiDatastreams(1)/Sensor").setExportObject(false))
                 .setParty(new Party().setNavigationLink("MultiDatastreams(1)/Party").setExportObject(false))
+                .setProject(new Project().setNavigationLink("MultiDatastreams(1)/Project").setExportObject(false))
                 .setObservations(new EntitySetImpl(EntityType.OBSERVATION, "MultiDatastreams(1)/Observations"))
                 .setObservedProperties(new EntitySetImpl(EntityType.OBSERVEDPROPERTY, "MultiDatastreams(1)/ObservedProperties"))
                 .setLicenses(new EntitySetImpl(EntityType.LICENSE, "MultiDatastreams(1)/Licenses"))
@@ -703,8 +714,9 @@ public class EntityFormatterTest {
                 + "	\"Datastreams@iot.navigationLink\": \"Parties(1)/Datastreams\",\n"
                 + "	\"name\": \"Long John Silver\",\n"
                 + "	\"description\": \"The opportunistic pirate by Robert Louis Stevenson\",\n"
-                + "	\"encodingType\": \"text/html\",\n"
-                + "	\"metadata\": \"https://en.wikipedia.org/wiki/Long_John_Silver\"\n"
+                + "	\"nickName\": \"Long John Silver\",\n"
+                + "	\"role\": \"individual\",\n"
+                + "	\"authId\": \"72df6f61-876f-4f78-bbe3-3f945a47ba5e\"\n"
                 + "}";
         Entity entity = new Party()
                 .setId(new IdLong(1))
@@ -712,8 +724,9 @@ public class EntityFormatterTest {
                 .setDatastreams(new EntitySetImpl(EntityType.DATASTREAM, "Parties(1)/Datastreams"))
                 .setName("Long John Silver")
                 .setDescription("The opportunistic pirate by Robert Louis Stevenson")
-                .setEncodingType("text/html")
-                .setMetadata("https://en.wikipedia.org/wiki/Long_John_Silver");
+                .setNickName("Long John Silver")
+                .setRole("individual")
+                .setAuthId("72df6f61-876f-4f78-bbe3-3f945a47ba5e");
         String x = EntityFormatter.writeEntity(entity);
         Assert.assertTrue(jsonEqual(expResult, x));
     }
@@ -727,8 +740,9 @@ public class EntityFormatterTest {
                 + "	\"@iot.selfLink\": \"http://example.org/v1.0/Party(1)\",\n"
                 + "	\"name\": \"Long John Silver\",\n"
                 + "	\"description\": \"The opportunistic pirate by Robert Louis Stevenson\",\n"
-                + "	\"encodingType\": \"text/html\",\n"
-                + "	\"metadata\": \"https://en.wikipedia.org/wiki/Long_John_Silver\"\n"
+                + "	\"nickName\": \"Long John Silver\",\n"
+                + "	\"role\": \"individual\",\n"
+                + "	\"authId\": \"72df6f61-876f-4f78-bbe3-3f945a47ba5e\"\n"
                 + "}";
         Entity entity = new Party()
                 .setId(new IdLong(1))
@@ -736,8 +750,9 @@ public class EntityFormatterTest {
                 .setDatastreams(new EntitySetImpl(EntityType.DATASTREAM))
                 .setName("Long John Silver")
                 .setDescription("The opportunistic pirate by Robert Louis Stevenson")
-                .setEncodingType("text/html")
-                .setMetadata("https://en.wikipedia.org/wiki/Long_John_Silver");
+                .setNickName("Long John Silver")
+                .setRole("individual")
+                .setAuthId("72df6f61-876f-4f78-bbe3-3f945a47ba5e");
         Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
     }
     

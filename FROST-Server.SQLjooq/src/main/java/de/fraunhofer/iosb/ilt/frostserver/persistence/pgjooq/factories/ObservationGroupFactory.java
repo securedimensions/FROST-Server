@@ -78,20 +78,28 @@ public class ObservationGroupFactory<J extends Comparable> implements EntityFact
         }
         entity.setName(getFieldOrNull(tuple, table.colName));
         entity.setDescription(getFieldOrNull(tuple, table.colDescription));
-        entity.setTime(Utils.instantFromTime(getFieldOrNull(tuple, table.time)));
+        entity.setCreated(Utils.instantFromTime(getFieldOrNull(tuple, table.colCreated)));
+        
+        /* This needs to go into the insert section !
+        OffsetDateTime pTimeStart = getFieldOrNull(tuple, table.colRuntimeStart);
+        OffsetDateTime pTimeEnd = getFieldOrNull(tuple, table.colRuntimeEnd);
+        if (pTimeStart != null && pTimeEnd != null) {
+            entity.setRuntime(Utils.intervalFromTimes(pTimeStart, pTimeEnd));
+        }
+        */
         return entity;
     }
 
     @Override
     public boolean insert(PostgresPersistenceManager<J> pm, ObservationGroup og) throws NoSuchEntityException, IncompleteEntityException {
-    	OffsetDateTime newTime = OffsetDateTime.ofInstant(Instant.ofEpochMilli(og.getTime().getDateTime().getMillis()), UTC);
+    	OffsetDateTime newTime = OffsetDateTime.ofInstant(Instant.ofEpochMilli(og.getCreated().getDateTime().getMillis()), UTC);
 
     	DSLContext dslContext = pm.getDslContext();
 
         Map<Field, Object> insert = new HashMap<>();
         insert.put(table.colName, og.getName());
         insert.put(table.colDescription, og.getDescription());
-        insert.put(table.time, newTime);
+        insert.put(table.colCreated, newTime);
         
         entityFactories.insertUserDefinedId(pm, insert, table.getId(), og);
 
@@ -124,13 +132,6 @@ public class ObservationGroupFactory<J extends Comparable> implements EntityFact
 
         EntityChangedMessage message = new EntityChangedMessage();
 
-        if (og.isSetTime()) {
-            if (og.getTime() == null) {
-                throw new IncompleteEntityException("time" + CAN_NOT_BE_NULL);
-            }
-            update.put(table.time, og.getTime().getOffsetDateTime());
-            message.addField(EntityProperty.TIME);
-        }
         if (og.isSetDescription()) {
             if (og.getDescription() == null) {
                 throw new IncompleteEntityException(EntityProperty.DESCRIPTION.jsonName + CAN_NOT_BE_NULL);

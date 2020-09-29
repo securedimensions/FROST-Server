@@ -61,6 +61,9 @@
             <column name="THING_ID" type="${uuid_type}">
                 <constraints nullable="false"/>
             </column>
+            <column name="PROJECT_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
             <column name="UNIT_NAME" type="VARCHAR(255)"/>
             <column name="UNIT_SYMBOL" type="VARCHAR(255)"/>
             <column name="UNIT_DEFINITION" type="VARCHAR(255)"/>
@@ -115,7 +118,9 @@
             </column>
             <column name="NAME" type="TEXT"/>
             <column name="DESCRIPTION" type="TEXT"/>
-            <column name="TIME" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="CREATED" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="RUNTIME_START" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="RUNTIME_END" type="TIMESTAMP WITH TIME ZONE"/>           
         </createTable>
     </changeSet>
 
@@ -264,9 +269,28 @@
             </column>
             <column name="NAME" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT"/>
-            <column name="ENCODING_TYPE" type="TEXT"/>
-            <column name="METADATA" type="TEXT"/>
+            <column name="NICK_NAME" type="TEXT"/>
+            <column name="ROLE" type="TEXT"/>
+            <column name="AUTH_ID" type="TEXT"/>
         </createTable>
+    </changeSet>
+
+   <changeSet author="scf" id="20200924-projects" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="PROJECTS" />
+            </not>
+        </preConditions>
+        <createTable tableName="PROJECTS">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}" >
+                <constraints primaryKey="true" primaryKeyName="PROJECTS_PKEY"/>
+            </column>
+            <column name="NAME" type="TEXT" />
+            <column name="DESCRIPTION" type="TEXT"/>
+            <column name="NICK_NAME" type="TEXT"/>
+            <column name="ROLE" type="TEXT"/>
+            <column name="AUTH_ID" type="TEXT"/>
+       </createTable>
     </changeSet>
 
     <changeSet author="scf" id="20171122-things" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
@@ -335,6 +359,12 @@
             constraintName="DATASTREAMS_PARTY_ID_FKEY"
             baseTableName="DATASTREAMS" baseColumnNames="PARTY_ID"
             referencedTableName="PARTIES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="DATASTREAMS_PROJECT_ID_FKEY"
+            baseTableName="DATASTREAMS" baseColumnNames="PROJECT_ID"
+            referencedTableName="PROJECTS" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE"/>
         <addForeignKeyConstraint
@@ -428,6 +458,9 @@
             <column name="THING_ID" type="${uuid_type}">
                 <constraints nullable="false"/>
             </column>
+            <column name="PROJECT_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
             <column name="UNIT_OF_MEASUREMENTS" type="TEXT"/>
             <column name="OBSERVED_AREA" type="GEOMETRY"/>
         </createTable>
@@ -448,6 +481,12 @@
             constraintName="MULTI_DATASTREAMS_THING_ID_FKEY"
             baseTableName="MULTI_DATASTREAMS" baseColumnNames="THING_ID"
             referencedTableName="THINGS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+        <addForeignKeyConstraint
+            constraintName="MULTI_DATASTREAMS_PROJECT_ID_FKEY"
+            baseTableName="MULTI_DATASTREAMS" baseColumnNames="PROJECT_ID"
+            referencedTableName="PROJECTS" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE" />
 
@@ -534,6 +573,9 @@
         <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_THING_ID">
             <column name="THING_ID" />
         </createIndex>
+        <createIndex tableName="DATASTREAMS" indexName="DATASTREAMS_PROJECT_ID">
+            <column name="PROJECT_ID" />
+        </createIndex>
         <createIndex tableName="HIST_LOCATIONS" indexName="HIST_LOCATIONS_THING_ID">
             <column name="THING_ID" />
         </createIndex>
@@ -571,6 +613,9 @@
         </createIndex>
         <createIndex tableName="MULTI_DATASTREAMS" indexName="MULTI_DATASTREAMS_PARTY_ID">
             <column name="PARTY_ID" />
+        </createIndex>
+        <createIndex tableName="MULTI_DATASTREAMS" indexName="MULTI_DATASTREAMS_PROJECT_ID">
+            <column name="PROJECT_ID" />
         </createIndex>
         <createIndex tableName="MULTI_DATASTREAMS" indexName="MULTI_DATASTREAMS_THING_ID">
             <column name="THING_ID" />
@@ -618,6 +663,9 @@
             <column name="PROPERTIES" type="TEXT"/>
         </addColumn>
         <addColumn tableName="PARTIES">
+            <column name="PROPERTIES" type="TEXT"/>
+        </addColumn>
+        <addColumn tableName="PROJECTS">
             <column name="PROPERTIES" type="TEXT"/>
         </addColumn>
         <addColumn tableName="MULTI_DATASTREAMS">

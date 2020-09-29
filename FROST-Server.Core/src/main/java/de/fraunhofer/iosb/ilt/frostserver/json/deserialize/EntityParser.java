@@ -40,6 +40,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
+import de.fraunhofer.iosb.ilt.frostserver.model.Project;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Entity;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.EntitySet;
@@ -131,6 +132,8 @@ public class EntityParser {
         module.addDeserializer(TimeValue.class, new TimeValueDeserializer());
 
         module.addDeserializer(Party.class, new CustomEntityDeserializer<>(Party.class));
+        module.addDeserializer(Project.class, new CustomEntityDeserializer<>(Project.class));
+        module.addDeserializer(License.class, new CustomEntityDeserializer<>(License.class));
         
         mapper.registerModule(module);
         return mapper;
@@ -187,6 +190,10 @@ public class EntityParser {
 
     public Thing parseThing(String value) throws IOException {
         return mapper.readValue(value, Thing.class);
+    }
+
+    public Project parseProject(String value) throws IOException {
+        return mapper.readValue(value, Project.class);
     }
 
     public ObservationGroup parseObservationGroup(String value) throws IOException {

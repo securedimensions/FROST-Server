@@ -30,6 +30,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
+import de.fraunhofer.iosb.ilt.frostserver.model.Project;
 import de.fraunhofer.iosb.ilt.frostserver.model.Task;
 import de.fraunhofer.iosb.ilt.frostserver.model.TaskingCapability;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
@@ -55,7 +56,6 @@ public class MixinUtils {
         mapper.addMixIn(Location.class, LocationMixIn.class);
         mapper.addMixIn(Observation.class, ObservationMixIn.class);
         mapper.addMixIn(ObservedProperty.class, ObservedPropertyMixIn.class);
-        mapper.addMixIn(License.class, LicenseMixIn.class);
         mapper.addMixIn(Sensor.class, SensorMixIn.class);
         mapper.addMixIn(Task.class, TaskMixIn.class);
         mapper.addMixIn(TaskingCapability.class, TaskingCapabilityMixIn.class);
@@ -63,7 +63,9 @@ public class MixinUtils {
         mapper.addMixIn(UnitOfMeasurement.class, UnitOfMeasurementMixIn.class);
         mapper.addMixIn(EntitySetResult.class, EntitySetResultMixIn.class);
         
+        mapper.addMixIn(License.class, LicenseMixIn.class);
         mapper.addMixIn(Party.class, PartyMixIn.class);
+        mapper.addMixIn(Project.class, ProjectMixIn.class);
         mapper.addMixIn(ObservationGroup.class, ObservationGroupMixIn.class);
         
     }

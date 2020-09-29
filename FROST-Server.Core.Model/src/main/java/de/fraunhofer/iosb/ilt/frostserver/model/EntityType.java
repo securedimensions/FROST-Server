@@ -47,7 +47,6 @@ public enum EntityType {
     LOCATION("Location", "Locations", CORE, Location.class),
     OBSERVATION("Observation", "Observations", CORE, Observation.class),
     OBSERVEDPROPERTY("ObservedProperty", "ObservedProperties", CORE, ObservedProperty.class),
-    LICENSE("License", "Licenses", CORE, License.class),
     SENSOR("Sensor", "Sensors", CORE, Sensor.class),
     TASK("Task", "Tasks", ACTUATION, Task.class),
     TASKINGCAPABILITY("TaskingCapability", "TaskingCapabilities", ACTUATION, TaskingCapability.class),
@@ -55,8 +54,10 @@ public enum EntityType {
     
     /* CitSci extension */
     PARTY("Party", "Parties", CORE, Party.class),
-    OBSERVATIONGROUP("ObservationGroup", "ObservationGroups", CORE, ObservationGroup.class);
-	/* CitSci extension */
+    OBSERVATIONGROUP("ObservationGroup", "ObservationGroups", CORE, ObservationGroup.class),
+	LICENSE("License", "Licenses", CORE, License.class),
+	PROJECT("Project", "Projects", CORE, Project.class);
+    /* CitSci extension */
 	
     /**
      * The map of entity names to entities.
@@ -112,6 +113,7 @@ public enum EntityType {
         initLicense();
         initSensor();
         initParty();
+        initProject();
         initTask();
         initTaskingCapability();
         initThing();
@@ -149,6 +151,7 @@ public enum EntityType {
         propertyMap.put(NavigationPropertyMain.SENSOR, true);
         propertyMap.put(NavigationPropertyMain.PARTY, true);
         propertyMap.put(NavigationPropertyMain.THING, true);
+        propertyMap.put(NavigationPropertyMain.PROJECT, true);
         propertyMap.put(NavigationPropertyMain.OBSERVATIONS, false);
     }
 
@@ -172,6 +175,7 @@ public enum EntityType {
         propertyMap.put(NavigationPropertyMain.SENSOR, true);
         propertyMap.put(NavigationPropertyMain.PARTY, true);
         propertyMap.put(NavigationPropertyMain.THING, true);
+        propertyMap.put(NavigationPropertyMain.PROJECT, true);
         propertyMap.put(NavigationPropertyMain.OBSERVATIONS, false);
     }
 
@@ -239,7 +243,7 @@ public enum EntityType {
         propertyMap.put(EntityProperty.SELFLINK, false);
         propertyMap.put(EntityProperty.NAME, true);
         propertyMap.put(EntityProperty.DESCRIPTION, true);
-        propertyMap.put(EntityProperty.TIME, true);
+        propertyMap.put(EntityProperty.CREATED, true);
         propertyMap.put(NavigationPropertyMain.OBSERVATIONS, false);
     }
 
@@ -264,7 +268,22 @@ public enum EntityType {
         propertyMap.put(EntityProperty.SELFLINK, false);
         propertyMap.put(EntityProperty.NAME, true);
         propertyMap.put(EntityProperty.DEFINITION, true);
+        propertyMap.put(EntityProperty.LOGO, false);
         propertyMap.put(EntityProperty.DESCRIPTION, true);
+        propertyMap.put(EntityProperty.PROPERTIES, false);
+        propertyMap.put(NavigationPropertyMain.DATASTREAMS, false);
+        propertyMap.put(NavigationPropertyMain.MULTIDATASTREAMS, false);
+    }
+
+    private static void initProject() {
+        Map<Property, Boolean> propertyMap;
+        propertyMap = PROJECT.propertyMapRw;
+        propertyMap.put(EntityProperty.ID, false);
+        propertyMap.put(EntityProperty.SELFLINK, false);
+        propertyMap.put(EntityProperty.NAME, true);
+        propertyMap.put(EntityProperty.DESCRIPTION, true);
+        propertyMap.put(EntityProperty.URL, true);
+        propertyMap.put(EntityProperty.RUNTIME, false);
         propertyMap.put(EntityProperty.PROPERTIES, false);
         propertyMap.put(NavigationPropertyMain.DATASTREAMS, false);
         propertyMap.put(NavigationPropertyMain.MULTIDATASTREAMS, false);
@@ -291,8 +310,9 @@ public enum EntityType {
         propertyMap.put(EntityProperty.SELFLINK, false);
         propertyMap.put(EntityProperty.NAME, true);
         propertyMap.put(EntityProperty.DESCRIPTION, true);
-        propertyMap.put(EntityProperty.ENCODINGTYPE, true);
-        propertyMap.put(EntityProperty.METADATA, true);
+        propertyMap.put(EntityProperty.NICKNAME, false);
+        propertyMap.put(EntityProperty.ROLE, true);
+        propertyMap.put(EntityProperty.AUTHID, true);
         propertyMap.put(EntityProperty.PROPERTIES, false);
         propertyMap.put(NavigationPropertyMain.DATASTREAMS, false);
         propertyMap.put(NavigationPropertyMain.MULTIDATASTREAMS, false);

@@ -42,6 +42,11 @@ public class TableLongDatastreams extends AbstractTableDatastreams<Long> {
     public final TableField<Record, Long> colLicenseId = createField(DSL.name("LICENSE_ID"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
+     * The column <code>public.DATASTREAMS.PROJECT_ID</code>.
+     */
+    public final TableField<Record, Long> colProjectId = createField(DSL.name("PROJECT_ID"), SQLDataType.BIGINT.nullable(false), this, "");
+
+    /**
      * The column <code>public.DATASTREAMS.THING_ID</code>.
      */
     public final TableField<Record, Long> colThingId = createField(DSL.name("THING_ID"), SQLDataType.BIGINT.nullable(false), this, "");
@@ -94,6 +99,11 @@ public class TableLongDatastreams extends AbstractTableDatastreams<Long> {
     @Override
     public TableField<Record, Long> getPartyId() {
         return colPartyId;
+    }
+
+    @Override
+    public TableField<Record, Long> getProjectId() {
+        return colProjectId;
     }
 
     @Override

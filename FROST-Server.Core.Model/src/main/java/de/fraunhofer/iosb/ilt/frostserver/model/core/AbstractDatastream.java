@@ -17,11 +17,13 @@
  */
 package de.fraunhofer.iosb.ilt.frostserver.model.core;
 
+import de.fraunhofer.iosb.ilt.frostserver.model.Datastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityChangedMessage;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
+import de.fraunhofer.iosb.ilt.frostserver.model.Project;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInterval;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElement;
@@ -53,6 +55,8 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
     private Sensor sensor;
     private Party party;
     private Thing thing;
+    private Project project;
+
     private EntitySet<Observation> observations;
 
     private boolean setObservationType;
@@ -62,6 +66,7 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
     private boolean setSensor;
     private boolean setParty;
     private boolean setThing;
+    private boolean setProject;
 
     public AbstractDatastream() {
         this(null);
@@ -69,6 +74,11 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
 
     public AbstractDatastream(Id id) {
         super(id);
+        //this.sensor = new Sensor();            
+        //this.project = new Project();            
+        //this.party = new Party();            
+        //this.thing = new Thing();            
+
         this.observations = new EntitySetImpl<>(EntityType.OBSERVATION);
     }
 
@@ -103,6 +113,11 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
                 LOGGER.debug("Set thingId to {}.", parentId);
                 return true;
 
+            case PROJECT:
+                setProject(new Project(parentId));
+                LOGGER.debug("Set projectId to {}.", parentId);
+                return true;
+
             default:
                 LOGGER.error("Incorrect 'parent' entity type for {}: {}", getEntityType(), parentEntity.getEntityType());
                 return false;
@@ -124,6 +139,7 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
             setSensor = set;
             setParty = set;
             setThing = set;
+            setProject = set;
         }
     }
 
@@ -159,6 +175,10 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
             setThing = true;
             message.addNpField(NavigationPropertyMain.THING);
         }
+        if (!Objects.equals(project, comparedTo.getProject())) {
+            setProject = true;
+            message.addNpField(NavigationPropertyMain.PROJECT);
+        }
     }
 
     public String getObservationType() {
@@ -180,15 +200,11 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
         return getThis();
     }
 
-    /**
-     * Flag indicating the observation type was set by the user.
-     *
-     * @return Flag indicating the observation type was set by the user.
-     */
     public boolean isSetObservationType() {
         return setObservationType;
     }
 
+    
     public GeoJsonObject getObservedArea() {
         return observedArea;
     }
@@ -199,15 +215,11 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
         return getThis();
     }
 
-    /**
-     * Flag indicating the observedArea was set by the user.
-     *
-     * @return Flag indicating the observedArea was set by the user.
-     */
     public boolean isSetObservedArea() {
         return setObservedArea;
     }
 
+    
     public TimeInterval getPhenomenonTime() {
         return phenomenonTime;
     }
@@ -218,15 +230,11 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
         return getThis();
     }
 
-    /**
-     * Flag indicating the PhenomenonTime was set by the user.
-     *
-     * @return Flag indicating the PhenomenonTime was set by the user.
-     */
     public boolean isSetPhenomenonTime() {
         return setPhenomenonTime;
     }
 
+    
     public TimeInterval getResultTime() {
         return resultTime;
     }
@@ -237,15 +245,11 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
         return getThis();
     }
 
-    /**
-     * Flag indicating the ResultTime was set by the user.
-     *
-     * @return Flag indicating the ResultTime was set by the user.
-     */
     public boolean isSetResultTime() {
         return setResultTime;
     }
 
+    
     public Sensor getSensor() {
         return sensor;
     }
@@ -256,15 +260,24 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
         return getThis();
     }
 
-    /**
-     * Flag indicating the Sensor was set by the user.
-     *
-     * @return Flag indicating the Sensor was set by the user.
-     */
     public boolean isSetSensor() {
         return setSensor;
     }
 
+
+    public Project getProject() {
+        return project;
+    }
+
+    public T setProject(Project project) {
+        this.project = project;
+        setProject = project != null;
+        return getThis();
+    }
+
+    public boolean isSetProject() {
+        return setProject;
+    }
     
     
     public Party getParty() {
@@ -322,7 +335,8 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
                 sensor,
                 party,
                 thing,
-                observations);
+                observations,
+                project);
     }
 
     @Override
@@ -345,7 +359,8 @@ public abstract class AbstractDatastream<T extends AbstractDatastream<T>> extend
                 && Objects.equals(sensor, other.sensor)
                 && Objects.equals(party, other.party)
                 && Objects.equals(thing, other.thing)
-                && Objects.equals(observations, other.observations);
+                && Objects.equals(observations, other.observations)
+                && Objects.equals(project, other.project);
     }
 
 }

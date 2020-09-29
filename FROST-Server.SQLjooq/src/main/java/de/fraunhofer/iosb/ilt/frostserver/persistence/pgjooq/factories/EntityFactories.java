@@ -31,6 +31,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
 import de.fraunhofer.iosb.ilt.frostserver.model.Party;
+import de.fraunhofer.iosb.ilt.frostserver.model.Project;
 import de.fraunhofer.iosb.ilt.frostserver.model.Task;
 import de.fraunhofer.iosb.ilt.frostserver.model.TaskingCapability;
 import de.fraunhofer.iosb.ilt.frostserver.model.Thing;
@@ -132,6 +133,7 @@ public class EntityFactories<J extends Comparable> {
     public final LocationFactory<J> locationFactory;
     public final SensorFactory<J> sensorFactory;
     public final PartyFactory<J> partyFactory;
+    public final ProjectFactory<J> projectFactory;
     public final ObservationFactory<J> observationFactory;
     public final ObservedPropertyFactory<J> observedPropertyFactory;
     public final LicenseFactory<J> licenseFactory;
@@ -159,7 +161,8 @@ public class EntityFactories<J extends Comparable> {
         taskFactory = new TaskFactory<>(this, tableCollection.getTableTasks().as(defaultPrefix));
         taskingCapabilityFactory = new TaskingCapabilityFactory<>(this, tableCollection.getTableTaskingCapabilities().as(defaultPrefix));
         thingFactory = new ThingFactory<>(this, tableCollection.getTableThings().as(defaultPrefix));
-
+        projectFactory = new ProjectFactory<>(this, tableCollection.getTableProjects().as(defaultPrefix));
+        
         factoryPerEntity.put(EntityType.ACTUATOR, actuatorFactory);
         factoryPerEntity.put(EntityType.DATASTREAM, datastreamFactory);
         factoryPerEntity.put(EntityType.FEATUREOFINTEREST, featureOfInterestFactory);
@@ -172,7 +175,8 @@ public class EntityFactories<J extends Comparable> {
         factoryPerEntity.put(EntityType.LICENSE, licenseFactory);
         factoryPerEntity.put(EntityType.SENSOR, sensorFactory);
         factoryPerEntity.put(EntityType.PARTY, partyFactory);
-        factoryPerEntity.put(EntityType.TASK, taskFactory);
+        factoryPerEntity.put(EntityType.PARTY, partyFactory);
+        factoryPerEntity.put(EntityType.PROJECT, projectFactory);
         factoryPerEntity.put(EntityType.TASKINGCAPABILITY, taskingCapabilityFactory);
         factoryPerEntity.put(EntityType.THING, thingFactory);
     }
@@ -330,6 +334,20 @@ public class EntityFactories<J extends Comparable> {
         party.setId(idManager.fromObject(id));
         party.setExportObject(false);
         return party;
+    }
+
+    public Project projectFromId(Record tuple, Field<J> path) {
+        return projectFromId(getFieldOrNull(tuple, path));
+    }
+
+    public Project projectFromId(J id) {
+        if (id == null) {
+            return null;
+        }
+        Project project = new Project();
+        project.setId(idManager.fromObject(id));
+        project.setExportObject(false);
+        return project;
     }
 
     public Task taskFromId(Record tuple, Field<J> path) {

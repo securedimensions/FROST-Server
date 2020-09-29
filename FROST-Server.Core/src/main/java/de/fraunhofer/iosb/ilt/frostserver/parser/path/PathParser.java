@@ -287,6 +287,18 @@ public class PathParser implements ParserVisitor {
     }
 
     @Override
+    public ResourcePath visit(ASTeProject node, ResourcePath data) {
+        addAsEntitiy(data, node, EntityType.PROJECT);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTcProjects node, ResourcePath data) {
+        addAsEntitiySet(data, EntityType.PROJECT);
+        return defltAction(node, data);
+    }
+
+    @Override
     public ResourcePath visit(ASTeTask node, ResourcePath data) {
         addAsEntitiy(data, node, EntityType.TASK);
         return defltAction(node, data);
@@ -389,6 +401,18 @@ public class PathParser implements ParserVisitor {
     }
 
     @Override
+    public ResourcePath visit(ASTpLogo node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.LOGO);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTpUrl node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.URL);
+        return defltAction(node, data);
+    }
+
+    @Override
     public ResourcePath visit(ASTpEncodingType node, ResourcePath data) {
         addAsEntitiyProperty(data, EntityProperty.ENCODINGTYPE);
         return defltAction(node, data);
@@ -413,8 +437,26 @@ public class PathParser implements ParserVisitor {
     }
 
     @Override
+    public ResourcePath visit(ASTpRole node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.ROLE);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTpAuthId node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.AUTHID);
+        return defltAction(node, data);
+    }
+
+    @Override
     public ResourcePath visit(ASTpName node, ResourcePath data) {
         addAsEntitiyProperty(data, EntityProperty.NAME);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTpNickName node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.NICKNAME);
         return defltAction(node, data);
     }
 
@@ -463,6 +505,18 @@ public class PathParser implements ParserVisitor {
     @Override
     public ResourcePath visit(ASTpTime node, ResourcePath data) {
         addAsEntitiyProperty(data, EntityProperty.TIME);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTpCreated node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.CREATED);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTpRuntime node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.RUNTIME);
         return defltAction(node, data);
     }
 
