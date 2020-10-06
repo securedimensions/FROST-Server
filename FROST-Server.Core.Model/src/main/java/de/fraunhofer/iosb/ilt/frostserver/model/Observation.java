@@ -55,7 +55,8 @@ public class Observation extends AbstractEntity<Observation> {
     private Datastream datastream;
     private MultiDatastream multiDatastream;
     private FeatureOfInterest featureOfInterest;
-
+    
+    private EntitySet<ObservationRelation> observationRelations; //0..*
     private EntitySet<ObservationGroup> observationGroups; // 0..*
     
     private boolean setPhenomenonTime;
@@ -75,6 +76,7 @@ public class Observation extends AbstractEntity<Observation> {
     public Observation(Id id) {
         super(id);
         this.observationGroups = new EntitySetImpl<>(EntityType.OBSERVATIONGROUP);
+        this.observationRelations = new EntitySetImpl<>(EntityType.OBSERVATIONRELATION);
     }
 
     @Override
@@ -341,6 +343,15 @@ public class Observation extends AbstractEntity<Observation> {
         return setFeatureOfInterest;
     }
 
+    public EntitySet<ObservationRelation> getObservationRelations() {
+        return observationRelations;
+    }
+
+    public Observation setObservationRelations(EntitySet<ObservationRelation> observationRelations) {
+        this.observationRelations = observationRelations;
+        return this;
+    }
+
     @Override
     protected Observation getThis() {
         return this;
@@ -359,7 +370,8 @@ public class Observation extends AbstractEntity<Observation> {
                 datastream,
                 multiDatastream,
                 featureOfInterest,
-                observationGroups
+                observationGroups,
+                observationRelations
         );
     }
 
@@ -385,7 +397,8 @@ public class Observation extends AbstractEntity<Observation> {
                 && Objects.equals(datastream, other.datastream)
                 && Objects.equals(multiDatastream, other.multiDatastream)
                 && Objects.equals(featureOfInterest, other.featureOfInterest)
-                && Objects.equals(observationGroups, other.observationGroups);
+                && Objects.equals(observationGroups, other.observationGroups)
+                && Objects.equals(observationRelations, other.observationRelations);
     }
 
 }

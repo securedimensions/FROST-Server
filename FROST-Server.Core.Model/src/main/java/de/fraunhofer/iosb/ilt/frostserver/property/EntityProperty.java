@@ -60,6 +60,7 @@ public enum EntityProperty implements Property {
     ROLE("Role"),
     RUNTIME("Runtime"),
     URL("Url"),
+    TYPE("Type"),
     SELFLINK("SelfLink", AT_IOT_SELF_LINK, AT_IOT_SELF_LINK),
     TASKINGPARAMETERS("TaskingParameters", true),
     TIME("Time"),

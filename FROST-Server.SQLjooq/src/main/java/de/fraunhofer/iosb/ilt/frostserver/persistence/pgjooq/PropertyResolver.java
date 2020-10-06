@@ -31,6 +31,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTabl
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableMultiDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObservationGroups;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObservationRelations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableObservations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableSensors;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.AbstractTableParties;
@@ -89,6 +90,7 @@ public class PropertyResolver<J extends Comparable> {
         initFeatures();
         initHistLocations();
         initObservationGroups();
+        initObservationRelations();
         initLocations();
         initObsProperties();
         initLicenses();
@@ -195,6 +197,7 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(EntityProperty.RUNTIME, tableClass, KEY_TIME_INTERVAL_START, table -> table.colRuntimeStart);
         addEntry(EntityProperty.RUNTIME, tableClass, KEY_TIME_INTERVAL_START, table -> table.colRuntimeEnd);
         addEntry(NavigationPropertyMain.OBSERVATIONS, tableClass, AbstractTableObservationGroups::getId);
+        addEntry(NavigationPropertyMain.OBSERVATIONRELATIONS, tableClass, AbstractTableObservationGroups::getId);
     }
 
     private void initLocations() {
@@ -231,6 +234,16 @@ public class PropertyResolver<J extends Comparable> {
         addEntry(NavigationPropertyMain.DATASTREAM, tableClass, AbstractTableObservations::getDatastreamId);
         addEntry(NavigationPropertyMain.MULTIDATASTREAM, tableClass, AbstractTableObservations::getMultiDatastreamId);
         addEntry(NavigationPropertyMain.OBSERVATIONGROUPS, tableClass, AbstractTableObservations::getId);
+        addEntry(NavigationPropertyMain.OBSERVATIONRELATIONS, tableClass, AbstractTableObservations::getId);
+    }
+
+    private void initObservationRelations() {
+        Class<? extends AbstractTableObservationRelations> tableClass = tableCollection.getTableObservationRelations().getClass();
+        addEntry(EntityProperty.ID, tableClass, AbstractTableObservationRelations::getId);
+        addEntry(EntityProperty.SELFLINK, tableClass, AbstractTableObservationRelations::getId);
+        addEntry(EntityProperty.TYPE, tableClass, table -> table.colType);
+        addEntry(NavigationPropertyMain.OBSERVATION, tableClass, AbstractTableObservationRelations::getObservationId);
+        addEntry(NavigationPropertyMain.OBSERVATIONGROUP, tableClass, AbstractTableObservationRelations::getObservationGroupId);
     }
 
     private void initObsProperties() {

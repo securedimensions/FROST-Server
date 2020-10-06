@@ -87,6 +87,7 @@ public class EntityBuilderTest {
         propertyValues.put(EntityProperty.SELFLINK, "http://my.self/link");
         propertyValues.put(EntityProperty.TASKINGPARAMETERS, parameters);
         propertyValues.put(EntityProperty.TIME, TimeInstant.now());
+        propertyValues.put(EntityProperty.TYPE, "myType");
         propertyValues.put(EntityProperty.CREATED, TimeInstant.now());
         propertyValues.put(EntityProperty.RUNTIME, TimeInterval.parse("2014-03-01T13:00:00Z/2014-05-11T15:30:00Z"));
         UnitOfMeasurement unit1 = new UnitOfMeasurement("unitName", "unitSymbol", "unitDefinition");
@@ -109,8 +110,10 @@ public class EntityBuilderTest {
         propertyValues.put(NavigationPropertyMain.LICENSE, new License(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.SENSOR, new Sensor(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.PARTY, new Party(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.OBSERVATION, new Observation(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.PROJECT, new Project(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.OBSERVATIONGROUP, new ObservationGroup(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.OBSERVATIONRELATION, new ObservationRelation(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASK, new Task(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.TASKINGCAPABILITY, new TaskingCapability(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.THING, new Thing(new IdLong(nextId++)));
@@ -134,6 +137,11 @@ public class EntityBuilderTest {
         observationGroups.add(new ObservationGroup(new IdLong(nextId++)));
         observationGroups.add(new ObservationGroup(new IdLong(nextId++)));
         propertyValues.put(NavigationPropertyMain.OBSERVATIONGROUPS, observationGroups);
+
+        EntitySetImpl<ObservationRelation> observationRelations = new EntitySetImpl<>(EntityType.OBSERVATIONRELATION);
+        observationRelations.add(new ObservationRelation(new IdLong(nextId++)));
+        observationRelations.add(new ObservationRelation(new IdLong(nextId++)));
+        propertyValues.put(NavigationPropertyMain.OBSERVATIONRELATIONS, observationRelations);
 
         EntitySetImpl<Location> locations = new EntitySetImpl<>(EntityType.LOCATION);
         locations.add(new Location(new IdLong(nextId++)));

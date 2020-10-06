@@ -42,6 +42,7 @@ public class TableCollection<J extends Comparable> {
     private AbstractTableMultiDatastreamsObsProperties<J> tableMultiDatastreamsObsProperties;
     private AbstractTableMultiDatastreamsLicenses<J> tableMultiDatastreamsLicenses;
     private AbstractTableObservations<J> tableObservations;
+    private AbstractTableObservationRelations<J> tableObservationRelations;
     private AbstractTableObsProperties<J> tableObsProperties;
     private AbstractTableLicenses<J> tableLicenses;
     private AbstractTableSensors<J> tableSensors;
@@ -75,6 +76,7 @@ public class TableCollection<J extends Comparable> {
         addAndInit(map, EntityType.LOCATION, tableLocations);
         addAndInit(map, EntityType.MULTIDATASTREAM, tableMultiDatastreams);
         addAndInit(map, EntityType.OBSERVATION, tableObservations);
+        addAndInit(map, EntityType.OBSERVATIONRELATION, tableObservationRelations);
         addAndInit(map, EntityType.OBSERVEDPROPERTY, this.tableObsProperties);
         addAndInit(map, EntityType.LICENSE, this.tableLicenses);
         addAndInit(map, EntityType.SENSOR, tableSensors);
@@ -126,6 +128,25 @@ public class TableCollection<J extends Comparable> {
             throw new IllegalArgumentException(CHANGE_AFTER_INIT);
         }
         this.tableDatastreams = tableDatastreams;
+        return this;
+    }
+
+    /**
+     * @return the tableObservationRelations
+     */
+    public AbstractTableObservationRelations<J> getTableObservationRelations() {
+        return tableObservationRelations;
+    }
+
+    /**
+     * @param tableObservationRelations the tableObservationRelations to set
+     * @return this
+     */
+    public TableCollection<J> setTableObservationRelations(AbstractTableObservationRelations<J> tableObservationRelations) {
+        if (tablesByType != null) {
+            throw new IllegalArgumentException(CHANGE_AFTER_INIT);
+        }
+        this.tableObservationRelations = tableObservationRelations;
         return this;
     }
 

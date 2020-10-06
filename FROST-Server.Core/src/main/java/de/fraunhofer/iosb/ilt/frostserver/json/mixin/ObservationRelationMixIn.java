@@ -18,18 +18,22 @@
 package de.fraunhofer.iosb.ilt.frostserver.json.mixin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * MixIn for serialisation.
  *
  * @author jab, scf
  */
-public interface ObservationGroupMixIn extends NamedEntityMixIn {
+public interface ObservationRelationMixIn extends AbstractEntityMixIn {
 
     @JsonIgnore
-    public abstract boolean isSetCreated();
+    public abstract boolean isSetObservation();
 
     @JsonIgnore
-    public abstract boolean isSetRuntime();
-    
+    public abstract boolean isSetObervationGroup();
+
+    @JsonIgnore
+    public abstract boolean isSetType();
+
 }

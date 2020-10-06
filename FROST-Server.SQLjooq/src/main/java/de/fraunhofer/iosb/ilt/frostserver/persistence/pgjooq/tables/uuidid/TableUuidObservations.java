@@ -38,6 +38,11 @@ public class TableUuidObservations extends AbstractTableObservations<UUID> {
     public final TableField<Record, UUID> colMultiDatastreamId = createField(DSL.name("MULTI_DATASTREAM_ID"), SQLDataType.UUID, this, "");
 
     /**
+     * The column <code>public.OBSERVATIONS.OBSERVATIONRELATION_ID</code>.
+     */
+    public final TableField<Record, UUID> colObservationRelationId = createField(DSL.name("OBSERVATION_RELATION_ID"), SQLDataType.UUID, this, "");
+
+    /**
      * Create a <code>public.OBSERVATIONS</code> table reference
      */
     public TableUuidObservations() {

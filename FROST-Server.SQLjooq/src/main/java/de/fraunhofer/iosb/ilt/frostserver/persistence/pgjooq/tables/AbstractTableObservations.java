@@ -110,7 +110,13 @@ public abstract class AbstractTableObservations<J extends Comparable> extends St
                         .setSourceFieldAccessor(AbstractTableObservations::getFeatureId)
                         .setTargetFieldAccessor(AbstractTableFeatures::getId)
         );
-        
+
+        registerRelation(
+                new RelationOneToMany<>(this, tables.getTableObservationRelations(), EntityType.OBSERVATIONRELATION, true)
+                        .setSourceFieldAccessor(AbstractTableObservations::getId)
+                        .setTargetFieldAccessor(AbstractTableObservationRelations::getObservationId)
+        );
+
         registerRelation(
                 new RelationManyToMany<>(this, tables.getTableObservationsObservationGroups(), tables.getTableObservationGroups(), EntityType.OBSERVATIONGROUP)
                         .setSourceFieldAcc(AbstractTableObservations::getId)

@@ -52,6 +52,7 @@ TOKEN:
 | <C_FEATURESOFINTEREST:  "FeaturesOfInterest" >
 | <C_HISTORICALLOCATIONS: "HistoricalLocations" >
 | <C_OBSERVATIONGROUPS:   "ObservationGroups" >
+| <C_OBSERVATIONRELATIONS: "ObservationRelations" >
 | <C_LOCATIONS:           "Locations" >
 | <C_SENSORS:             "Sensors" >
 | <C_PARTIES:             "Parties" >
@@ -69,6 +70,7 @@ TOKEN:
 | <E_FEATUREOFINTEREST:  "FeatureOfInterest" >
 | <E_HISTORICALLOCATION: "HistoricalLocation" >
 | <E_OBSERVATIONGROUP:   "ObservationGroup" >
+| <E_OBSERVATIONRELATION: "ObservationRelation" >
 | <E_LOCATION:           "Location" >
 | <E_SENSOR:             "Sensor" >
 | <E_PARTY:              "Party" >
@@ -106,6 +108,7 @@ TOKEN:
 | <EP_RESULTQUALITY:     "resultQuality" >
 | <EP_TASKINGPARAMETERS: "taskingParameters" >
 | <EP_TIME:              "time" >
+| <EP_TYPE:              "type" >
 | <EP_CREATED:           "created" >
 | <EP_RUNTIME:           "runtime" >
 | <EP_UNITOFMEASUREMENT: "unitOfMeasurement" >
@@ -146,6 +149,7 @@ void IdentifiedPath(): {}
   cFeaturesOfInterest() |
   cHistLocations() |
   cObservationGroups() |
+  cObservationRelations() |
   cLocations() |
   cSensors() |
   cParties() |
@@ -390,6 +394,7 @@ void childOfObservationGroup() #void: {}
 {
   <PATH_SEPARATOR>
   ( cObservations()
+  | cObservationRelations()
   | pId()
   | pSelfLink()
   | pName()
@@ -660,6 +665,7 @@ void childOfObservation() #void: {}
   | eMultiDatastream()
   | eFeatureOfInterest()
   | cObservationGroups()  
+  | cObservationRelations()  
   | pId()
   | pSelfLink()
   | pParameters()
@@ -668,6 +674,40 @@ void childOfObservation() #void: {}
   | pResultQuality()
   | pPhenomenonTime()
   | pValidTime()
+  | cpRef()
+  )
+}
+
+/** Entity and collection ObservationRelation(s) */
+void eObservationRelation(): {}
+{
+  <E_OBSERVATIONRELATION>
+  (childOfObservationRelation())?
+}
+void cObservationRelations(): {}
+{
+  <C_OBSERVATIONRELATIONS>
+  (
+    eObservationRelationId()
+  | <PATH_SEPARATOR> cpRef()
+  )?
+}
+void eObservationRelationId()#eObservationRelation: {String i;}
+{
+  <LB> ( i=Long(){jjtThis.jjtSetValue(i);}
+       | i=QuotedString(){jjtThis.jjtSetValue(i);}
+       )
+  <RB>
+      (childOfObservationRelation())?
+}
+void childOfObservationRelation() #void: {}
+{
+  <PATH_SEPARATOR>
+  ( eObservation()
+  | eObservationGroup()
+  | pId()
+  | pSelfLink()
+  | pType()
   | cpRef()
   )
 }
@@ -949,6 +989,12 @@ void pTaskingParameters(): {}
 void pTime(): {}
 {
   <EP_TIME>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pType(): {}
+{
+  <EP_TYPE>
   (<PATH_SEPARATOR> ppValue() )?
 }
 

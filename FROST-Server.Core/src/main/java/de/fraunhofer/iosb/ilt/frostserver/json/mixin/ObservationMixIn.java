@@ -56,5 +56,5 @@ public interface ObservationMixIn extends AbstractEntityMixIn {
 
     @JsonIgnore
     public abstract boolean isSetFeatureOfInterest();
-
+    
 }

@@ -99,7 +99,15 @@ public class PathHelper {
         navPropsForType.put(EntityType.DATASTREAM, NavigationPropertyMain.DATASTREAM);
         navPropsForType.put(EntityType.MULTIDATASTREAM, NavigationPropertyMain.MULTIDATASTREAM);
         navPropsForType.put(EntityType.FEATUREOFINTEREST, NavigationPropertyMain.FEATUREOFINTEREST);
+        navPropsForType.put(EntityType.OBSERVATIONRELATION, NavigationPropertyMain.OBSERVATIONRELATIONS);
 
+        navPropsForType = getNavPropsForType(EntityType.OBSERVATIONGROUP);
+        navPropsForType.put(EntityType.OBSERVATIONRELATION, NavigationPropertyMain.OBSERVATIONRELATIONS);
+
+        navPropsForType = getNavPropsForType(EntityType.OBSERVATIONRELATION);
+        navPropsForType.put(EntityType.OBSERVATION, NavigationPropertyMain.OBSERVATION);
+        navPropsForType.put(EntityType.OBSERVATIONGROUP, NavigationPropertyMain.OBSERVATIONGROUP);
+ 
         navPropsForType = getNavPropsForType(EntityType.FEATUREOFINTEREST);
         navPropsForType.put(EntityType.OBSERVATION, NavigationPropertyMain.OBSERVATIONS);
     }

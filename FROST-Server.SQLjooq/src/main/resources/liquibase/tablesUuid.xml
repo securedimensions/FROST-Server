@@ -120,7 +120,7 @@
             <column name="DESCRIPTION" type="TEXT"/>
             <column name="CREATED" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="RUNTIME_START" type="TIMESTAMP WITH TIME ZONE"/>
-            <column name="RUNTIME_END" type="TIMESTAMP WITH TIME ZONE"/>           
+            <column name="RUNTIME_END" type="TIMESTAMP WITH TIME ZONE"/>         
         </createTable>
     </changeSet>
 
@@ -173,7 +173,7 @@
             <column name="OBSERVATION_GROUP_ID" type="${uuid_type}">
                 <constraints nullable="false"/>
             </column>
-        </createTable>
+         </createTable>
         <addPrimaryKey columnNames="OBSERVATION_ID, OBSERVATION_GROUP_ID" constraintName="OBSERVATIONS_OBSERVATION_GROUPS_PKEY" tableName="OBSERVATIONS_OBSERVATION_GROUPS"/>
     </changeSet>
 
@@ -235,6 +235,26 @@
                 <constraints nullable="false"/>
             </column>
             <column name="FEATURE_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+         </createTable>
+    </changeSet>
+
+    <changeSet author="scf" id="20200930-observationRelations" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="OBSERVATION_RELATIONS" />
+            </not>
+        </preConditions>
+        <createTable tableName="OBSERVATION_RELATIONS">
+            <column name="ID" type="${uuid_type}" defaultValueComputed="${uuid_function}" >
+                <constraints primaryKey="true" primaryKeyName="OBSERVATION_RELATIONS_PKEY"/>
+            </column>
+            <column name="TYPE" type="TEXT"/>
+            <column name="OBSERVATION_ID" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBSERVATION_GROUP_ID" type="${uuid_type}">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -417,6 +437,20 @@
             referencedTableName="FEATURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE" />
+        
+        <addForeignKeyConstraint
+            constraintName="OBSERVATION_RELATIONS_OBSERVATION_ID_FKEY"
+            baseTableName="OBSERVATION_RELATIONS" baseColumnNames="OBSERVATION_ID"
+            referencedTableName="OBSERVATIONS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+        <addForeignKeyConstraint
+            constraintName="OBSERVATION_RELATIONS_OBSERVATION_GROUP_ID_FKEY"
+            baseTableName="OBSERVATION_RELATIONS" baseColumnNames="OBSERVATION_GROUP_ID"
+            referencedTableName="OBSERVATIONS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+        
         <addForeignKeyConstraint
             constraintName="THINGS_LOCATIONS_LOCATION_ID_FKEY"
             baseTableName="THINGS_LOCATIONS" baseColumnNames="LOCATION_ID"
@@ -585,11 +619,19 @@
         <createIndex tableName="LOCATIONS_HIST_LOCATIONS" indexName="LOCATIONS_HIST_LOCATIONS_LOCATION_ID">
             <column name="LOCATION_ID" />
         </createIndex>
+        
         <createIndex tableName="OBSERVATIONS" indexName="OBSERVATIONS_DATASTREAM_ID">
             <column name="DATASTREAM_ID" />
         </createIndex>
         <createIndex tableName="OBSERVATIONS" indexName="OBSERVATIONS_MULTI_DATASTREAM_ID">
             <column name="MULTI_DATASTREAM_ID" />
+        </createIndex>
+                
+        <createIndex tableName="OBSERVATION_RELATIONS" indexName="OBSERVATION_RELATIONS_OBSERVATION_ID">
+            <column name="OBSERVATION_ID" />
+        </createIndex>
+        <createIndex tableName="OBSERVATION_RELATIONS" indexName="OBSERVATION_RELATIONS_OBSERVATION_GROUP_ID">
+            <column name="OBSERVATION_GROUP_ID" />
         </createIndex>
                 
         <createIndex tableName="OBSERVATIONS_OBSERVATION_GROUPS" indexName="OBSERVATIONS_OBSERVATION_GROUPS_OBSERVATION_GROUP_ID">

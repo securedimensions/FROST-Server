@@ -55,6 +55,7 @@ public enum EntityType {
     /* CitSci extension */
     PARTY("Party", "Parties", CORE, Party.class),
     OBSERVATIONGROUP("ObservationGroup", "ObservationGroups", CORE, ObservationGroup.class),
+    OBSERVATIONRELATION("ObservationRelation", "ObservationRelations", CORE, ObservationRelation.class),
 	LICENSE("License", "Licenses", CORE, License.class),
 	PROJECT("Project", "Projects", CORE, Project.class);
     /* CitSci extension */
@@ -109,6 +110,7 @@ public enum EntityType {
         initLocation();
         initObservation();
         initObservationGroup();
+        initObservationRelation();
         initObsProp();
         initLicense();
         initSensor();
@@ -233,6 +235,7 @@ public enum EntityType {
         // FEATUREOFINTEREST must be generated on the fly if not present.
         propertyMap.put(NavigationPropertyMain.FEATUREOFINTEREST, false);
         propertyMap.put(NavigationPropertyMain.OBSERVATIONGROUPS, false);
+        propertyMap.put(NavigationPropertyMain.OBSERVATIONRELATIONS, false);
         
     }
 
@@ -245,6 +248,18 @@ public enum EntityType {
         propertyMap.put(EntityProperty.DESCRIPTION, true);
         propertyMap.put(EntityProperty.CREATED, true);
         propertyMap.put(NavigationPropertyMain.OBSERVATIONS, false);
+        propertyMap.put(NavigationPropertyMain.OBSERVATIONRELATIONS, false);
+
+    }
+
+    private static void initObservationRelation() {
+        Map<Property, Boolean> propertyMap;
+        propertyMap = OBSERVATIONRELATION.propertyMapRw;
+        propertyMap.put(EntityProperty.ID, false);
+        propertyMap.put(EntityProperty.SELFLINK, false);
+        propertyMap.put(EntityProperty.TYPE, true);
+        propertyMap.put(NavigationPropertyMain.OBSERVATION, true);
+        propertyMap.put(NavigationPropertyMain.OBSERVATIONGROUP, true);
     }
 
 

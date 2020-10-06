@@ -27,6 +27,9 @@ import de.fraunhofer.iosb.ilt.frostserver.model.Datastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.FeatureOfInterest;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
+import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
+import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
+import de.fraunhofer.iosb.ilt.frostserver.model.ObservationRelation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
@@ -130,6 +133,7 @@ public class EntityFactories<J extends Comparable> {
     public final FeatureOfInterestFactory<J> featureOfInterestFactory;
     public final HistoricalLocationFactory<J> historicalLocationFactory;
     public final ObservationGroupFactory<J> observationGroupFactory;
+    public final ObservationRelationFactory<J> observationRelationFactory;
     public final LocationFactory<J> locationFactory;
     public final SensorFactory<J> sensorFactory;
     public final PartyFactory<J> partyFactory;
@@ -154,6 +158,7 @@ public class EntityFactories<J extends Comparable> {
         locationFactory = new LocationFactory<>(this, tableCollection.getTableLocations().as(defaultPrefix));
         multiDatastreamFactory = new MultiDatastreamFactory<>(this, tableCollection.getTableMultiDatastreams().as(defaultPrefix));
         observationFactory = new ObservationFactory<>(this, tableCollection.getTableObservations().as(defaultPrefix));
+        observationRelationFactory = new ObservationRelationFactory<>(this, tableCollection.getTableObservationRelations().as(defaultPrefix));
         observedPropertyFactory = new ObservedPropertyFactory<>(this, tableCollection.getTableObsProperties().as(defaultPrefix));
         licenseFactory = new LicenseFactory<>(this, tableCollection.getTableLicenses().as(defaultPrefix));
         sensorFactory = new SensorFactory<>(this, tableCollection.getTableSensors().as(defaultPrefix));
@@ -171,6 +176,7 @@ public class EntityFactories<J extends Comparable> {
         factoryPerEntity.put(EntityType.LOCATION, locationFactory);
         factoryPerEntity.put(EntityType.MULTIDATASTREAM, multiDatastreamFactory);
         factoryPerEntity.put(EntityType.OBSERVATION, observationFactory);
+        factoryPerEntity.put(EntityType.OBSERVATIONRELATION, observationRelationFactory);
         factoryPerEntity.put(EntityType.OBSERVEDPROPERTY, observedPropertyFactory);
         factoryPerEntity.put(EntityType.LICENSE, licenseFactory);
         factoryPerEntity.put(EntityType.SENSOR, sensorFactory);
@@ -250,6 +256,45 @@ public class EntityFactories<J extends Comparable> {
         Datastream ds = new Datastream(true, idManager.fromObject(id));
         ds.setExportObject(false);
         return ds;
+    }
+
+    public Observation observationFromId(Record tuple, Field<J> path) {
+        return observationFromId(getFieldOrNull(tuple, path));
+    }
+
+    public Observation observationFromId(J id) {
+        if (id == null) {
+            return null;
+        }
+        Observation or = new Observation(idManager.fromObject(id));
+        or.setExportObject(false);
+        return or;
+    }
+
+    public ObservationGroup observationGroupFromId(Record tuple, Field<J> path) {
+        return observationGroupFromId(getFieldOrNull(tuple, path));
+    }
+
+    public ObservationGroup observationGroupFromId(J id) {
+        if (id == null) {
+            return null;
+        }
+        ObservationGroup or = new ObservationGroup(idManager.fromObject(id));
+        or.setExportObject(false);
+        return or;
+    }
+
+    public ObservationRelation observationRelationFromId(Record tuple, Field<J> path) {
+        return observationRelationFromId(getFieldOrNull(tuple, path));
+    }
+
+    public ObservationRelation observationRelationFromId(J id) {
+        if (id == null) {
+            return null;
+        }
+        ObservationRelation or = new ObservationRelation(idManager.fromObject(id));
+        or.setExportObject(false);
+        return or;
     }
 
     public MultiDatastream multiDatastreamFromId(Record tuple, Field<J> path) {

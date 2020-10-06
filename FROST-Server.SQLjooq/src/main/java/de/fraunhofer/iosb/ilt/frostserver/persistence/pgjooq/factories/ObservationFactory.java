@@ -24,6 +24,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.FeatureOfInterest;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
+import de.fraunhofer.iosb.ilt.frostserver.model.ObservationRelation;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Id;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeInstant;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TimeValue;
@@ -175,9 +176,9 @@ public class ObservationFactory<J extends Comparable> implements EntityFactory<O
     }
 
     @Override
-    public boolean insert(PostgresPersistenceManager<J> pm, Observation newObservation) throws NoSuchEntityException, IncompleteEntityException {
-        Datastream ds = newObservation.getDatastream();
-        MultiDatastream mds = newObservation.getMultiDatastream();
+    public boolean insert(PostgresPersistenceManager<J> pm, Observation o) throws NoSuchEntityException, IncompleteEntityException {
+        Datastream ds = o.getDatastream();
+        MultiDatastream mds = o.getMultiDatastream();
         Id streamId;
         boolean newIsMultiDatastream = false;
         if (ds != null) {
@@ -191,7 +192,7 @@ public class ObservationFactory<J extends Comparable> implements EntityFactory<O
             throw new IncompleteEntityException("Missing Datastream or MultiDatastream.");
         }
 
-        FeatureOfInterest f = newObservation.getFeatureOfInterest();
+        FeatureOfInterest f = o.getFeatureOfInterest();
         if (f == null) {
             f = entityFactories.generateFeatureOfInterest(pm, streamId, newIsMultiDatastream);
         } else {
@@ -207,23 +208,23 @@ public class ObservationFactory<J extends Comparable> implements EntityFactory<O
             insert.put(table.getMultiDatastreamId(), mds.getId().getValue());
         }
 
-        TimeValue phenomenonTime = newObservation.getPhenomenonTime();
+        TimeValue phenomenonTime = o.getPhenomenonTime();
         if (phenomenonTime == null) {
             phenomenonTime = TimeInstant.now();
         }
         EntityFactories.insertTimeValue(insert, table.colPhenomenonTimeStart, table.colPhenomenonTimeEnd, phenomenonTime);
-        EntityFactories.insertTimeInstant(insert, table.colResultTime, newObservation.getResultTime());
-        EntityFactories.insertTimeInterval(insert, table.colValidTimeStart, table.colValidTimeEnd, newObservation.getValidTime());
+        EntityFactories.insertTimeInstant(insert, table.colResultTime, o.getResultTime());
+        EntityFactories.insertTimeInterval(insert, table.colValidTimeStart, table.colValidTimeEnd, o.getValidTime());
 
-        handleResult(newObservation, newIsMultiDatastream, pm, insert);
+        handleResult(o, newIsMultiDatastream, pm, insert);
 
-        if (newObservation.getResultQuality() != null) {
-            insert.put(table.colResultQuality, EntityFactories.objectToJson(newObservation.getResultQuality()));
+        if (o.getResultQuality() != null) {
+            insert.put(table.colResultQuality, EntityFactories.objectToJson(o.getResultQuality()));
         }
-        insert.put(table.colParameters, EntityFactories.objectToJson(newObservation.getParameters()));
+        insert.put(table.colParameters, EntityFactories.objectToJson(o.getParameters()));
         insert.put(table.getFeatureId(), f.getId().getValue());
 
-        entityFactories.insertUserDefinedId(pm, insert, table.getId(), newObservation);
+        entityFactories.insertUserDefinedId(pm, insert, table.getId(), o);
 
         DSLContext dslContext = pm.getDslContext();
         Record1<J> result = dslContext.insertInto(table)
@@ -232,7 +233,14 @@ public class ObservationFactory<J extends Comparable> implements EntityFactory<O
                 .fetchOne();
         J generatedId = result.component1();
         LOGGER.debug("Inserted Observation. Created id = {}.", generatedId);
-        newObservation.setId(entityFactories.idFromObject(generatedId));
+        o.setId(entityFactories.idFromObject(generatedId));
+        
+        // Create ObservationRelations, if any.
+        for (ObservationRelation or : o.getObservationRelations()) {
+            or.setObservation(new Observation(o.getId()));
+            or.complete();
+            pm.insert(or);
+        }
         return true;
     }
 

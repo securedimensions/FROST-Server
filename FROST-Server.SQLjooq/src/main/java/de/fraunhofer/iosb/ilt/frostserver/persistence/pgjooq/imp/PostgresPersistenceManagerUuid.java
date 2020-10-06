@@ -36,6 +36,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.Table
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidMultiDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidMultiDatastreamsObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObsProperties;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservationRelations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservationsObservationGroups;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidSensors;
@@ -83,6 +84,7 @@ public class PostgresPersistenceManagerUuid extends PostgresPersistenceManager<U
                     .setTableMultiDatastreams(TableUuidMultiDatastreams.MULTI_DATASTREAMS)
                     .setTableMultiDatastreamsObsProperties(TableUuidMultiDatastreamsObsProperties.MULTI_DATASTREAMS_OBS_PROPERTIES)
                     .setTableObservations(TableUuidObservations.OBSERVATIONS)
+                    .setTableObservationRelations(TableUuidObservationRelations.OBSERVATION_RELATIONS)
                     .setTableObsProperties(TableUuidObsProperties.OBS_PROPERTIES)
                     .setTableLicenses(TableUuidLicenses.LICENSES)
                     .setTableParties(TableUuidParties.PARTIES)

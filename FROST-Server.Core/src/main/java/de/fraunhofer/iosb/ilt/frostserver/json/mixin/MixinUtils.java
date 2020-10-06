@@ -26,6 +26,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.Location;
 import de.fraunhofer.iosb.ilt.frostserver.model.MultiDatastream;
 import de.fraunhofer.iosb.ilt.frostserver.model.Observation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservationGroup;
+import de.fraunhofer.iosb.ilt.frostserver.model.ObservationRelation;
 import de.fraunhofer.iosb.ilt.frostserver.model.ObservedProperty;
 import de.fraunhofer.iosb.ilt.frostserver.model.License;
 import de.fraunhofer.iosb.ilt.frostserver.model.Sensor;
@@ -67,6 +68,7 @@ public class MixinUtils {
         mapper.addMixIn(Party.class, PartyMixIn.class);
         mapper.addMixIn(Project.class, ProjectMixIn.class);
         mapper.addMixIn(ObservationGroup.class, ObservationGroupMixIn.class);
+        mapper.addMixIn(ObservationRelation.class, ObservationRelationMixIn.class);
         
     }
 

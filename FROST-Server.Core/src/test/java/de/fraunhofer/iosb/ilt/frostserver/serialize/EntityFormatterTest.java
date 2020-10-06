@@ -865,7 +865,8 @@ public class EntityFormatterTest {
                 .setPhenomenonTime(TestHelper.createTimeInstantUTC(2014, 12, 31, 11, 59, 59))
                 .setResultTime(TestHelper.createTimeInstantUTC(2014, 12, 31, 19, 59, 59))
                 .setResult("70.4");
-        Assert.assertTrue(jsonEqual(expResult, EntityFormatter.writeEntity(entity)));
+        String s = EntityFormatter.writeEntity(entity);
+        Assert.assertTrue(jsonEqual(expResult, s));
     }
 
     @Test

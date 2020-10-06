@@ -48,7 +48,8 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
     private TimeInterval runtime;
     
     private EntitySet<Observation> observations;
-
+    private EntitySet<ObservationRelation> observationRelations; //0..*
+    
     private boolean setCreated;
     private boolean setRuntime;
     
@@ -59,6 +60,7 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
     public ObservationGroup(Id id) {
         super(id);
         this.observations = new EntitySetImpl<>(EntityType.OBSERVATION);
+        this.observationRelations = new EntitySetImpl<>(EntityType.OBSERVATIONRELATION);
     }
 
     @Override
@@ -75,6 +77,11 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
         if (getObservations().isEmpty()) {
             throw new IncompleteEntityException(getEntityType() + " must have at least one Observation.");
         }
+        /*
+        if (getObservationRelations().isEmpty()) {
+            throw new IncompleteEntityException(getEntityType() + " must have at least one ObservationRelation.");
+        }
+        */
         super.complete();
     }
 
@@ -86,6 +93,10 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
 
     private void setSets(boolean set, boolean entityPropertiesOnly) {
         setCreated = set;
+        setRuntime = set;
+        if (!entityPropertiesOnly) {
+            ;
+        }
     }
 
     @Override
@@ -100,7 +111,7 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
             setRuntime = true;
             message.addEpField(EntityProperty.RUNTIME);
         }
-        
+
     }
 
     public TimeInstant getCreated() {
@@ -141,6 +152,15 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
         return this;
     }
 
+    public EntitySet<ObservationRelation> getObservationRelations() {
+        return observationRelations;
+    }
+
+    public ObservationGroup setObservationRelations(EntitySet<ObservationRelation> observationRelations) {
+        this.observationRelations = observationRelations;
+        return this;
+    }
+
     @Override
     protected ObservationGroup getThis() {
         return this;
@@ -148,7 +168,7 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(created, observations);
+        return Objects.hash(created, observations, observationRelations);
     }
 
     @Override
@@ -165,7 +185,8 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
         final ObservationGroup other = (ObservationGroup) obj;
         return super.equals(other)
                 && Objects.equals(this.created, other.created)
-                && Objects.equals(this.observations, other.observations);
+                && Objects.equals(this.observations, other.observations)
+                && Objects.equals(this.observationRelations, other.observationRelations);
     }
 
 }

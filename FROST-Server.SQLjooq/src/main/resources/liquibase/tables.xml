@@ -107,7 +107,7 @@
             <column name="DESCRIPTION" type="TEXT"/>
             <column name="CREATED" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="RUNTIME_START" type="TIMESTAMP WITH TIME ZONE"/>
-            <column name="RUNTIME_END" type="TIMESTAMP WITH TIME ZONE"/>           
+            <column name="RUNTIME_END" type="TIMESTAMP WITH TIME ZONE"/>        
         </createTable>
     </changeSet>
 
@@ -212,6 +212,25 @@
                 <constraints nullable="false"/>
             </column>
             <column name="FEATURE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+         </createTable>
+    </changeSet>
+    <changeSet author="scf" id="20200930-observationRelations" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="OBSERVATION_RELATIONS" />
+            </not>
+        </preConditions>
+        <createTable tableName="OBSERVATION_RELATIONS">
+            <column autoIncrement="true" name="ID" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="OBSERVATION_RELATIONS_PKEY"/>
+            </column>
+            <column name="TYPE" type="TEXT"/>
+            <column name="OBSERVATION_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OBSERVATION_GROUP_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -385,6 +404,20 @@
             referencedTableName="FEATURES" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE" />
+
+        <addForeignKeyConstraint
+            constraintName="OBSERVATION_RELATIONS_OBSERVATION_ID_FKEY"
+            baseTableName="OBSERVATION_RELATIONS" baseColumnNames="OBSERVATION_ID"
+            referencedTableName="OBSERVATIONS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+        <addForeignKeyConstraint
+            constraintName="OBSERVATION_RELATIONS_OBSERVATION_GROUP_ID_FKEY"
+            baseTableName="OBSERVATION_RELATIONS" baseColumnNames="OBSERVATION_GROUP_ID"
+            referencedTableName="OBSERVATION_GROUPS" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE" />
+
         <addForeignKeyConstraint
             constraintName="THINGS_LOCATIONS_LOCATION_ID_FKEY"
             baseTableName="THINGS_LOCATIONS" baseColumnNames="LOCATION_ID"
@@ -651,6 +684,15 @@
         <createIndex tableName="OBSERVATIONS" indexName="OBSERVATIONS_FEATURE_ID">
             <column name="FEATURE_ID" />
         </createIndex>
+        
+       <createIndex tableName="OBSERVATION_RELATIONS" indexName="OBSERVATION_RELATIONS_OBSERVATION_ID">
+            <column name="OBSERVATION_ID" />
+        </createIndex>       
+       <createIndex tableName="OBSERVATION_RELATIONS" indexName="OBSERVATION_RELATIONS_OBSERVATION_GROUP_ID">
+            <column name="OBSERVATION_GROUP_ID" />
+        </createIndex>
+        
+        
         <createIndex tableName="THINGS_LOCATIONS" indexName="THINGS_LOCATIONS_LOCATION_ID">
             <column name="LOCATION_ID" />
         </createIndex>

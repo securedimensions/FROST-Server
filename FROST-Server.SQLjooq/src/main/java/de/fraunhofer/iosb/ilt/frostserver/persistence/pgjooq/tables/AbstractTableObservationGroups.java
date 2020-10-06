@@ -59,6 +59,12 @@ public abstract class AbstractTableObservationGroups<J extends Comparable> exten
     public void initRelations() {
         final TableCollection<J> tables = getTables();
         registerRelation(
+                new RelationOneToMany<>(this, tables.getTableObservationRelations(), EntityType.OBSERVATIONRELATION, true)
+                        .setSourceFieldAccessor(AbstractTableObservationGroups::getId)
+                        .setTargetFieldAccessor(AbstractTableObservationRelations::getObservationGroupId)
+        );
+
+        registerRelation(
                 new RelationManyToMany<>(this, tables.getTableObservationsObservationGroups(), tables.getTableObservations(), EntityType.OBSERVATION)
                         .setSourceFieldAcc(AbstractTableObservationGroups::getId)
                         .setSourceLinkFieldAcc(AbstractTableObservationsObservationGroups::getObservationGroupId)

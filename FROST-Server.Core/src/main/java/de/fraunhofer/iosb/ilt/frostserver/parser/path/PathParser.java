@@ -251,6 +251,18 @@ public class PathParser implements ParserVisitor {
     }
 
     @Override
+    public ResourcePath visit(ASTeObservationRelation node, ResourcePath data) {
+        addAsEntitiy(data, node, EntityType.OBSERVATIONRELATION);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTcObservationRelations node, ResourcePath data) {
+        addAsEntitiySet(data, EntityType.OBSERVATIONRELATION);
+        return defltAction(node, data);
+    }
+
+    @Override
     public ResourcePath visit(ASTeLocation node, ResourcePath data) {
         addAsEntitiy(data, node, EntityType.LOCATION);
         return defltAction(node, data);
@@ -451,6 +463,12 @@ public class PathParser implements ParserVisitor {
     @Override
     public ResourcePath visit(ASTpName node, ResourcePath data) {
         addAsEntitiyProperty(data, EntityProperty.NAME);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTpType node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.TYPE);
         return defltAction(node, data);
     }
 

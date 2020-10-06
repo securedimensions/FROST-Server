@@ -63,8 +63,11 @@ public enum NavigationPropertyMain implements NavigationProperty {
     PROJECT("Project", EntityType.PROJECT, false),
     PROJECTS("Projects", EntityType.PROJECT, true),
     OBSERVATIONGROUP("ObservationGroup", EntityType.OBSERVATIONGROUP, false),
-    OBSERVATIONGROUPS("ObservationGroups", EntityType.OBSERVATIONGROUP, true);
-
+    OBSERVATIONGROUPS("ObservationGroups", EntityType.OBSERVATIONGROUP, true),
+	OBSERVATION("Observation", EntityType.OBSERVATION, false),
+	OBSERVATIONRELATION("ObservationRelation", EntityType.OBSERVATIONRELATION, false),
+    OBSERVATIONRELATIONS("ObservationRelations", EntityType.OBSERVATIONRELATION, true);
+	
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NavigationPropertyMain.class.getName());
     private static final Map<String, NavigationPropertyMain> PROPERTY_BY_NAME = new HashMap<>();

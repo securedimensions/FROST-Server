@@ -23,6 +23,11 @@ public class TableStringObservationGroups extends AbstractTableObservationGroups
     public final TableField<Record, String> colId = createField(DSL.name("ID"), SQLDataType.VARCHAR.nullable(false).defaultValue(DSL.field("uuid_generate_v1mc()", SQLDataType.VARCHAR)), this, "");
 
     /**
+     * The column <code>public.OBSERVATION_GROUPS.OBSERVATIONRELATION_ID</code>.
+     */
+    public final TableField<Record, String> colObservationRelationId = createField(DSL.name("OBSERVATION_RELATION_ID"), SQLDataType.VARCHAR.nullable(false), this, "");
+
+    /**
      * Create a <code>public.OBSERVATION_GROUPS</code> table reference
      */
     public TableStringObservationGroups() {

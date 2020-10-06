@@ -37,6 +37,11 @@ public class TableStringObservations extends AbstractTableObservations<String> {
     public final TableField<Record, String> colMultiDatastreamId = createField(DSL.name("MULTI_DATASTREAM_ID"), SQLDataType.VARCHAR, this, "");
 
     /**
+     * The column <code>public.OBSERVATIONS.OBSERVATIONRELATION_ID</code>.
+     */
+    public final TableField<Record, String> colObservationRelationId = createField(DSL.name("OBSERVATION_RELATION_ID"), SQLDataType.VARCHAR, this, "");
+
+    /**
      * Create a <code>public.OBSERVATIONS</code> table reference
      */
     public TableStringObservations() {
