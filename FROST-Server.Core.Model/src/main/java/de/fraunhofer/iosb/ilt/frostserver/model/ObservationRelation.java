@@ -17,8 +17,8 @@
  */
 package de.fraunhofer.iosb.ilt.frostserver.model;
 
-import de.fraunhofer.iosb.ilt.frostserver.model.core.AbstractEntity;
 import de.fraunhofer.iosb.ilt.frostserver.model.core.Id;
+import de.fraunhofer.iosb.ilt.frostserver.model.core.NamedEntity;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElement;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElementEntity;
 import de.fraunhofer.iosb.ilt.frostserver.path.PathElementEntitySet;
@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author jab, scf
  */
-public class ObservationRelation extends AbstractEntity<ObservationRelation> {
+public class ObservationRelation extends NamedEntity<ObservationRelation> {
 
     /**
      * The logger for this class.

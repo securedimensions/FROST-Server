@@ -419,6 +419,24 @@ public class PathParser implements ParserVisitor {
     }
 
     @Override
+    public ResourcePath visit(ASTpClassification node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.CLASSIFICATION);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTpTermsOfUse node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.TERMSOFUSE);
+        return defltAction(node, data);
+    }
+
+    @Override
+    public ResourcePath visit(ASTpPrivacyPolicy node, ResourcePath data) {
+        addAsEntitiyProperty(data, EntityProperty.PRIVACYPOLICY);
+        return defltAction(node, data);
+    }
+
+    @Override
     public ResourcePath visit(ASTpUrl node, ResourcePath data) {
         addAsEntitiyProperty(data, EntityProperty.URL);
         return defltAction(node, data);

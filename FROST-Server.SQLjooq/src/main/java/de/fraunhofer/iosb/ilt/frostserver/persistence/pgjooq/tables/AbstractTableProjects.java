@@ -38,6 +38,26 @@ public abstract class AbstractTableProjects<J extends Comparable> extends StaTab
     public final TableField<Record, String> colUrl = createField(DSL.name("URL"), SQLDataType.CLOB, this, "");
 
     /**
+     * The column <code>public.PROJECTS.CLASSIFICATION</code>.
+     */
+    public final TableField<Record, String> colClassification = createField(DSL.name("CLASSIFICATION"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>public.PROJECTS.TERMSOFUSE</code>.
+     */
+    public final TableField<Record, String> colTermsOfUse = createField(DSL.name("TERMSOFUSE"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>public.PROJECTS.PRIVACYPOLICY</code>.
+     */
+    public final TableField<Record, String> colPrivacyPolicy = createField(DSL.name("PRIVACYPOLICY"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>public.PROJECTS.CREATED</code>.
+     */
+    public final TableField<Record, OffsetDateTime> colCreated = createField(DSL.name("CREATED"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "");
+
+    /**
      * The column <code>public.PROJECTS.RUNTIME_START</code>.
      */
     public final TableField<Record, OffsetDateTime> colRuntimeStart = createField(DSL.name("RUNTIME_START"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "");

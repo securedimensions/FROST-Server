@@ -535,7 +535,6 @@ public class EntityParserTest {
                 .setThings(things);
         assertEquals(expectedResult, entityParser.parseLocation(json));
     }
-
     @Test
     public void readObservationWithAllValuesPresent() throws IOException {
         String json = "{\n"
@@ -793,13 +792,22 @@ public class EntityParserTest {
         String json = "{\n"
                 + "  \"name\": \"My first CitSci Project\",\n"
                 + "  \"description\": \"Frogs in the Desert\",\n"
+                + "  \"classification\": \"N/A\",\n"
+                + "  \"termsOfUse\": \"Participate at your own risk\",\n"
+                + "  \"privacyPolicy\": \"We do not care\",\n"
                 + "  \"url\": \"https://cos4cloud.demo.secure-dimensions.de\",\n"
+                + "  \"created\": \"2014-03-01T13:00:00.000Z\",\n"
                 + "  \"runtime\": \"2014-03-01T13:00:00.000Z/2015-05-11T15:30:00.000Z\"\n"
                 + "}";
         Project expectedResult = new Project()
                 .setName("My first CitSci Project")
                 .setDescription("Frogs in the Desert")
                 .setUrl("https://cos4cloud.demo.secure-dimensions.de")
+                .setClassification("N/A")
+                .setTermsOfUse("Participate at your own risk")
+                .setPrivacyPolicy("We do not care")
+                .setUrl("https://cos4cloud.demo.secure-dimensions.de")
+                .setCreated(TestHelper.createTimeInstant(2014, 03, 1, 13, 0, 0, DateTimeZone.UTC, DateTimeZone.UTC))
                 .setRuntime(TestHelper.createTimeInterval(2014, 03, 1, 13, 0, 0, 2015, 05, 11, 15, 30, 0, DateTimeZone.UTC));
                 
         assertEquals(expectedResult, entityParser.parseProject(json));

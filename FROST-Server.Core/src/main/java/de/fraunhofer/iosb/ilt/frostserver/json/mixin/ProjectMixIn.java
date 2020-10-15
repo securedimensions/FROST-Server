@@ -30,6 +30,18 @@ public interface ProjectMixIn extends NamedDsHoldingEntityMixIn {
     public abstract boolean isSetUrl();
     
     @JsonIgnore
+    public abstract boolean isSetClassification();
+    
+    @JsonIgnore
+    public abstract boolean isSeTermsOfUse();
+    
+    @JsonIgnore
+    public abstract boolean isSetPrivacyPolicy();
+    
+    @JsonIgnore
+    public abstract boolean isSetCreated();
+    
+    @JsonIgnore
     public abstract boolean isSetRuntime();
     
 }

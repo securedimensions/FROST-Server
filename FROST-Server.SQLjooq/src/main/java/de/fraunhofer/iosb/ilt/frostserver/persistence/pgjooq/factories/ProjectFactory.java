@@ -81,6 +81,9 @@ public class ProjectFactory<J extends Comparable> implements EntityFactory<Proje
         entity.setName(getFieldOrNull(record, table.colName));
         entity.setDescription(getFieldOrNull(record, table.colDescription));
         entity.setUrl(getFieldOrNull(record, table.colUrl));
+        entity.setClassification(getFieldOrNull(record, table.colClassification));
+        entity.setTermsOfUse(getFieldOrNull(record, table.colTermsOfUse));
+        entity.setPrivacyPolicy(getFieldOrNull(record, table.colPrivacyPolicy));
         if (select.isEmpty() || select.contains(EntityProperty.PROPERTIES)) {
             String props = getFieldOrNull(record, table.colProperties);
             entity.setProperties(Utils.jsonToObject(props, Map.class));
@@ -89,6 +92,8 @@ public class ProjectFactory<J extends Comparable> implements EntityFactory<Proje
         if (id != null) {
             entity.setId(entityFactories.idFromObject(id));
         }
+        entity.setCreated(Utils.instantFromTime(getFieldOrNull(record, table.colCreated)));
+        
         OffsetDateTime pTimeStart = getFieldOrNull(record, table.colRuntimeStart);
         OffsetDateTime pTimeEnd = getFieldOrNull(record, table.colRuntimeEnd);
         if (pTimeStart != null && pTimeEnd != null) {

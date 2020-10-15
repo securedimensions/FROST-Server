@@ -89,6 +89,9 @@ TOKEN:
 | <EP_DEFINITION:        "definition" >
 | <EP_LOGO:        		 "logo" >
 | <EP_URL:        		 "url" >
+| <EP_CLASSIFICATION:    "classification" >
+| <EP_TERMSOFUSE:        "termsOfUse" >
+| <EP_PRIVACYPOLICY:     "privacyPolicy" >
 | <EP_ENCODINGTYPE:      "encodingType" >
 | <EP_FEATURE:           "feature" >
 | <EP_LOCATION:          "location" >
@@ -707,6 +710,8 @@ void childOfObservationRelation() #void: {}
   | eObservationGroup()
   | pId()
   | pSelfLink()
+  | pName()
+  | pDescription()
   | pType()
   | cpRef()
   )
@@ -818,8 +823,12 @@ void childOfProject() #void: {}
   | pId()
   | pSelfLink()
   | pUrl()
+  | pClassification()
+  | pTermsOfUse()
+  | pPrivacyPolicy()
   | pDescription()
   | pName()
+  | pCreated()
   | pRuntime()
   | pProperties()
   | cpRef()
@@ -868,6 +877,24 @@ void pLogo(): {}
 void pUrl(): {}
 {
   <EP_URL>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pClassification(): {}
+{
+  <EP_CLASSIFICATION>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pTermsOfUse(): {}
+{
+  <EP_TERMSOFUSE>
+  (<PATH_SEPARATOR> ppValue() )?
+}
+
+void pPrivacyPolicy(): {}
+{
+  <EP_PRIVACYPOLICY>
   (<PATH_SEPARATOR> ppValue() )?
 }
 

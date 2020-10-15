@@ -27,9 +27,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public interface LicenseMixIn extends NamedDsHoldingEntityMixIn {
 
     @JsonIgnore
-    public abstract boolean isSetDefinition();
-    
-    @JsonIgnore
     public abstract boolean isSetLogo();
     
 }

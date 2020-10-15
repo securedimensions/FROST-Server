@@ -47,13 +47,13 @@
 -->    
     
     <!-- persistence setting -->
-    <Parameter override="false" name="persistence.persistenceManagerImplementationClass" value="de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerLong" description="The java class used for persistence (must implement PersistenceManaher interface)"/>
+    <Parameter override="false" name="persistence.persistenceManagerImplementationClass" value="de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerString" description="The java class used for persistence (must implement PersistenceManaher interface)"/>
     <!-- All options:
         de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerLong
         de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerString
         de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerUuid
     -->
-    <Parameter override="false" name="persistence.idGenerationMode" value="ServerGeneratedOnly" description="Mode for id generation when using PostgresPersistenceManagerString."/>
+    <Parameter override="false" name="persistence.idGenerationMode" value="ServerAndClientGenerated" description="Mode for id generation when using PostgresPersistenceManagerString."/>
     <!-- All options:
         "ServerGeneratedOnly"       = No client defined ids allowed.
         "ServerAndClientGenerated"  = Both, server and client generated ids, are allowed.

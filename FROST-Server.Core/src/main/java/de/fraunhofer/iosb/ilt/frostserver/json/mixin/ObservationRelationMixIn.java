@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  *
  * @author jab, scf
  */
-public interface ObservationRelationMixIn extends AbstractEntityMixIn {
+public interface ObservationRelationMixIn extends NamedEntityMixIn {
 
     @JsonIgnore
     public abstract boolean isSetObservation();

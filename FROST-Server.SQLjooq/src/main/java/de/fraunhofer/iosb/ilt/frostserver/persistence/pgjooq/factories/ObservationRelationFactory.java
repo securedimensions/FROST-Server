@@ -104,6 +104,8 @@ public class ObservationRelationFactory<J extends Comparable> implements EntityF
             entity.setObservationGroup(entityFactories.observationGroupFromId(ogId));
         }
 
+        entity.setName(getFieldOrNull(tuple, table.colName));
+        entity.setDescription(getFieldOrNull(tuple, table.colDescription));
         entity.setType(getFieldOrNull(tuple, table.colType));
 
         return entity;
@@ -114,6 +116,8 @@ public class ObservationRelationFactory<J extends Comparable> implements EntityF
         Observation o = newObservationRelation.getObservation();
         ObservationGroup og = newObservationRelation.getObservationGroup();
         String type = newObservationRelation.getType();
+        String name = newObservationRelation.getName();
+        String description = newObservationRelation.getDescription();
 
         Map<Field, Object> insert = new HashMap<>();
         
@@ -125,6 +129,8 @@ public class ObservationRelationFactory<J extends Comparable> implements EntityF
         }
 
         insert.put(table.colType, type);
+        insert.put(table.colName, name);
+        insert.put(table.colDescription, description);
 
         DSLContext dslContext = pm.getDslContext();
         Record1<J> result = dslContext.insertInto(table)

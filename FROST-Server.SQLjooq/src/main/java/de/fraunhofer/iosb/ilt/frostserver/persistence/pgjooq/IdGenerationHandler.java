@@ -47,14 +47,19 @@ public abstract class IdGenerationHandler {
         private static final Map<String, IdGenerationType> aliases = new HashMap<>();
 
         public static IdGenerationType findType(String input) {
+        	LOGGER.debug("input: " + input);
             if (aliases.isEmpty()) {
                 init();
             }
+            IdGenerationType x = aliases.get(input.toLowerCase());
+            LOGGER.debug("return: " + x.name());
             return aliases.get(input.toLowerCase());
         }
 
         private static void init() {
             for (IdGenerationType type : IdGenerationType.values()) {
+            	LOGGER.debug("type: " + type);
+            	LOGGER.debug("type.name: " + type.name());
                 aliases.put(type.name(), type);
                 aliases.put(type.name().replace("_", "").toLowerCase(), type);
             }

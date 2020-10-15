@@ -66,6 +66,9 @@ public class TestIsSetProperty {
         propertyValues.put(EntityProperty.DEFINITION, "MyDefinition");
         propertyValues.put(EntityProperty.LOGO, "https://www.secure-dimensions.de/images/SD.ico");
         propertyValues.put(EntityProperty.URL, "https://www.secure-dimensions.de");
+        propertyValues.put(EntityProperty.CLASSIFICATION, "Endangered Species");
+        propertyValues.put(EntityProperty.TERMSOFUSE, "Participate at your own risk");
+        propertyValues.put(EntityProperty.PRIVACYPOLICY, "We'll collect and share all of your personal data without further consent");
         propertyValues.put(EntityProperty.DESCRIPTION, "My description");
         propertyValues.put(EntityProperty.ENCODINGTYPE, "My EncodingType");
         propertyValues.put(EntityProperty.FEATURE, new Point(8, 42));

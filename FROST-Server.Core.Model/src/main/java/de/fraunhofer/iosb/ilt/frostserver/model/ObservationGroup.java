@@ -74,9 +74,11 @@ public class ObservationGroup extends NamedEntity<ObservationGroup> {
         if (type != getEntityType()) {
             throw new IllegalStateException("Set of type " + type + " can not contain a " + getEntityType());
         }
+        /*
         if (getObservations().isEmpty()) {
             throw new IncompleteEntityException(getEntityType() + " must have at least one Observation.");
         }
+        */
         /*
         if (getObservationRelations().isEmpty()) {
             throw new IncompleteEntityException(getEntityType() + " must have at least one ObservationRelation.");

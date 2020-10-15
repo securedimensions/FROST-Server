@@ -202,24 +202,7 @@
             <column name="NAME" type="TEXT"/>
             <column name="DEFINITION" type="TEXT"/>
             <column name="DESCRIPTION" type="TEXT"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet author="scf" id="20200924-projects" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="PROJECTS" />
-            </not>
-        </preConditions>
-        <createTable tableName="PROJECTS">
-            <column name="ID" type="VARCHAR(36)" defaultValueComputed="${uuid_function}" >
-                <constraints primaryKey="true" primaryKeyName="PROJECTS_PKEY"/>
-            </column>
-            <column name="NAME" type="TEXT"/>
-            <column name="DESCRIPTION" type="TEXT"/>
-            <column name="URL" type="TEXT"/>
-            <column name="RUNTIME_START" type="TIMESTAMP WITH TIME ZONE"/>
-            <column name="RUNTIME_END" type="TIMESTAMP WITH TIME ZONE"/>           
+            <column name="LOGO" type="TEXT"/>
         </createTable>
     </changeSet>
 
@@ -264,6 +247,8 @@
             <column name="ID" type="VARCHAR(36)" defaultValueComputed="${uuid_function}" >
                 <constraints primaryKey="true" primaryKeyName="OBSERVATION_RELATIONS_PKEY"/>
             </column>
+            <column name="NAME" type="TEXT"/>
+            <column name="DESCRIPTION" type="TEXT"/>
             <column name="TYPE" type="TEXT"/>
             <column name="OBSERVATION_ID" type="VARCHAR(36)">
                 <constraints nullable="false"/>
@@ -304,6 +289,10 @@
             <column name="NAME" type="TEXT" />
             <column name="DESCRIPTION" type="TEXT"/>
             <column name="URL" type="TEXT"/>
+            <column name="CLASSIFICATION" type="TEXT"/>
+            <column name="TERMSOFUSE" type="TEXT"/>
+            <column name="PRIVACYPOLICY" type="TEXT"/>
+            <column name="CREATED" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="RUNTIME_START" type="TIMESTAMP WITH TIME ZONE"/>
             <column name="RUNTIME_END" type="TIMESTAMP WITH TIME ZONE"/>           
         </createTable>
@@ -461,7 +450,7 @@
         <addForeignKeyConstraint
             constraintName="OBSERVATION_RELATIONS_OBSERVATION_GROUP_ID_FKEY"
             baseTableName="OBSERVATION_RELATIONS" baseColumnNames="OBSERVATION_GROUP_ID"
-            referencedTableName="FEATURES" referencedColumnNames="ID"
+            referencedTableName="OBSERVATION_GROUPS" referencedColumnNames="ID"
             deferrable="false" initiallyDeferred="false"
             onDelete="CASCADE" onUpdate="CASCADE" />
         

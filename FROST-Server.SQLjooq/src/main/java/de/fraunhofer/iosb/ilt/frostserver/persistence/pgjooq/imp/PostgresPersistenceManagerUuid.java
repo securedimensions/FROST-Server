@@ -26,6 +26,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.factories.EntityFac
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.TableCollection;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongHistLocations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.longid.TableLongProjects;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.stringid.TableStringObservationGroups;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidActuators;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidFeatures;
@@ -36,6 +37,7 @@ import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.Table
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidMultiDatastreams;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidMultiDatastreamsObsProperties;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObsProperties;
+import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservationGroups;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservationRelations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservations;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.tables.uuidid.TableUuidObservationsObservationGroups;
@@ -80,10 +82,11 @@ public class PostgresPersistenceManagerUuid extends PostgresPersistenceManager<U
                     .setTableHistLocations(TableUuidHistLocations.HIST_LOCATIONS)
                     .setTableLocations(TableUuidLocations.LOCATIONS)
                     .setTableLocationsHistLocations(TableUuidLocationsHistLocations.LOCATIONS_HIST_LOCATIONS)
-                    .setTableObservationsObservationGroups(TableUuidObservationsObservationGroups.OBSERVATIONS_OBSERVATION_GROUPS)
                     .setTableMultiDatastreams(TableUuidMultiDatastreams.MULTI_DATASTREAMS)
                     .setTableMultiDatastreamsObsProperties(TableUuidMultiDatastreamsObsProperties.MULTI_DATASTREAMS_OBS_PROPERTIES)
                     .setTableObservations(TableUuidObservations.OBSERVATIONS)
+                    .setTableObservationGroups(TableUuidObservationGroups.OBSERVATION_GROUPS)
+                    .setTableObservationsObservationGroups(TableUuidObservationsObservationGroups.OBSERVATIONS_OBSERVATION_GROUPS)
                     .setTableObservationRelations(TableUuidObservationRelations.OBSERVATION_RELATIONS)
                     .setTableObsProperties(TableUuidObsProperties.OBS_PROPERTIES)
                     .setTableLicenses(TableUuidLicenses.LICENSES)

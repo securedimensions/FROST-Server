@@ -14,6 +14,16 @@ public abstract class AbstractTableObservationRelations<J extends Comparable> ex
     private static final long serialVersionUID = -1104422281;
 
     /**
+     * The column <code>public.PROJECTS.NAME</code>.
+     */
+    public final TableField<Record, String> colName = createField(DSL.name("NAME"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>public.PROJECTS.DESCRIPTION</code>.
+     */
+    public final TableField<Record, String> colDescription = createField(DSL.name("DESCRIPTION"), SQLDataType.CLOB, this, "");
+
+    /**
      * The column <code>public.OBSERVATIONRELATIONS.TYPE</code>.
      */
     public final TableField<Record, String> colType = createField(DSL.name("TYPE"), SQLDataType.CLOB, this, "");

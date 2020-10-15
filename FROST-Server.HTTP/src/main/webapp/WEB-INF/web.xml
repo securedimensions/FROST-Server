@@ -81,7 +81,7 @@
     <context-param>
         <description>The java class used for persistence (must implement PersistenceManaher interface)</description>
         <param-name>persistence.persistenceManagerImplementationClass</param-name>
-        <param-value>de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerLong</param-value>
+        <param-value>de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerString</param-value>
         <!-- All options:
             de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerLong
             de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.imp.PostgresPersistenceManagerString
